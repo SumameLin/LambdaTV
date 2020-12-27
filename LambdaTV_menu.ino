@@ -3,7 +3,6 @@
 /*
 U8g2的IconMenu.ino example
 */
-
 void draw(menu_state *state)
 {
   int16_t x;

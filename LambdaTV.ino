@@ -5,6 +5,8 @@
 #include <SPI.h>
 #include <OneButton.h>
 #include <WiFiManager.h> 
+#include <ESP8266WebServer.h>
+#include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <NTPClient.h> 
 #include <TimeLib.h>
@@ -15,8 +17,10 @@ OneButton s_button(0, true);
 OneButton c_button(5, true);
 File dataFile;
 Ticker key_tick;
+Ticker led_tick;
 WiFiManager wifiManager;// 建立WiFiManager对象
 WiFiUDP ntpUDP;
+ESP8266WebServer esp8266_server(80);    // 建立网络服务器对象，该对象用于响应HTTP请求。监听端口（80）
 // 'time.nist.gov' is used (default server) with +1 hour offset (3600 seconds) 60 seconds (60000 milliseconds) update interval
 // NTPClient timeClient(ntpUDP, "time.nist.gov", 60*60*7, 60000);
 NTPClient timeClient(ntpUDP, "ntp1.aliyun.com",60*60*8, 30*60*1000);
@@ -33,9 +37,9 @@ menu_state destination_state = { ICON_BGAP, ICON_BGAP, 0 };
 // encoding values, see: https://github.com/olikraus/u8g2/wiki/fntgrpiconic
 menu_entry_type menu_entry_list[] =
 {
-  { u8g2_font_open_iconic_app_4x_t,69,"Clock",(*time_update)},
-  { u8g2_font_open_iconic_play_4x_t, 78, "BadApple",(*bad_apple)},
-  { u8g2_font_open_iconic_embedded_4x_t,68, "Web",(*web_introduce)},
+  { u8g2_font_open_iconic_app_4x_t,69,"WiFi Clock",(*time_update)},
+  { u8g2_font_open_iconic_play_4x_t, 78, "BadApple Player",(*bad_apple)},
+  { u8g2_font_open_iconic_www_4x_t,78, "Web Visit",(*web_introduce)},
   { u8g2_font_open_iconic_embedded_4x_t,72, "Config",(*config)},
   { NULL, 0, NULL,NULL} 
 };
@@ -348,16 +352,29 @@ void time_update(void)
   uint8_t time_minu,time_hour;
   while(1)
   {
-    timeClient.update();
-    unsigned long unix_epoch = timeClient.getEpochTime();  
-    time_minu=minute(unix_epoch);      // get minutes (0 - 59)
-    time_hour=hour(unix_epoch);        // get hours   (0 - 23)
-    Serial.print("hour is ");
-    Serial.print(time_hour);
-    Serial.print("minu is ");
-    Serial.print(time_minu);
-    Serial.print("\r\n");
-    time_show(time_hour,time_minu);
+    if(WiFi.status()!=WL_CONNECTED)
+    {
+      u8g2.setFont(u8g2_font_unifont_t_shopl16); //自己制作的字体
+      u8g2.firstPage();
+      do
+      {
+        u8g2.setCursor(10,36);
+        u8g2.print("No WiFi");	
+      }while(u8g2.nextPage());
+    }
+    else
+    {    
+      timeClient.update();
+      unsigned long unix_epoch = timeClient.getEpochTime();  
+      time_minu=minute(unix_epoch);      // get minutes (0 - 59)
+      time_hour=hour(unix_epoch);        // get hours   (0 - 23)
+      Serial.print("hour is ");
+      Serial.print(time_hour);
+      Serial.print("minu is ");
+      Serial.print(time_minu);
+      Serial.print("\r\n");
+      time_show(time_hour,time_minu);
+    }
     if(get_keymenu_event()==KEY_CANCEL)
     {
       clear_keymenu_event();
@@ -376,15 +393,27 @@ RAiny
 */
 void web_introduce(void)
 {
+  esp8266_server.onNotFound(handleUserRequet);      // 告知系统如何处理用户请求
+  esp8266_server.begin();                           // 启动网站服务
+  u8g2.setFont(u8g2_font_ncenB14_tr);
+  u8g2.firstPage();
+  do
+  {
+    u8g2.setCursor(5,30);
+    u8g2.print("Visit Web IP");	
+    u8g2.setCursor(5,50);
+    u8g2.print(WiFi.localIP());	
+  }while(u8g2.nextPage());
   while(1)
   {
-    Serial.print("web_introduce");
+    esp8266_server.handleClient();                    // 处理用户请求
     if(get_keymenu_event()==KEY_CANCEL)
     {
+      esp8266_server.stop();
       clear_keymenu_event();
       break;
     }
-    delay(500);
+    delay(10);
   }
 }
 /*
@@ -422,6 +451,28 @@ void key_check(void)
   c_button.tick();
 }
 /*
+函 数 名:void rgb_led_run(void)
+功能说明:RGB_LED 周期30ms
+形    参:void
+返 回 值:void
+时    间：2020-12-27
+RAiny
+*/
+void rgb_led_run(void)
+{
+  uint8_t r_val=0,g_val=255,b_val=0;
+  r_val++;
+  g_val--;
+  b_val++;
+  if(r_val>=256)
+    r_val=0;
+  if(g_val==0)
+    g_val=0;
+  if(b_val>=256)
+    b_val=0;
+  rgb_led_set(r_val,g_val,b_val);
+}
+/*
 函 数 名:void select_menu(void)
 功能说明:选择菜单
 形    参:void
@@ -432,16 +483,27 @@ RAiny
 void select_menu(void)
 {
   KEY_EVENT_INF menu_event=KEY_NOEVENT;
+  static uint8_t init_menu=0;
   do
   {
-    u8g2.clearBuffer();
-    draw(&current_state);  
-    u8g2.setFont(u8g2_font_helvB10_tr);  
-    u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
-    u8g2.print(menu_entry_list[destination_state.position].name);    
-    u8g2.sendBuffer();
-    delay(10);
     menu_event=get_keymenu_event();
+    if(init_menu==0)
+    {
+      if(WiFi.status()!=WL_CONNECTED)//如果没有WIFI
+      {
+        menu_event=KEY_NEXT;//进入BadApple
+      }
+      else
+      {
+        //进入时间
+      }
+      init_menu=1;
+    }
+    else if(init_menu==1)
+    {
+      menu_event=KEY_CONFIRM;
+      init_menu=2;
+    }
     if(menu_event==KEY_NEXT)
     {
       to_right(&destination_state);
@@ -458,6 +520,13 @@ void select_menu(void)
       (*current_operation_index)();//执行当前操作函数
       clear_keymenu_event();
     }
+    u8g2.clearBuffer();
+    draw(&current_state);  
+    u8g2.setFont(u8g2_font_helvB10_tr);  
+    u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
+    u8g2.print(menu_entry_list[destination_state.position].name);    
+    u8g2.sendBuffer();
+    delay(10);
   } while(towards(&current_state, &destination_state));
 }
 /*
@@ -484,6 +553,7 @@ void setup(void)
   }
   //SPIFFS.format();    // 格式化SPIFFS
   rgb_led_init();
+  led_tick.attach_ms(100,rgb_led_run);
   u8g2.setFont(u8g2_font_wqy12_t_gb2312a); 
   u8g2.firstPage();
   do
@@ -499,21 +569,25 @@ void setup(void)
   }while(u8g2.nextPage());
   // 清除ESP8266所存储的WiFi连接信息以便测试WiFiManager工作效果
   // wifiManager.resetSettings();
-  wifiManager.setTimeout(60*3);//配置超时时间S 
+  wifiManager.setTimeout(60);//配置超时时间S 
   // 自动连接WiFi。以下语句的参数是连接ESP8266时的WiFi名称
   if(!wifiManager.autoConnect("LambdaTV"))//xzh1978n1120abc
   {
     //没有WiFi
+    Serial.println("No WiFi");
   }
-  // 如果您希望该WiFi添加密码，可以使用以下语句：
-  // wifiManager.autoConnect("AutoConnectAP", "12345678");
-  // 以上语句中的12345678是连接AutoConnectAP的密码
-  // WiFi连接成功后将通过串口监视器输出连接成功信息 
-  Serial.print("ESP8266 Connected to ");
-  Serial.println(WiFi.SSID());          
-  Serial.print("IP address:\t");
-  Serial.println(WiFi.localIP());   
-  timeClient.begin();
+  else
+  {
+    // 如果您希望该WiFi添加密码，可以使用以下语句：
+    // wifiManager.autoConnect("AutoConnectAP", "12345678");
+    // 以上语句中的12345678是连接AutoConnectAP的密码
+    // WiFi连接成功后将通过串口监视器输出连接成功信息 
+    Serial.print("ESP8266 Connected to ");
+    Serial.println(WiFi.SSID());          
+    Serial.print("IP address:\t");
+    Serial.println(WiFi.localIP());   
+    timeClient.begin(); 
+  }
   print_fs_info();
   key_init();
   LambdaTV();

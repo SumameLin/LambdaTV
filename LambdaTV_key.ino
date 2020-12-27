@@ -131,7 +131,18 @@ void rgb_led_init(void)
     // pinMode(RGB_R_PIN, OUTPUT);
     pinMode(RGB_G_PIN, OUTPUT);
     pinMode(RGB_B_PIN, OUTPUT);
-    // analogWrite(RGB_R_PIN, 0);
-    analogWrite(RGB_G_PIN, 1024);
-    analogWrite(RGB_B_PIN,0);
+}
+/*
+函 数 名:void rgb_led_set(int r_val,int g_val,int b_val)
+功能说明:直插三脚RGB共阳极
+形    参:void
+返 回 值:void
+时    间：2020-12-27
+RAiny
+*/
+void rgb_led_set(int r_val,int g_val,int b_val)
+{
+    // analogWrite(RGB_R_PIN, 255-r_val);
+    analogWrite(RGB_G_PIN, 255-g_val);
+    analogWrite(RGB_B_PIN, 255-b_val);
 }

@@ -6,6 +6,8 @@
 #include <SPI.h>
 #include <OneButton.h>
 #include <WiFiManager.h> 
+#include <ESP8266WebServer.h>
+#include <ESP8266WiFi.h>
 #include <WiFiUdp.h>
 #include <NTPClient.h> 
 #include <TimeLib.h>
@@ -16,8 +18,10 @@ OneButton s_button(0, true);
 OneButton c_button(5, true);
 File dataFile;
 Ticker key_tick;
+Ticker led_tick;
 WiFiManager wifiManager;// 建立WiFiManager对象
 WiFiUDP ntpUDP;
+ESP8266WebServer esp8266_server(80);    // 建立网络服务器对象，该对象用于响应HTTP请求。监听端口（80）
 // 'time.nist.gov' is used (default server) with +1 hour offset (3600 seconds) 60 seconds (60000 milliseconds) update interval
 // NTPClient timeClient(ntpUDP, "time.nist.gov", 60*60*7, 60000);
 NTPClient timeClient(ntpUDP, "ntp1.aliyun.com",60*60*8, 30*60*1000);
@@ -36,7 +40,7 @@ menu_entry_type menu_entry_list[] =
 {
   { u8g2_font_open_iconic_app_4x_t,69,"Clock",(*time_update)},
   { u8g2_font_open_iconic_play_4x_t, 78, "BadApple",(*bad_apple)},
-  { u8g2_font_open_iconic_embedded_4x_t,68, "Web",(*web_introduce)},
+  { u8g2_font_open_iconic_www_4x_t,78, "Web",(*web_introduce)},
   { u8g2_font_open_iconic_embedded_4x_t,72, "Config",(*config)},
   { NULL, 0, NULL,NULL} 
 };
@@ -48,23 +52,25 @@ menu_entry_type menu_entry_list[] =
 时    间：2020-12-20
 RAiny
 */
-#line 50 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 54 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void print_fs_info(void);
-#line 82 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 86 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void LambdaTV(void);
-#line 164 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 168 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x,uint8_t y,uint8_t bin_num);
-#line 228 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 232 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x,uint8_t y,uint8_t num);
-#line 279 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 283 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show(uint8_t hour,uint8_t minu);
-#line 419 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 448 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void);
-#line 432 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 461 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void rgb_led_run(void);
+#line 483 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void);
-#line 471 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 540 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void);
-#line 531 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 604 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void);
 #line 10 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_click(void);
@@ -86,17 +92,25 @@ void clear_keymenu_event(void);
 void key_init(void);
 #line 129 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void rgb_led_init(void);
-#line 7 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 143 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+void rgb_led_set(int r_val,int g_val,int b_val);
+#line 6 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void draw(menu_state *state);
-#line 28 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 27 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void to_right(menu_state *state);
-#line 46 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 45 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void to_left(menu_state *state);
-#line 65 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 64 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 uint8_t towards_int16(int16_t *current, int16_t dest);
-#line 80 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 79 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 uint8_t towards(menu_state *current,menu_state *destination);
-#line 50 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 13 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+void handleUserRequet();
+#line 32 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+bool handleFileRead(String path);
+#line 54 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+String getContentType(String filename);
+#line 54 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void print_fs_info(void)
 {
   FSInfo fs_info;
@@ -398,16 +412,29 @@ void time_update(void)
   uint8_t time_minu,time_hour;
   while(1)
   {
-    timeClient.update();
-    unsigned long unix_epoch = timeClient.getEpochTime();  
-    time_minu=minute(unix_epoch);      // get minutes (0 - 59)
-    time_hour=hour(unix_epoch);        // get hours   (0 - 23)
-    Serial.print("hour is ");
-    Serial.print(time_hour);
-    Serial.print("minu is ");
-    Serial.print(time_minu);
-    Serial.print("\r\n");
-    time_show(time_hour,time_minu);
+    if(WiFi.status()!=WL_CONNECTED)
+    {
+      u8g2.setFont(u8g2_font_unifont_t_shopl16); //自己制作的字体
+      u8g2.firstPage();
+      do
+      {
+        u8g2.setCursor(10,36);
+        u8g2.print("No WiFi");	
+      }while(u8g2.nextPage());
+    }
+    else
+    {    
+      timeClient.update();
+      unsigned long unix_epoch = timeClient.getEpochTime();  
+      time_minu=minute(unix_epoch);      // get minutes (0 - 59)
+      time_hour=hour(unix_epoch);        // get hours   (0 - 23)
+      Serial.print("hour is ");
+      Serial.print(time_hour);
+      Serial.print("minu is ");
+      Serial.print(time_minu);
+      Serial.print("\r\n");
+      time_show(time_hour,time_minu);
+    }
     if(get_keymenu_event()==KEY_CANCEL)
     {
       clear_keymenu_event();
@@ -426,15 +453,27 @@ RAiny
 */
 void web_introduce(void)
 {
+  esp8266_server.onNotFound(handleUserRequet);      // 告知系统如何处理用户请求
+  esp8266_server.begin();                           // 启动网站服务
+  u8g2.setFont(u8g2_font_ncenB14_tr);
+  u8g2.firstPage();
+  do
+  {
+    u8g2.setCursor(5,30);
+    u8g2.print("Visit Web IP");	
+    u8g2.setCursor(5,50);
+    u8g2.print(WiFi.localIP());	
+  }while(u8g2.nextPage());
   while(1)
   {
-    Serial.print("web_introduce");
+    esp8266_server.handleClient();                    // 处理用户请求
     if(get_keymenu_event()==KEY_CANCEL)
     {
+      esp8266_server.stop();
       clear_keymenu_event();
       break;
     }
-    delay(500);
+    delay(10);
   }
 }
 /*
@@ -472,6 +511,28 @@ void key_check(void)
   c_button.tick();
 }
 /*
+函 数 名:void rgb_led_run(void)
+功能说明:RGB_LED 周期30ms
+形    参:void
+返 回 值:void
+时    间：2020-12-27
+RAiny
+*/
+void rgb_led_run(void)
+{
+  uint8_t r_val=0,g_val=255,b_val=0;
+  r_val++;
+  g_val--;
+  b_val++;
+  if(r_val>=256)
+    r_val=0;
+  if(g_val==0)
+    g_val=0;
+  if(b_val>=256)
+    b_val=0;
+  rgb_led_set(r_val,g_val,b_val);
+}
+/*
 函 数 名:void select_menu(void)
 功能说明:选择菜单
 形    参:void
@@ -482,16 +543,27 @@ RAiny
 void select_menu(void)
 {
   KEY_EVENT_INF menu_event=KEY_NOEVENT;
+  static uint8_t init_menu=0;
   do
   {
-    u8g2.clearBuffer();
-    draw(&current_state);  
-    u8g2.setFont(u8g2_font_helvB10_tr);  
-    u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
-    u8g2.print(menu_entry_list[destination_state.position].name);    
-    u8g2.sendBuffer();
-    delay(10);
     menu_event=get_keymenu_event();
+    if(init_menu==0)
+    {
+      if(WiFi.status()!=WL_CONNECTED)//如果没有WIFI
+      {
+        menu_event=KEY_NEXT;//进入BadApple
+      }
+      else
+      {
+        //进入时间
+      }
+      init_menu=1;
+    }
+    else if(init_menu==1)
+    {
+      menu_event=KEY_CONFIRM;
+      init_menu=2;
+    }
     if(menu_event==KEY_NEXT)
     {
       to_right(&destination_state);
@@ -508,6 +580,13 @@ void select_menu(void)
       (*current_operation_index)();//执行当前操作函数
       clear_keymenu_event();
     }
+    u8g2.clearBuffer();
+    draw(&current_state);  
+    u8g2.setFont(u8g2_font_helvB10_tr);  
+    u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
+    u8g2.print(menu_entry_list[destination_state.position].name);    
+    u8g2.sendBuffer();
+    delay(10);
   } while(towards(&current_state, &destination_state));
 }
 /*
@@ -534,6 +613,7 @@ void setup(void)
   }
   //SPIFFS.format();    // 格式化SPIFFS
   rgb_led_init();
+  led_tick.attach_ms(100,rgb_led_run);
   u8g2.setFont(u8g2_font_wqy12_t_gb2312a); 
   u8g2.firstPage();
   do
@@ -549,22 +629,25 @@ void setup(void)
   }while(u8g2.nextPage());
   // 清除ESP8266所存储的WiFi连接信息以便测试WiFiManager工作效果
   // wifiManager.resetSettings();
-  wifiManager.setTimeout(60*3);//配置超时时间S 
+  wifiManager.setTimeout(60);//配置超时时间S 
   // 自动连接WiFi。以下语句的参数是连接ESP8266时的WiFi名称
   if(!wifiManager.autoConnect("LambdaTV"))//xzh1978n1120abc
   {
     //没有WiFi
-
+    Serial.println("No WiFi");
   }
-  // 如果您希望该WiFi添加密码，可以使用以下语句：
-  // wifiManager.autoConnect("AutoConnectAP", "12345678");
-  // 以上语句中的12345678是连接AutoConnectAP的密码
-  // WiFi连接成功后将通过串口监视器输出连接成功信息 
-  Serial.print("ESP8266 Connected to ");
-  Serial.println(WiFi.SSID());          
-  Serial.print("IP address:\t");
-  Serial.println(WiFi.localIP());   
-  timeClient.begin();
+  else
+  {
+    // 如果您希望该WiFi添加密码，可以使用以下语句：
+    // wifiManager.autoConnect("AutoConnectAP", "12345678");
+    // 以上语句中的12345678是连接AutoConnectAP的密码
+    // WiFi连接成功后将通过串口监视器输出连接成功信息 
+    Serial.print("ESP8266 Connected to ");
+    Serial.println(WiFi.SSID());          
+    Serial.print("IP address:\t");
+    Serial.println(WiFi.localIP());   
+    timeClient.begin(); 
+  }
   print_fs_info();
   key_init();
   LambdaTV();
@@ -717,18 +800,27 @@ void rgb_led_init(void)
     // pinMode(RGB_R_PIN, OUTPUT);
     pinMode(RGB_G_PIN, OUTPUT);
     pinMode(RGB_B_PIN, OUTPUT);
-    // analogWrite(RGB_R_PIN, 0);
-    analogWrite(RGB_G_PIN, 1024);
-    analogWrite(RGB_B_PIN,0);
 }
-
+/*
+函 数 名:void rgb_led_set(int r_val,int g_val,int b_val)
+功能说明:直插三脚RGB共阳极
+形    参:void
+返 回 值:void
+时    间：2020-12-27
+RAiny
+*/
+void rgb_led_set(int r_val,int g_val,int b_val)
+{
+    // analogWrite(RGB_R_PIN, 255-r_val);
+    analogWrite(RGB_G_PIN, 255-g_val);
+    analogWrite(RGB_B_PIN, 255-b_val);
+}
 #line 1 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 #include <U8g2lib.h>
 #include "LambdaTV.h"
 /*
 U8g2的IconMenu.ino example
 */
-
 void draw(menu_state *state)
 {
   int16_t x;
@@ -812,3 +904,73 @@ uint8_t towards(menu_state *current,menu_state *destination)
   return r;
 }
 
+#line 1 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+#include "LambdaTV.h"
+/*
+太极创客教程
+*/
+/*
+函 数 名:void handleUserRequet() 
+功能说明:处理用户浏览器的HTTP访问
+形    参:void
+返 回 值:void
+时    间：2020-12-27
+RAiny
+*/
+void handleUserRequet() 
+{         
+  // 获取用户请求网址信息
+  String webAddress = esp8266_server.uri();
+  // 通过handleFileRead函数处处理用户访问
+  bool fileReadOK = handleFileRead(webAddress);
+  // 如果在SPIFFS无法找到用户访问的资源，则回复404 (Not Found)
+  if (!fileReadOK){                                                 
+    esp8266_server.send(404, "text/plain", "404 Not Found"); 
+  }
+}
+/*
+函 数 名:bool handleFileRead(String path) 
+功能说明:处理浏览器HTTP访问
+形    参:void
+返 回 值:void
+时    间：2020-12-27
+RAiny
+*/
+bool handleFileRead(String path) 
+{           
+  if (path.endsWith("/")) {                     // 如果访问地址以"/"为结尾
+    path = "/index.html";                       // 则将访问地址修改为/index.html便于SPIFFS访问
+  } 
+  String contentType = getContentType(path);     // 获取文件类型
+  if (SPIFFS.exists(path)) {                     // 如果访问的文件可以在SPIFFS中找到
+    File file = SPIFFS.open(path, "r");          // 则尝试打开该文件
+    esp8266_server.streamFile(file, contentType);// 并且将该文件返回给浏览器
+    file.close();                                // 并且关闭文件
+    return true;                                 // 返回true
+  }
+  return false;                                  // 如果文件未找到，则返回false
+}
+/*
+函 数 名:String getContentType(String filename)
+功能说明:获取文件类型
+形    参:void
+返 回 值:void
+时    间：2020-12-27
+RAiny
+*/
+String getContentType(String filename)
+{
+  if(filename.endsWith(".htm")) return "text/html";
+  else if(filename.endsWith(".html")) return "text/html";
+  else if(filename.endsWith(".css")) return "text/css";
+  else if(filename.endsWith(".js")) return "application/javascript";
+  else if(filename.endsWith(".png")) return "image/png";
+  else if(filename.endsWith(".gif")) return "image/gif";
+  else if(filename.endsWith(".jpg")) return "image/jpeg";
+  else if(filename.endsWith(".ico")) return "image/x-icon";
+  else if(filename.endsWith(".xml")) return "text/xml";
+  else if(filename.endsWith(".pdf")) return "application/x-pdf";
+  else if(filename.endsWith(".zip")) return "application/x-zip";
+  else if(filename.endsWith(".gz")) return "application/x-gzip";
+  return "text/plain";
+}
