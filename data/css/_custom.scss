@@ -1,0 +1,133 @@
+﻿/*!
+* Created by Kroplet (https://www.kroplet.com) 
+* The easiest way to create Bootstrap 4 themes. 
+*/
+
+/*Google fonts*/
+@import url('https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i');
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+}
+body{
+    font-family: 'Karla';
+    background: rgba(0,0,0,0.3);
+    background-repeat: no-repeat;
+    background-size: 100%, cover,cover;
+    background-position: top left,center center,bottom center;
+    background-attachment: fixed;
+}
+body.demo-first{
+    background-image: -moz-linear-gradient(60deg, rgba(255, 234, 0, 0.5) 5%, rgba(0, 200, 83, 0.35)), url("../img/bg.jpg");
+    background-image: -webkit-linear-gradient(60deg, rgba(255, 234, 0, 0.5) 5%, rgba(0, 200, 83, 0.35)), url("../img/bg.jpg");
+    background-image: -ms-linear-gradient(60deg, rgba(255, 234, 0, 0.5) 5%, rgba(0, 200, 83, 0.35)), url("../img/bg.jpg");
+    background-image: linear-gradient(60deg, rgba(255, 234, 0, 0.5) 5%, rgba(0, 200, 83, 0.35)), url("../img/bg.jpg");
+}
+body.demo-two{
+    background-image: url(../img/bg-mountain.png);
+}
+.brand-logo{
+    width: 120px;
+}
+.hero{
+    height: 100vh;
+    min-height: 600px;
+}
+.hero h1{
+    font-weight: 100;
+} 
+.hero h1 span{
+    font-weight: 700;
+}
+.footer a, .footer a:hover{
+    color: #fff;
+    text-decoration: underline;
+}
+@media (min-width:576px){
+    section{
+        padding: 60px 0px;
+    }
+}
+@media (max-width:576px){
+    section{
+        padding: 20px;
+    }
+}
+[class^="ion-"]{
+    font-size: 24px;
+}
+.demo-first .bg-texture{
+    background: #00c853;
+    background: -webkit-linear-gradient(to right, #00c853, #ffea00);
+    background: linear-gradient(to right, #00c853, #ffea00);
+    background-position: center;
+}
+.demo-two .bg-texture{
+    background: rgba(0,0,0,0.3);
+}
+.bg-alt {
+    background-color: #fff;
+}
+.btn-white {
+    color: #00c853;
+    background-color: #fff;
+    border-color: #fff;
+}
+.btn-white:hover {
+    background: transparent !important;
+    color: #fff !important;
+}
+.btn-white-alt {
+    color: #fff;
+    background-color: transparent;
+    border-color: #fff;
+}
+.btn-white-alt:hover {
+    background: #fff !important;
+    color: #000 !important;
+}
+.border-none{
+    border: none !important;
+    border-color: transparent !important;
+}
+.video-background {
+    position: fixed;
+    right: 0; 
+    bottom: 0;
+    min-width: 100%; 
+    min-height: 100%;
+    width: auto; 
+    height: auto;
+    z-index: -100;
+}
+.text-twitter-alt, .text-facebook-alt, .text-linkedin-alt, .text-google-alt, .text-github-alt{
+    color:#fff;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 40px;
+
+}
+.text-twitter-alt:hover, .text-facebook-alt:hover, .text-linkedin-alt:hover, .text-google-alt:hover, 
+.text-github-alt:hover{
+    background: #fff;
+    border-color: #fff;
+}
+.text-twitter, .text-twitter-alt:hover{
+    color:#00aced;
+}
+.text-facebook, .text-facebook-alt:hover{
+    color: #3b5998;
+}
+.text-google, .text-google-alt:hover{
+    color: #dd4b39;
+}
+.text-linkedin, .text-linkedin-alt:hover{
+    color: #007bb6;
+}
+.text-github, .text-github-alt:hover{
+    color: #000000;
+}
