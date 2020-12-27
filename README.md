@@ -1,2 +1,0 @@
-# LambdaTV
-ESP8266，u8g2，SSH1106
