@@ -61,6 +61,11 @@
   },
   {
     "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Include": "qrcode.h",
+    "Includepath": "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\QRCode\\src"
+  },
+  {
+    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "",
     "Includepath": null
   },
@@ -681,6 +686,11 @@
   },
   {
     "Sourcefile": "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\Time-master\\Time.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\QRCode\\src\\qrcode.c",
     "Include": "",
     "Includepath": null
   },

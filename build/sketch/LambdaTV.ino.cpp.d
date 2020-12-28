@@ -169,4 +169,5 @@ c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp.o: \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/include/slist.h \
  C:\Users\HUAWEI\Documents\Arduino\libraries\NTPClient/NTPClient.h \
  C:\Users\HUAWEI\Documents\Arduino\libraries\Time-master/TimeLib.h \
+ C:\Users\HUAWEI\Documents\Arduino\libraries\QRCode\src/qrcode.h \
  c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\sketch\LambdaTV.h

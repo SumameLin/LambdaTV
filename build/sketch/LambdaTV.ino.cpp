@@ -11,6 +11,7 @@
 #include <WiFiUdp.h>
 #include <NTPClient.h> 
 #include <TimeLib.h>
+#include "qrcode.h"
 #include "LambdaTV.h"
 
 U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 2, /* dc=*/4 );
@@ -38,9 +39,9 @@ menu_state destination_state = { ICON_BGAP, ICON_BGAP, 0 };
 // encoding values, see: https://github.com/olikraus/u8g2/wiki/fntgrpiconic
 menu_entry_type menu_entry_list[] =
 {
-  { u8g2_font_open_iconic_app_4x_t,69,"Clock",(*time_update)},
-  { u8g2_font_open_iconic_play_4x_t, 78, "BadApple",(*bad_apple)},
-  { u8g2_font_open_iconic_www_4x_t,78, "Web",(*web_introduce)},
+  { u8g2_font_open_iconic_app_4x_t,69,"WiFi Clock",(*time_update)},
+  { u8g2_font_open_iconic_play_4x_t, 78, "BadApple Player",(*bad_apple)},
+  { u8g2_font_open_iconic_www_4x_t,78, "Web Visit",(*web_introduce)},
   { u8g2_font_open_iconic_embedded_4x_t,72, "Config",(*config)},
   { NULL, 0, NULL,NULL} 
 };
@@ -52,25 +53,25 @@ menu_entry_type menu_entry_list[] =
 时    间：2020-12-20
 RAiny
 */
-#line 54 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 55 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void print_fs_info(void);
-#line 86 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 87 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void LambdaTV(void);
-#line 168 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 169 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x,uint8_t y,uint8_t bin_num);
-#line 232 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 233 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x,uint8_t y,uint8_t num);
-#line 283 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 284 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show(uint8_t hour,uint8_t minu);
-#line 448 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 496 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void);
-#line 461 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 509 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void rgb_led_run(void);
-#line 483 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 531 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void);
-#line 540 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 588 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void);
-#line 604 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 652 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void);
 #line 10 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_click(void);
@@ -110,7 +111,7 @@ void handleUserRequet();
 bool handleFileRead(String path);
 #line 54 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 String getContentType(String filename);
-#line 54 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 55 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void print_fs_info(void)
 {
   FSInfo fs_info;
@@ -344,7 +345,7 @@ void time_show(uint8_t hour,uint8_t minu)
 { 
   uint8_t hour_high=0,hour_low=0,minu_high=0,minu_low=0;
   static uint8_t maohao_flag=0;
-  static uint8_t last_hour_high,last_hour_low,last_minu_high,last_minu_low;
+  static uint8_t last_hour_high=0xff,last_hour_low=0xff,last_minu_high=0xff,last_minu_low=0xff;
   hour_high=hour/10;
   hour_low=hour%10;
   minu_high=minu/10;
@@ -453,24 +454,71 @@ RAiny
 */
 void web_introduce(void)
 {
-  esp8266_server.onNotFound(handleUserRequet);      // 告知系统如何处理用户请求
-  esp8266_server.begin();                           // 启动网站服务
-  u8g2.setFont(u8g2_font_ncenB14_tr);
-  u8g2.firstPage();
-  do
+  char qrcode_buff[25];
+  QRCode qrcode;//gen the QR code
+  uint8_t qrcodeData[qrcode_getBufferSize(3)];
+  if(WiFi.status()!=WL_CONNECTED)
   {
-    u8g2.setCursor(5,30);
-    u8g2.print("Visit Web IP");	
-    u8g2.setCursor(5,50);
-    u8g2.print(WiFi.localIP());	
-  }while(u8g2.nextPage());
+    u8g2.setFont(u8g2_font_unifont_t_shopl16); //自己制作的字体
+    u8g2.firstPage();
+    do
+    {
+      u8g2.setCursor(10,36);
+      u8g2.print("No WiFi");	
+    }while(u8g2.nextPage());
+  }
+  else
+  {  
+    esp8266_server.onNotFound(handleUserRequet);      // 告知系统如何处理用户请求
+    esp8266_server.begin();                           // 启动网站服务
+    String localIP=WiFi.localIP().toString();
+    // Serial.print(localIP);
+    sprintf(qrcode_buff,"http://%s/",localIP.c_str());
+    Serial.print(qrcode_buff);
+    qrcode_initText(&qrcode,qrcodeData,3,ECC_QUARTILE,qrcode_buff);
+    // start draw
+    u8g2.clearBuffer();
+    // get the draw starting point,128 and 64 is screen size
+    uint8_t x0=(OLED_WIDTH  -qrcode.size*2)/2;
+    uint8_t y0=(OLED_HEIGHT -qrcode.size*2)/2;
+    // get QR code pixels in a loop
+    for(uint8_t y=0;y<qrcode.size;y++) 
+    {
+      for (uint8_t x=0;x<qrcode.size;x++) 
+      {
+        // Check this point is black or white
+        if (qrcode_getModule(&qrcode, x, y)) 
+        {
+          u8g2.setColorIndex(1);
+        } 
+        else 
+        {
+          u8g2.setColorIndex(0);
+        }
+        // Double the QR code pixels
+        u8g2.drawPixel(x0 + x * 2, y0 + y * 2);
+        u8g2.drawPixel(x0 + 1 + x * 2, y0 + y * 2);
+        u8g2.drawPixel(x0 + x * 2, y0  + 1 + y * 2);
+        u8g2.drawPixel(x0 + 1 + x * 2, y0 + 1 + y * 2);
+      }
+    }
+    u8g2.sendBuffer();    
+  }
   while(1)
   {
-    esp8266_server.handleClient();                    // 处理用户请求
+    if(WiFi.status()!=WL_CONNECTED)
+    {
+
+    }
+    else
+    {
+      esp8266_server.handleClient();// 处理用户请求
+    }
     if(get_keymenu_event()==KEY_CANCEL)
     {
       esp8266_server.stop();
       clear_keymenu_event();
+      u8g2.setColorIndex(1);
       break;
     }
     delay(10);
@@ -564,6 +612,12 @@ void select_menu(void)
       menu_event=KEY_CONFIRM;
       init_menu=2;
     }
+    u8g2.clearBuffer();
+    draw(&current_state);  
+    u8g2.setFont(u8g2_font_helvB10_tr);  
+    u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
+    u8g2.print(menu_entry_list[destination_state.position].name);    
+    u8g2.sendBuffer();
     if(menu_event==KEY_NEXT)
     {
       to_right(&destination_state);
@@ -580,12 +634,6 @@ void select_menu(void)
       (*current_operation_index)();//执行当前操作函数
       clear_keymenu_event();
     }
-    u8g2.clearBuffer();
-    draw(&current_state);  
-    u8g2.setFont(u8g2_font_helvB10_tr);  
-    u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
-    u8g2.print(menu_entry_list[destination_state.position].name);    
-    u8g2.sendBuffer();
     delay(10);
   } while(towards(&current_state, &destination_state));
 }

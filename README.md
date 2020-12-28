@@ -10,7 +10,7 @@ VsCode + Ardunio 插件
 
 Ardunio RULs：http://arduino.esp8266.com/stable/package_esp8266com_index.json
 
-Ardunio 库：U8g2、OneButton、Ticker、[WiFiManager中文版本](https://github.com/taichi-maker/WiFiManager)、NTPClient、Time-master
+Ardunio 库：U8g2、OneButton、Ticker、[WiFiManager中文版本](https://github.com/taichi-maker/WiFiManager)、NTPClient、Time-master、QRCode、WiFiSTA
 
 ### Ardunio编译过慢
 
@@ -689,4 +689,66 @@ u8g2.updateDisplayArea(tile_area_x_pos, tile_area_y_pos, tile_area_width, tile_a
     u8g2.print("2.打开网页配置WiFi");	
   }while(u8g2.nextPage());
 ```
+
+## QRCode
+
+[[教程] Arduino 输出二维码到显示屏上](https://blog.craftyun.cn/post/199.html)
+
+[二维码（QR code）基本结构及生成原理](https://blog.csdn.net/u012611878/article/details/53167009)
+
+```c
+#include <Arduino.h>
+#include <U8g2lib.h>
+#include <Wire.h>
+#include "qrcode.h"
+
+U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 2, /* dc=*/4 );
+void setup() {
+  // put your setup code here, to run once:\
+  // init u8g2
+  u8g2.begin();
+
+  // gen the QR code
+  QRCode qrcode;
+  uint8_t qrcodeData[qrcode_getBufferSize(3)];
+
+  qrcode_initText(&qrcode, qrcodeData, 3 , ECC_LOW, "https://blog.craftyun.cn/");
+
+  // start draw
+  u8g2.firstPage();
+  do {
+    // get the draw starting point,128 and 64 is screen size
+    uint8_t x0 = (128 - qrcode.size * 2) / 2;
+    uint8_t y0 = (64 - qrcode.size * 2) / 2;
+    
+    // get QR code pixels in a loop
+    for (uint8_t y = 0; y < qrcode.size; y++) {
+      for (uint8_t x = 0; x < qrcode.size; x++) {
+        // Check this point is black or white
+        if (qrcode_getModule(&qrcode, x, y)) {
+          u8g2.setColorIndex(1);
+        } else {
+          u8g2.setColorIndex(0);
+        }
+        // Double the QR code pixels
+        u8g2.drawPixel(x0 + x * 2, y0 + y * 2);
+        u8g2.drawPixel(x0 + 1 + x * 2, y0 + y * 2);
+        u8g2.drawPixel(x0 + x * 2, y0  + 1 + y * 2);
+        u8g2.drawPixel(x0 + 1 + x * 2, y0 + 1 + y * 2);
+      }
+    }
+  } while ( u8g2.nextPage() );
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+}
+
+```
+
+### WiFi.localIP()
+
+WiFi.localIP()可以转成string
+
+` String localIP=WiFi.localIP().toString();`
 
