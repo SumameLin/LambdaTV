@@ -14,8 +14,8 @@
 #include "LambdaTV.h"
 
 U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 2, /* dc=*/4 );
-OneButton s_button(0, true);
-OneButton c_button(5, true);
+OneButton s_button(5, true);
+OneButton c_button(0, true);
 File dataFile;
 Ticker key_tick;
 Ticker led_tick;
@@ -38,9 +38,9 @@ menu_state destination_state = { ICON_BGAP, ICON_BGAP, 0 };
 // encoding values, see: https://github.com/olikraus/u8g2/wiki/fntgrpiconic
 menu_entry_type menu_entry_list[] =
 {
-  { u8g2_font_open_iconic_app_4x_t,69,"WiFi Clock",(*time_update)},
-  { u8g2_font_open_iconic_play_4x_t, 78, "BadApple Player",(*bad_apple)},
-  { u8g2_font_open_iconic_www_4x_t,78, "Web Visit",(*web_introduce)},
+  { u8g2_font_open_iconic_app_4x_t,69,"Clock",(*time_update)},
+  { u8g2_font_open_iconic_play_4x_t, 78, "Player",(*bad_apple)},
+  { u8g2_font_open_iconic_www_4x_t,78, "Web",(*web_introduce)},
   { u8g2_font_open_iconic_embedded_4x_t,72, "Config",(*config)},
   { NULL, 0, NULL,NULL} 
 };
@@ -120,43 +120,54 @@ void bad_apple(void)
 {
   char data_read;
   static int data_len=0;
+  static uint8_t exit_flag=0;
   //建立File对象用于从SPIFFS中读取文件
   String file_name="/apple.bin";
-  dataFile = SPIFFS.open(file_name, "r"); 
-  //确认闪存中是否有file_name文件
-  if (SPIFFS.exists(file_name))
-  {
-    Serial.println(file_name+" FOUND");
-    Serial.println(dataFile.size());
-  } 
-  else 
-  {
-    Serial.print(file_name+" NOT FOUND");
-  }
-  // dataFile.readBytes
-  for(uint64_t xbm_num=0;xbm_num<dataFile.size();xbm_num++)
-  {
-    data_read=(char)dataFile.read();
-    badapple_buf[data_len++]=data_read;
-    if(data_len==1024)//分辨率 128*64
+  while (1)
+  {  
+    rgb_led_set(85,170,0);
+    dataFile = SPIFFS.open(file_name, "r"); 
+    //确认闪存中是否有file_name文件
+    if (SPIFFS.exists(file_name))
     {
-      delayMicroseconds(34500);//不延时3029张一共用时107S，差不多FPS=30.7
-      u8g2.clearBuffer();
-      u8g2.drawXBM(0,0,OLED_WIDTH,OLED_HEIGHT, badapple_buf);
-      u8g2.sendBuffer();
-      data_len=0;
-    }
-    if(get_keymenu_event()==KEY_CANCEL)
+      Serial.println(file_name+" FOUND");
+      Serial.println(dataFile.size());
+    } 
+    else 
     {
-      clear_keymenu_event();
-      data_len=0;
-      break;
+      Serial.print(file_name+" NOT FOUND");
     }
+    // dataFile.readBytes
+    for(uint64_t xbm_num=0;xbm_num<dataFile.size();xbm_num++)
+    {
+      data_read=(char)dataFile.read();
+      badapple_buf[data_len++]=data_read;
+      if(data_len==1024)//分辨率 128*64
+      {
+        delayMicroseconds(34500);//不延时3029张一共用时107S，差不多FPS=30.7
+        u8g2.clearBuffer();
+        u8g2.drawXBM(0,0,OLED_WIDTH,OLED_HEIGHT, badapple_buf);
+        u8g2.sendBuffer();
+        data_len=0;
+      }
+      if(get_keymenu_event()==KEY_CANCEL)
+      {
+        clear_keymenu_event();
+        data_len=0;
+        exit_flag=1;
+        break;
+      }
+    }
+    Serial.print("BadApple Play finish");
+    //完成文件读取后关闭文件
+    dataFile.close(); 
+    if(exit_flag==1)
+    {
+      exit_flag=0;
+      break;//跳出循环
+    }
+    delay(50);//可以延时一下
   }
-  Serial.print("BadApple Play finish");
-  //完成文件读取后关闭文件
-  dataFile.close(); 
-  delay(10);//可以延时一下
 }
 /*
 函 数 名:void time_ipdate_anima(void)
@@ -197,13 +208,14 @@ void time_ipdate_anima(uint8_t x,uint8_t y,uint8_t bin_num)
       u8g2.drawXBM(x,y,NUM_WIDTH,NUM_HEIGHT, badapple_buf);
       // u8g2.sendBuffer();  
       //局部刷新有个问题就是不能全部覆盖xbm图片，并不是8的完整倍数
+      //局部刷新要/8
       if(x==HOUR_HIGH_X)
       {
         u8g2.updateDisplayArea(0,y/8,NUM_WIDTH/8,NUM_HEIGHT/8);
       }
       else if(x==(HOUR_LOW_X))
       {
-        u8g2.updateDisplayArea(3,y/8,NUM_WIDTH/8,NUM_HEIGHT/8);//局部刷新要/8
+        u8g2.updateDisplayArea(3,y/8,NUM_WIDTH/8+1,NUM_HEIGHT/8);
       }
       else if(x==(MINU_HIGH_X))
       {
@@ -362,6 +374,7 @@ void time_update(void)
         u8g2.setCursor(10,36);
         u8g2.print("No WiFi");	
       }while(u8g2.nextPage());
+      rgb_led_set(255,0,0);
     }
     else
     {    
@@ -375,6 +388,7 @@ void time_update(void)
       Serial.print(time_minu);
       Serial.print("\r\n");
       time_show(time_hour,time_minu);
+      rgb_led_set(170,0,255);
     }
     if(get_keymenu_event()==KEY_CANCEL)
     {
@@ -406,9 +420,11 @@ void web_introduce(void)
       u8g2.setCursor(10,36);
       u8g2.print("No WiFi");	
     }while(u8g2.nextPage());
+    rgb_led_set(255,0,0);
   }
   else
   {  
+    rgb_led_set(255,170,127);
     esp8266_server.onNotFound(handleUserRequet);      // 告知系统如何处理用户请求
     esp8266_server.begin();                           // 启动网站服务
     String localIP=WiFi.localIP().toString();
@@ -509,16 +525,16 @@ RAiny
 void rgb_led_run(void)
 {
   uint8_t r_val=0,g_val=255,b_val=0;
-  r_val++;
+  // r_val++;
   g_val--;
-  b_val++;
-  if(r_val>=256)
-    r_val=0;
+  // b_val++;
+  // if(r_val>=256)
+  //   r_val=0;
   if(g_val==0)
-    g_val=0;
-  if(b_val>=256)
-    b_val=0;
-  rgb_led_set(r_val,g_val,b_val);
+    g_val=255;
+  // if(b_val>=256)
+  //   b_val=0;
+  // rgb_led_set(r_val,g_val,b_val);
 }
 /*
 函 数 名:void select_menu(void)
@@ -554,7 +570,7 @@ void select_menu(void)
     }
     u8g2.clearBuffer();
     draw(&current_state);  
-    u8g2.setFont(u8g2_font_helvB10_tr);  
+    u8g2.setFont(u8g2_font_ncenB10_tr);  
     u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
     u8g2.print(menu_entry_list[destination_state.position].name);    
     u8g2.sendBuffer();

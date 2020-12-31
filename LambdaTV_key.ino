@@ -128,7 +128,7 @@ RAiny
 */
 void rgb_led_init(void)
 {
-    // pinMode(RGB_R_PIN, OUTPUT);
+    pinMode(RGB_R_PIN, OUTPUT);
     pinMode(RGB_G_PIN, OUTPUT);
     pinMode(RGB_B_PIN, OUTPUT);
 }
@@ -142,7 +142,7 @@ RAiny
 */
 void rgb_led_set(int r_val,int g_val,int b_val)
 {
-    // analogWrite(RGB_R_PIN, 255-r_val);
-    analogWrite(RGB_G_PIN, 255-g_val);
-    analogWrite(RGB_B_PIN, 255-b_val);
+    analogWrite(RGB_R_PIN, 1024-r_val*4);
+    analogWrite(RGB_G_PIN, 1024-g_val*4);
+    analogWrite(RGB_B_PIN, 1024-b_val*4);
 }

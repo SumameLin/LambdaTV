@@ -12,6 +12,8 @@ Ardunio RULs：http://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 Ardunio 库：U8g2、OneButton、Ticker、[WiFiManager中文版本](https://github.com/taichi-maker/WiFiManager)、NTPClient、Time-master、QRCode、WiFiSTA
 
+螺柱：M3*6+6
+
 ### Ardunio编译过慢
 
 [Arduino IDE首次编译很慢?](https://www.zhihu.com/question/29961352)
@@ -67,7 +69,7 @@ IO口与序号相对应的（选择Board信息不同，D1所代表的引脚不�
 
 四线SPI OLED：CLK——D5（GPIO14），MOSI——D7（GPIO13），CS——D4（GPIO2）(板子上LED也连在D4)，D/C——D2（GPIO4）
 
-按键：D3（GPIO0） D1（GPIO5）
+按键：D3（GPIO0——S） D1（GPIO5——C）
 
 RGB_LED：R——TX（GPIO1），G——RX（GPIO3），B——D6（GPIO12）【IO太少了，还占用调试串口】
 
@@ -626,6 +628,22 @@ u8g2.clearBuffer();
 u8g2.updateDisplayArea(tile_area_x_pos, tile_area_y_pos, tile_area_width, tile_area_height);
 
 ```
+
+#### 模拟表盘
+
+[Original Tiwe OLED Watch](http://montre24.com/news/2012-10-06/2127/)
+
+![Time](./image/tiwe-27.jpg)
+
+![time](./image/tiwe-28.jpg)
+
+当需要看时间时，必须轻拍表盘，这些杂乱无章的小白点就会立刻组合成为指针和刻度。显示几秒后又重新恢复到混乱状态。
+
+#### 刻度时钟
+
+![Mhin Clock](./image/Mhin Clock.jpg)
+
+#### 游戏俄罗斯方块
 
 ## U8g2显示汉字
 

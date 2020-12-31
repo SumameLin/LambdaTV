@@ -15,8 +15,8 @@
 # 15 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
 
 U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2((&u8g2_cb_r0), /* cs=*/ 2, /* dc=*/4 );
-OneButton s_button(0, true);
-OneButton c_button(5, true);
+OneButton s_button(5, true);
+OneButton c_button(0, true);
 File dataFile;
 Ticker key_tick;
 Ticker led_tick;
@@ -39,9 +39,9 @@ menu_state destination_state = { 8, 8, 0 };
 // encoding values, see: https://github.com/olikraus/u8g2/wiki/fntgrpiconic
 menu_entry_type menu_entry_list[] =
 {
-  { u8g2_font_open_iconic_app_4x_t,69,"WiFi Clock",(*time_update)},
-  { u8g2_font_open_iconic_play_4x_t, 78, "BadApple Player",(*bad_apple)},
-  { u8g2_font_open_iconic_www_4x_t,78, "Web Visit",(*web_introduce)},
+  { u8g2_font_open_iconic_app_4x_t,69,"Clock",(*time_update)},
+  { u8g2_font_open_iconic_play_4x_t, 78, "Player",(*bad_apple)},
+  { u8g2_font_open_iconic_www_4x_t,78, "Web",(*web_introduce)},
   { u8g2_font_open_iconic_embedded_4x_t,72, "Config",(*config)},
   { __null, 0, __null,__null}
 };
@@ -145,43 +145,54 @@ void bad_apple(void)
 {
   char data_read;
   static int data_len=0;
+  static uint8_t exit_flag=0;
   //建立File对象用于从SPIFFS中读取文件
   String file_name="/apple.bin";
-  dataFile = SPIFFS.open(file_name, "r");
-  //确认闪存中是否有file_name文件
-  if (SPIFFS.exists(file_name))
+  while (1)
   {
-    Serial.println(file_name+" FOUND");
-    Serial.println(dataFile.size());
-  }
-  else
-  {
-    Serial.print(file_name+" NOT FOUND");
-  }
-  // dataFile.readBytes
-  for(uint64_t xbm_num=0;xbm_num<dataFile.size();xbm_num++)
-  {
-    data_read=(char)dataFile.read();
-    badapple_buf[data_len++]=data_read;
-    if(data_len==1024)//分辨率 128*64
+    rgb_led_set(85,170,0);
+    dataFile = SPIFFS.open(file_name, "r");
+    //确认闪存中是否有file_name文件
+    if (SPIFFS.exists(file_name))
     {
-      delayMicroseconds(34500);//不延时3029张一共用时107S，差不多FPS=30.7
-      u8g2.clearBuffer();
-      u8g2.drawXBM(0,0,128,64, badapple_buf);
-      u8g2.sendBuffer();
-      data_len=0;
+      Serial.println(file_name+" FOUND");
+      Serial.println(dataFile.size());
     }
-    if(get_keymenu_event()==KEY_CANCEL)
+    else
     {
-      clear_keymenu_event();
-      data_len=0;
-      break;
+      Serial.print(file_name+" NOT FOUND");
     }
+    // dataFile.readBytes
+    for(uint64_t xbm_num=0;xbm_num<dataFile.size();xbm_num++)
+    {
+      data_read=(char)dataFile.read();
+      badapple_buf[data_len++]=data_read;
+      if(data_len==1024)//分辨率 128*64
+      {
+        delayMicroseconds(34500);//不延时3029张一共用时107S，差不多FPS=30.7
+        u8g2.clearBuffer();
+        u8g2.drawXBM(0,0,128,64, badapple_buf);
+        u8g2.sendBuffer();
+        data_len=0;
+      }
+      if(get_keymenu_event()==KEY_CANCEL)
+      {
+        clear_keymenu_event();
+        data_len=0;
+        exit_flag=1;
+        break;
+      }
+    }
+    Serial.print("BadApple Play finish");
+    //完成文件读取后关闭文件
+    dataFile.close();
+    if(exit_flag==1)
+    {
+      exit_flag=0;
+      break;//跳出循环
+    }
+    delay(50);//可以延时一下
   }
-  Serial.print("BadApple Play finish");
-  //完成文件读取后关闭文件
-  dataFile.close();
-  delay(10);//可以延时一下
 }
 /*
 
@@ -198,7 +209,7 @@ void bad_apple(void)
 RAiny
 
 */
-# 169 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 180 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x,uint8_t y,uint8_t bin_num)
 {
   char file_name_buff[10];
@@ -230,13 +241,14 @@ void time_ipdate_anima(uint8_t x,uint8_t y,uint8_t bin_num)
       u8g2.drawXBM(x,y,25,42, badapple_buf);
       // u8g2.sendBuffer();  
       //局部刷新有个问题就是不能全部覆盖xbm图片，并不是8的完整倍数
+      //局部刷新要/8
       if(x==2)
       {
         u8g2.updateDisplayArea(0,y/8,25/8,42/8);
       }
       else if(x==(2+25))
       {
-        u8g2.updateDisplayArea(3,y/8,25/8,42/8);//局部刷新要/8
+        u8g2.updateDisplayArea(3,y/8,25/8+1,42/8);
       }
       else if(x==(2+25*3))
       {
@@ -272,7 +284,7 @@ void time_ipdate_anima(uint8_t x,uint8_t y,uint8_t bin_num)
 RAiny
 
 */
-# 233 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 245 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x,uint8_t y,uint8_t num)
 {
   switch (num)
@@ -332,7 +344,7 @@ void time_select_draw(uint8_t x,uint8_t y,uint8_t num)
 RAiny
 
 */
-# 284 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 296 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show(uint8_t hour,uint8_t minu)
 {
   uint8_t hour_high=0,hour_low=0,minu_high=0,minu_low=0;
@@ -407,7 +419,7 @@ void time_show(uint8_t hour,uint8_t minu)
 RAiny
 
 */
-# 351 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 363 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_update(void)
 {
   uint8_t time_minu,time_hour;
@@ -422,6 +434,7 @@ void time_update(void)
         u8g2.setCursor(10,36);
         u8g2.print("No WiFi");
       }while(u8g2.nextPage());
+      rgb_led_set(255,0,0);
     }
     else
     {
@@ -435,6 +448,7 @@ void time_update(void)
       Serial.print(time_minu);
       Serial.print("\r\n");
       time_show(time_hour,time_minu);
+      rgb_led_set(170,0,255);
     }
     if(get_keymenu_event()==KEY_CANCEL)
     {
@@ -459,7 +473,7 @@ void time_update(void)
 RAiny
 
 */
-# 395 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 409 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void web_introduce(void)
 {
   char qrcode_buff[25];
@@ -474,9 +488,11 @@ void web_introduce(void)
       u8g2.setCursor(10,36);
       u8g2.print("No WiFi");
     }while(u8g2.nextPage());
+    rgb_led_set(255,0,0);
   }
   else
   {
+    rgb_led_set(255,170,127);
     esp8266_server.onNotFound(handleUserRequet); // 告知系统如何处理用户请求
     esp8266_server.begin(); // 启动网站服务
     String localIP=WiFi.localIP().toString();
@@ -526,7 +542,7 @@ void web_introduce(void)
     {
       esp8266_server.stop();
       clear_keymenu_event();
-      u8g2.setColorIndex(1);
+      u8g2.setColorIndex(1);//退出恢复 1实显
       break;
     }
     delay(10);
@@ -547,7 +563,7 @@ void web_introduce(void)
 RAiny
 
 */
-# 475 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 491 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void config(void)
 {
   while(1)
@@ -576,7 +592,7 @@ void config(void)
 RAiny
 
 */
-# 496 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 512 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void)
 {
   s_button.tick();
@@ -597,20 +613,20 @@ void key_check(void)
 RAiny
 
 */
-# 509 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 525 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void rgb_led_run(void)
 {
   uint8_t r_val=0,g_val=255,b_val=0;
-  r_val++;
+  // r_val++;
   g_val--;
-  b_val++;
-  if(r_val>=256)
-    r_val=0;
+  // b_val++;
+  // if(r_val>=256)
+  //   r_val=0;
   if(g_val==0)
-    g_val=0;
-  if(b_val>=256)
-    b_val=0;
-  rgb_led_set(r_val,g_val,b_val);
+    g_val=255;
+  // if(b_val>=256)
+  //   b_val=0;
+  // rgb_led_set(r_val,g_val,b_val);
 }
 /*
 
@@ -627,7 +643,7 @@ void rgb_led_run(void)
 RAiny
 
 */
-# 531 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 547 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void)
 {
   KEY_EVENT_INF menu_event=KEY_NOEVENT;
@@ -654,7 +670,7 @@ void select_menu(void)
     }
     u8g2.clearBuffer();
     draw(&current_state);
-    u8g2.setFont(u8g2_font_helvB10_tr);
+    u8g2.setFont(u8g2_font_ncenB10_tr);
     u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
     u8g2.print(menu_entry_list[destination_state.position].name);
     u8g2.sendBuffer();
@@ -692,7 +708,7 @@ void select_menu(void)
 RAiny
 
 */
-# 588 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 604 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void)
 {
   Serial.begin(115200);
@@ -764,7 +780,7 @@ void setup(void)
 RAiny
 
 */
-# 652 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 668 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void)
 {
   select_menu();
@@ -980,7 +996,7 @@ RAiny
 # 129 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void rgb_led_init(void)
 {
-    // pinMode(RGB_R_PIN, OUTPUT);
+    pinMode(1 /*TX*/, 0x01);
     pinMode(3, 0x01);
     pinMode(12, 0x01);
 }
@@ -1002,9 +1018,9 @@ RAiny
 # 143 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void rgb_led_set(int r_val,int g_val,int b_val)
 {
-    // analogWrite(RGB_R_PIN, 255-r_val);
-    analogWrite(3, 255-g_val);
-    analogWrite(12, 255-b_val);
+    analogWrite(1 /*TX*/, 1024-r_val*4);
+    analogWrite(3, 1024-g_val*4);
+    analogWrite(12, 1024-b_val*4);
 }
 # 1 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 # 2 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino" 2
@@ -1015,10 +1031,26 @@ U8g2的IconMenu.ino example
 
 */
 # 6 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+/*
+
+函 数 名:void draw(menu_state *state)
+
+功能说明:绘制字体字集的符号和选中框
+
+形    参:menu_state *state
+
+返 回 值:void
+
+时    间：2020-12-30
+
+RAiny
+
+*/
+# 14 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void draw(menu_state *state)
 {
   int16_t x;
-  uint8_t i;
+  uint8_t i,wid_max=3;
   x = state->menu_start;
   i = 0;
   while(menu_entry_list[i].icon > 0 )
@@ -1031,16 +1063,39 @@ void draw(menu_state *state)
     i++;
     x += 32 + 8;
   }
-  u8g2.drawFrame(state->frame_position-1, 32+8 -32 -1, 32 +2, 32 +2);
-  u8g2.drawFrame(state->frame_position-2, 32+8 -32 -2, 32 +4, 32 +4);
-  u8g2.drawFrame(state->frame_position-3, 32+8 -32 -3, 32 +6, 32 +6);
-}
+  for(uint8_t wid=0;wid<wid_max;wid++)//多条直线重叠，来实现线的宽度
+  {
+    u8g2.drawHVLine(state->frame_position-1,8 -3-wid,32 +2,0);//往上增加
+    u8g2.drawHVLine(state->frame_position-2-wid,8 -3+8-wid_max,8,3);//往左增加
+    u8g2.drawHVLine(state->frame_position-1+32 +2+wid,8 -3+8-wid_max,8,3);//往右增加
 
+    u8g2.drawHVLine(state->frame_position-1,32+8 +3+wid,32 +2,0);//往下增加
+    u8g2.drawHVLine(state->frame_position-2-wid,32+8 +3+wid_max-1,8,3);//往左增加
+    u8g2.drawHVLine(state->frame_position-1+32 +2+wid,32+8 +3+wid_max-1,8,3);//往右增加
+  }
+}
+/*
+
+函 数 名:void to_right(menu_state *state)
+
+功能说明:向右移动
+
+形    参:menu_state *state
+
+返 回 值:void
+
+时    间：2020-12-30
+
+RAiny
+
+*/
+# 49 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void to_right(menu_state *state)
 {
   if ( menu_entry_list[state->position+1].font != __null )
   {
-    if ( (int16_t)state->frame_position+ 2*(int16_t)32 + (int16_t)8 < (int16_t)u8g2.getDisplayWidth() )
+    //小于128
+    if ( (int16_t)state->frame_position+ 2*(int16_t)32 + (int16_t)8 < (int16_t)u8g2.getDisplayWidth() )//获取显示器的宽度
     {
       state->position++;
       state->frame_position += 32 + (int16_t)8;
@@ -1053,7 +1108,22 @@ void to_right(menu_state *state)
     }
   }
 }
+/*
 
+函 数 名:void to_left(menu_state *state)
+
+功能说明:向左移动
+
+形    参:menu_state *state
+
+返 回 值:void
+
+时    间：2020-12-30
+
+RAiny
+
+*/
+# 75 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void to_left(menu_state *state)
 {
   if ( state->position > 0 )
@@ -1068,11 +1138,25 @@ void to_left(menu_state *state)
       state->position--;
       state->frame_position = 8;
       state->menu_start = state->frame_position - state->position*((int16_t)32 + (int16_t)8);
-
     }
   }
 }
+/*
 
+函 数 名:uint8_t towards_int16(int16_t *current, int16_t dest)
+
+功能说明:
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-12-30
+
+RAiny
+
+*/
+# 100 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 uint8_t towards_int16(int16_t *current, int16_t dest)
 {
   if ( *current < dest )
@@ -1087,7 +1171,22 @@ uint8_t towards_int16(int16_t *current, int16_t dest)
   }
   return 0;
 }
+/*
 
+函 数 名:uint8_t towards(menu_state *current,menu_state *destination)
+
+功能说明:
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-12-30
+
+RAiny
+
+*/
+# 122 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 uint8_t towards(menu_state *current,menu_state *destination)
 {
   uint8_t r = 0;
