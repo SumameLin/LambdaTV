@@ -1,4 +1,4 @@
-c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\core\cbuf.cpp.o: \
+g:\ESP\esp8266_oled\LambdaTV\build\core\cbuf.cpp.o: \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266\cbuf.cpp \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266\cbuf.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/libc/xtensa-lx106-elf/include/stdint.h \

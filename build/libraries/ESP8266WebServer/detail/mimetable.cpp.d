@@ -1,4 +1,4 @@
-c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\libraries\ESP8266WebServer\detail\mimetable.cpp.o: \
+g:\ESP\esp8266_oled\LambdaTV\build\libraries\ESP8266WebServer\detail\mimetable.cpp.o: \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WebServer\src\detail\mimetable.cpp \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WebServer\src\detail\mimetable.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/WString.h \

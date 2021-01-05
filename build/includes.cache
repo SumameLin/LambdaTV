@@ -10,62 +10,67 @@
     "Includepath": "C:\\Users\\HUAWEI\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\variants\\generic"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "U8g2lib.h",
     "Includepath": "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\U8g2\\src"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "Ticker.h",
     "Includepath": "C:\\Users\\HUAWEI\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\Ticker\\src"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "SPI.h",
     "Includepath": "C:\\Users\\HUAWEI\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\SPI"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "OneButton.h",
     "Includepath": "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\OneButton\\src"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "WiFiManager.h",
     "Includepath": "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\WiFiManager-master"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "ESP8266WiFi.h",
     "Includepath": "C:\\Users\\HUAWEI\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "ESP8266WebServer.h",
     "Includepath": "C:\\Users\\HUAWEI\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WebServer\\src"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "DNSServer.h",
     "Includepath": "C:\\Users\\HUAWEI\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\DNSServer\\src"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "NTPClient.h",
     "Includepath": "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\NTPClient"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "TimeLib.h",
     "Includepath": "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\Time-master"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Include": "EEPROM.h",
+    "Includepath": "C:\\Users\\HUAWEI\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\EEPROM"
+  },
+  {
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "qrcode.h",
     "Includepath": "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\QRCode\\src"
   },
   {
-    "Sourcefile": "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Sourcefile": "g:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "",
     "Includepath": null
   },
@@ -686,6 +691,11 @@
   },
   {
     "Sourcefile": "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\Time-master\\Time.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\HUAWEI\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\EEPROM\\EEPROM.cpp",
     "Include": "",
     "Includepath": null
   },

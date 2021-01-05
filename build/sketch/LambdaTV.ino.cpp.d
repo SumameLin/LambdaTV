@@ -1,5 +1,5 @@
-c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp.o: \
- c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp \
+g:\ESP\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp.o: \
+ g:\ESP\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Arduino.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/libc/xtensa-lx106-elf/include/stdlib.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/libc/xtensa-lx106-elf/include/machine/ieeefp.h \
@@ -169,5 +169,6 @@ c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp.o: \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/include/slist.h \
  C:\Users\HUAWEI\Documents\Arduino\libraries\NTPClient/NTPClient.h \
  C:\Users\HUAWEI\Documents\Arduino\libraries\Time-master/TimeLib.h \
+ C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\EEPROM/EEPROM.h \
  C:\Users\HUAWEI\Documents\Arduino\libraries\QRCode\src/qrcode.h \
- c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\sketch\LambdaTV.h
+ g:\ESP\esp8266_oled\LambdaTV\build\sketch\LambdaTV.h

@@ -10,7 +10,8 @@
 #include <WiFiUdp.h>
 #include <NTPClient.h> 
 #include <TimeLib.h>
-#include "qrcode.h"
+#include <EEPROM.h> 
+#include <qrcode.h>
 #include "LambdaTV.h"
 
 U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2(U8G2_R0, /* cs=*/ 2, /* dc=*/4 );
@@ -26,15 +27,18 @@ ESP8266WebServer esp8266_server(80);    // 建立网络服务器对象，该对�
 // NTPClient timeClient(ntpUDP, "time.nist.gov", 60*60*7, 60000);
 NTPClient timeClient(ntpUDP, "ntp1.aliyun.com",60*60*8, 30*60*1000);
 LambdaTV_INF lambdaTV;
+EEPROM_INF eeprom;
+RGB_INF rgb;
+RGB_INF rgb_save;
 uint8_t badapple_buf[1024] U8X8_PROGMEM ={};//更新badapple的数组
 uint8_t num_kongbai[168] U8X8_PROGMEM={0x00};//空白 闪烁效果
 void time_update(void);
 void bad_apple(void);
 void web_introduce(void);
 void config(void);
-void (*current_operation_index)();
-menu_state current_state = { ICON_BGAP, ICON_BGAP, 0 };
-menu_state destination_state = { ICON_BGAP, ICON_BGAP, 0 };
+void (*current_operation_index)(void);
+menu_state home_state = { ICON_BGAP, ICON_BGAP, 0 };
+menu_state home_last_state = { ICON_BGAP, ICON_BGAP, 0 };
 // encoding values, see: https://github.com/olikraus/u8g2/wiki/fntgrpiconic
 menu_entry_type menu_entry_list[] =
 {
@@ -43,6 +47,27 @@ menu_entry_type menu_entry_list[] =
   { u8g2_font_open_iconic_www_4x_t,78, "Web",(*web_introduce)},
   { u8g2_font_open_iconic_embedded_4x_t,72, "Config",(*config)},
   { NULL, 0, NULL,NULL} 
+};
+uint32_t config_state,config_last_state;
+void (*config_operation_index)(void);
+void clock_mode(void);
+void instrustions(void);
+void clear_wifi(void);
+void config_about(void);
+void instrustions_enter(void);
+void about_enter(void);
+void clock_mode_enter(void);
+void clear_wifi_enter(void);
+config_table config_list[]=
+{
+  {0,3,1,6,0,(*clock_mode)},
+  {1,0,2,4,1,(*instrustions)},
+  {2,1,3,7,2,(*clear_wifi)},
+  {3,2,0,5,3,(*config_about)},
+  {4,4,4,4,1,(*instrustions_enter)},
+  {5,5,5,5,3,(*about_enter)},
+  {6,6,6,6,0,(*clock_mode_enter)},
+  {7,7,7,7,2,(*clear_wifi_enter)},
 };
 /*
 函 数 名:void print_fs_info(void)
@@ -125,7 +150,6 @@ void bad_apple(void)
   String file_name="/apple.bin";
   while (1)
   {  
-    rgb_led_set(85,170,0);
     dataFile = SPIFFS.open(file_name, "r"); 
     //确认闪存中是否有file_name文件
     if (SPIFFS.exists(file_name))
@@ -374,7 +398,6 @@ void time_update(void)
         u8g2.setCursor(10,36);
         u8g2.print("No WiFi");	
       }while(u8g2.nextPage());
-      rgb_led_set(255,0,0);
     }
     else
     {    
@@ -388,7 +411,6 @@ void time_update(void)
       Serial.print(time_minu);
       Serial.print("\r\n");
       time_show(time_hour,time_minu);
-      rgb_led_set(170,0,255);
     }
     if(get_keymenu_event()==KEY_CANCEL)
     {
@@ -420,11 +442,9 @@ void web_introduce(void)
       u8g2.setCursor(10,36);
       u8g2.print("No WiFi");	
     }while(u8g2.nextPage());
-    rgb_led_set(255,0,0);
   }
   else
   {  
-    rgb_led_set(255,170,127);
     esp8266_server.onNotFound(handleUserRequet);      // 告知系统如何处理用户请求
     esp8266_server.begin();                           // 启动网站服务
     String localIP=WiFi.localIP().toString();
@@ -445,11 +465,11 @@ void web_introduce(void)
         // Check this point is black or white
         if (qrcode_getModule(&qrcode, x, y)) 
         {
-          u8g2.setColorIndex(1);
+          u8g2.setColorIndex(1);//1：表示显示，不透明
         } 
         else 
         {
-          u8g2.setColorIndex(0);
+          u8g2.setColorIndex(0);//0：表示不显示，透明。
         }
         // Double the QR code pixels
         u8g2.drawPixel(x0 + x * 2, y0 + y * 2);
@@ -490,15 +510,42 @@ RAiny
 */
 void config(void)
 {
+  static uint8_t func_index=0;
   while(1)
   {
-    Serial.print("config");
-    if(get_keymenu_event()==KEY_CANCEL)
+    if(get_keymenu_event()==KEY_NEXT)
     {
       clear_keymenu_event();
-      break;
+      func_index=config_list[func_index].down;
     }
-    delay(500);
+    else if(get_keymenu_event()==KEY_PRVE)
+    {
+      clear_keymenu_event();
+      func_index=config_list[func_index].up;
+    }
+    else if(get_keymenu_event()==KEY_CONFIRM)
+    {
+      clear_keymenu_event();
+      func_index=config_list[func_index].enter;
+    }
+    else if(get_keymenu_event()==KEY_CANCEL)
+    {
+      clear_keymenu_event();
+      if(func_index<4)//设置的一级菜单
+      {
+        func_index=0;
+        config_last_state=0;
+        config_state=0;
+        break;
+      }
+      else
+      {
+        func_index=config_list[func_index].exit;
+      }
+    }
+    config_operation_index=config_list[func_index].current_operation;
+    (*config_operation_index)();
+    delay(10);
   }
 }
 /*
@@ -524,17 +571,16 @@ RAiny
 */
 void rgb_led_run(void)
 {
-  uint8_t r_val=0,g_val=255,b_val=0;
-  // r_val++;
-  g_val--;
-  // b_val++;
-  // if(r_val>=256)
-  //   r_val=0;
-  if(g_val==0)
-    g_val=255;
-  // if(b_val>=256)
-  //   b_val=0;
-  // rgb_led_set(r_val,g_val,b_val);
+  rgb.r_val--;
+  rgb.g_val--;
+  rgb.b_val--;
+  if(rgb.r_val==0)
+    rgb.r_val=rgb_save.r_val;
+  if(rgb.g_val==0)
+    rgb.g_val=rgb_save.g_val;
+  if(rgb.b_val==0)
+    rgb.b_val=rgb_save.b_val;
+  rgb_led_set(rgb);
 }
 /*
 函 数 名:void select_menu(void)
@@ -569,29 +615,63 @@ void select_menu(void)
       init_menu=2;
     }
     u8g2.clearBuffer();
-    draw(&current_state);  
+    draw(&home_state);  
     u8g2.setFont(u8g2_font_ncenB10_tr);  
-    u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
-    u8g2.print(menu_entry_list[destination_state.position].name);    
+    u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[home_last_state.position].name))/2,u8g2.getDisplayHeight()-5);
+    u8g2.print(menu_entry_list[home_last_state.position].name);    
     u8g2.sendBuffer();
     if(menu_event==KEY_NEXT)
     {
-      to_right(&destination_state);
       clear_keymenu_event();
+      to_right(&home_last_state);
     }
     else if(menu_event==KEY_PRVE)
     {
-      to_left(&destination_state);
       clear_keymenu_event();
+      to_left(&home_last_state);
     }
     else if(menu_event==KEY_CONFIRM)
     {
-      current_operation_index=menu_entry_list[destination_state.position].current_operation;
-      (*current_operation_index)();//执行当前操作函数
       clear_keymenu_event();
+      current_operation_index=menu_entry_list[home_last_state.position].current_operation;
+      (*current_operation_index)();//执行当前操作函数
     }
     delay(10);
-  } while(towards(&current_state, &destination_state));
+  } while(towards(&home_state, &home_last_state));
+}
+/*
+函 数 名:void eeprom_read(void)
+功能说明:EEPROM 读函数，全部读出
+形    参:void
+返 回 值:void
+时    间：2020-1-2
+RAiny
+*/
+void eeprom_read(void)
+{
+  for(uint16_t i=0;i<EEPROM_SIZE;i++)
+    eeprom.arry[i]=EEPROM.read(i);
+}
+/*
+函 数 名:void eeprom_write(void)
+功能说明:EEPROM 写函数
+形    参:void
+返 回 值:void
+时    间：2020-1-2
+RAiny
+*/
+void eeprom_write(void)
+{
+  for(uint16_t i=0;i<EEPROM_SIZE;i++)
+    EEPROM.write(i,eeprom.arry[i]);
+  if (EEPROM.commit()) 
+  {
+    Serial.println("EEPROM successfully committed");
+  }
+  else 
+  {
+    Serial.println("ERROR! EEPROM commit failed");
+  } 
 }
 /*
 函 数 名:void setup(void)
@@ -604,6 +684,8 @@ RAiny
 void setup(void) 
 {
   Serial.begin(115200);
+  EEPROM.begin(EEPROM_SIZE);//开启EEPROM，开辟64个位空间  
+  eeprom_read();
   u8g2.begin();  
   u8g2.enableUTF8Print();
   SPI.setClockDivider(SPI_CLOCK_DIV2);

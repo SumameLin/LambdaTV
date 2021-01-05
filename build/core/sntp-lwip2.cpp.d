@@ -1,4 +1,4 @@
-c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\core\sntp-lwip2.cpp.o: \
+g:\ESP\esp8266_oled\LambdaTV\build\core\sntp-lwip2.cpp.o: \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266\sntp-lwip2.cpp \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/lwip2/include/lwip/init.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/lwip2/include/lwip/opt.h \

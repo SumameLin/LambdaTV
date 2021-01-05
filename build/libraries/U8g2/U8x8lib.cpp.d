@@ -1,4 +1,4 @@
-c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\libraries\U8g2\U8x8lib.cpp.o: \
+g:\ESP\esp8266_oled\LambdaTV\build\libraries\U8g2\U8x8lib.cpp.o: \
  C:\Users\HUAWEI\Documents\Arduino\libraries\U8g2\src\U8x8lib.cpp \
  C:\Users\HUAWEI\Documents\Arduino\libraries\U8g2\src\U8x8lib.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Arduino.h \

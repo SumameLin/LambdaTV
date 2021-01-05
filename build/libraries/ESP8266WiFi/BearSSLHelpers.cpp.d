@@ -1,4 +1,4 @@
-c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\libraries\ESP8266WiFi\BearSSLHelpers.cpp.o: \
+g:\ESP\esp8266_oled\LambdaTV\build\libraries\ESP8266WiFi\BearSSLHelpers.cpp.o: \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src\BearSSLHelpers.cpp \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src\BearSSLHelpers.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/include/bearssl/bearssl.h \
@@ -84,4 +84,4 @@ c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\libraries\ESP8266WiFi\BearSS
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/WString.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Stream.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/md5.h \
- c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build/core/Updater_Signing.h
+ g:\ESP\esp8266_oled\LambdaTV\build/core/Updater_Signing.h

@@ -19,9 +19,9 @@
 */
 #define ICON_WIDTH 32
 #define ICON_HEIGHT 32
-#define ICON_GAP 8
-#define ICON_BGAP 8
-#define ICON_Y 32+ICON_GAP
+#define ICON_GAP  48   //每个ICON的距离 如果是8 就是显示3个ICO，如果是48就只显示一个ICO
+#define ICON_BGAP 48   //ICO的初始距离
+#define ICON_Y ICON_HEIGHT+8
 
 #define OLED_WIDTH  128
 #define OLED_HEIGHT 64
@@ -33,6 +33,9 @@
 #define HOUR_LOW_X      2+NUM_WIDTH
 #define HOUR_HIGH_X     2
 #define TIME_XBM_HEIGHT (OLED_HEIGHT-NUM_HEIGHT)/2
+
+#define EEPROM_SIZE 64 //EEPROM 大小
+#define CLOCK_MAX_MODE 3
 
 typedef enum
 {
@@ -71,8 +74,41 @@ typedef struct
   uint8_t position;			/* position, array index */
 }menu_state;
 
-extern LambdaTV_INF lambdaTV;
+typedef struct
+{
+  uint8_t current;
+  uint8_t up;//向上翻索引号
+  uint8_t down;//向下翻索引号
+  uint8_t enter;//确认索引号
+  uint8_t exit;//退出索引号
+  void (*current_operation)(void);
+}config_table;
 
+typedef struct
+{
+  uint8_t r_val;
+  uint8_t g_val;
+  uint8_t b_val;
+}RGB_INF;
+
+typedef struct 
+{
+  uint8_t clock_mode;
+}DATA_STRUCT;
+
+typedef union
+{
+  byte arry[EEPROM_SIZE];
+  DATA_STRUCT data;
+}EEPROM_INF;
+
+extern LambdaTV_INF lambdaTV;
+extern EEPROM_INF eeprom;
+extern RGB_INF rgb;
+extern RGB_INF rgb_save;
+extern uint32_t config_state,config_last_state;
+KEY_EVENT_INF get_keymenu_event(void);
+void clear_keymenu_event(void);
 //数组大小是168
 uint8_t write_num0[] U8X8_PROGMEM  = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 

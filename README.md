@@ -10,7 +10,7 @@ VsCode + Ardunio 插件
 
 Ardunio RULs：http://arduino.esp8266.com/stable/package_esp8266com_index.json
 
-Ardunio 库：U8g2、OneButton、Ticker、[WiFiManager中文版本](https://github.com/taichi-maker/WiFiManager)、NTPClient、Time-master、QRCode、WiFiSTA
+Ardunio 库：[U8g2](https://github.com/olikraus/u8g2/wiki/u8g2reference)、OneButton、Ticker、[WiFiManager中文版本](https://github.com/taichi-maker/WiFiManager)、NTPClient、Time-master、QRCode、WiFiSTA
 
 螺柱：M3*6+6
 
@@ -72,6 +72,19 @@ IO口与序号相对应的（选择Board信息不同，D1所代表的引脚不�
 按键：D3（GPIO0——S） D1（GPIO5——C）
 
 RGB_LED：R——TX（GPIO1），G——RX（GPIO3），B——D6（GPIO12）【IO太少了，还占用调试串口】
+
+### PWM引脚
+
+```c
+//总共可用  0-15 16皆可IO pwm 输出 但是 6-11被系统时钟占用
+//实际可用  0 1（TX） 2 3(RX) 4 5 12 13 14 15 16
+```
+
+#### [Analog output](https://arduino-esp8266.readthedocs.io/en/latest/reference.html#analog-output)
+
+**NOTE:** The default `analogWrite` range was 1023 in releases before 3.0, but this lead to incompatibility with external libraries which depended on the Arduino core default of 256. Existing applications which rely on the prior 1023 value may add a call to `analogWriteRange(1023)` to their `setup()` routine to return to their old behavior. Applications which already were calling `analogWriteRange` need no change.
+
+==The ESP doesn’t have hardware PWM==, so the implementation is by software. With one PWM output at 40KHz, the CPU is already rather loaded. The more PWM outputs used, and the higher their frequency, the closer you get to the CPU limits, and the fewer CPU cycles are available for sketch execution.
 
 ## Ardunio ESP8266板子信息配置
 
@@ -770,3 +783,24 @@ WiFi.localIP()可以转成string
 
 ` String localIP=WiFi.localIP().toString();`
 
+### u8g2.setColorIndex()
+
+对于单色OLED，此函数功能为是否显示对象。可以理解为透明还是不透明。对于有灰度值的屏幕则是一个灰度值。
+
+```c
+/*
+ color_index:
+ 1：表示显示，不透明
+ 0：表示不显示，透明	
+*/
+u8g.setColorIndex(uint8_t color_index)     
+```
+
+```c
+u8g.setColorIndex(1);
+u8g.drawBox(10, 12, 20, 30);  
+u8g.setColorIndex(0);
+u8g.drawPixel(28, 14); // 点亮一个 点，位置在 (28, 14)
+```
+
+![set_color](./image/set_color.png)

@@ -1,18 +1,19 @@
-# 1 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
-# 2 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 3 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 4 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 5 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 6 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 7 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 8 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 9 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 10 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 11 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 12 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 13 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 14 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 15 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 1 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 2 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 3 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 4 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 5 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 6 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 7 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 8 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 9 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 10 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 11 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 12 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 13 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 14 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 15 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 16 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
 
 U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2((&u8g2_cb_r0), /* cs=*/ 2, /* dc=*/4 );
 OneButton s_button(5, true);
@@ -27,15 +28,18 @@ ESP8266WebServer esp8266_server(80); // 建立网络服务器对象，该对象�
 // NTPClient timeClient(ntpUDP, "time.nist.gov", 60*60*7, 60000);
 NTPClient timeClient(ntpUDP, "ntp1.aliyun.com",60*60*8, 30*60*1000);
 LambdaTV_INF lambdaTV;
+EEPROM_INF eeprom;
+RGB_INF rgb;
+RGB_INF rgb_save;
 uint8_t badapple_buf[1024] ={};//更新badapple的数组
 uint8_t num_kongbai[168] ={0x00};//空白 闪烁效果
 void time_update(void);
 void bad_apple(void);
 void web_introduce(void);
 void config(void);
-void (*current_operation_index)();
-menu_state current_state = { 8, 8, 0 };
-menu_state destination_state = { 8, 8, 0 };
+void (*current_operation_index)(void);
+menu_state home_state = { 48 /*ICO的初始距离*/, 48 /*ICO的初始距离*/, 0 };
+menu_state home_last_state = { 48 /*ICO的初始距离*/, 48 /*ICO的初始距离*/, 0 };
 // encoding values, see: https://github.com/olikraus/u8g2/wiki/fntgrpiconic
 menu_entry_type menu_entry_list[] =
 {
@@ -44,6 +48,27 @@ menu_entry_type menu_entry_list[] =
   { u8g2_font_open_iconic_www_4x_t,78, "Web",(*web_introduce)},
   { u8g2_font_open_iconic_embedded_4x_t,72, "Config",(*config)},
   { __null, 0, __null,__null}
+};
+uint32_t config_state,config_last_state;
+void (*config_operation_index)(void);
+void clock_mode(void);
+void instrustions(void);
+void clear_wifi(void);
+void config_about(void);
+void instrustions_enter(void);
+void about_enter(void);
+void clock_mode_enter(void);
+void clear_wifi_enter(void);
+config_table config_list[]=
+{
+  {0,3,1,6,0,(*clock_mode)},
+  {1,0,2,4,1,(*instrustions)},
+  {2,1,3,7,2,(*clear_wifi)},
+  {3,2,0,5,3,(*config_about)},
+  {4,4,4,4,1,(*instrustions_enter)},
+  {5,5,5,5,3,(*about_enter)},
+  {6,6,6,6,0,(*clock_mode_enter)},
+  {7,7,7,7,2,(*clear_wifi_enter)},
 };
 /*
 
@@ -60,7 +85,7 @@ menu_entry_type menu_entry_list[] =
 RAiny
 
 */
-# 55 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 80 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void print_fs_info(void)
 {
   FSInfo fs_info;
@@ -100,7 +125,7 @@ void print_fs_info(void)
 RAiny
 
 */
-# 87 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 112 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void LambdaTV(void)
 {
   uint8_t x=20;
@@ -140,7 +165,7 @@ void LambdaTV(void)
 RAiny
 
 */
-# 119 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 144 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void bad_apple(void)
 {
   char data_read;
@@ -150,7 +175,6 @@ void bad_apple(void)
   String file_name="/apple.bin";
   while (1)
   {
-    rgb_led_set(85,170,0);
     dataFile = SPIFFS.open(file_name, "r");
     //确认闪存中是否有file_name文件
     if (SPIFFS.exists(file_name))
@@ -209,7 +233,7 @@ void bad_apple(void)
 RAiny
 
 */
-# 180 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 204 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x,uint8_t y,uint8_t bin_num)
 {
   char file_name_buff[10];
@@ -284,7 +308,7 @@ void time_ipdate_anima(uint8_t x,uint8_t y,uint8_t bin_num)
 RAiny
 
 */
-# 245 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 269 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x,uint8_t y,uint8_t num)
 {
   switch (num)
@@ -344,7 +368,7 @@ void time_select_draw(uint8_t x,uint8_t y,uint8_t num)
 RAiny
 
 */
-# 296 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 320 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show(uint8_t hour,uint8_t minu)
 {
   uint8_t hour_high=0,hour_low=0,minu_high=0,minu_low=0;
@@ -419,7 +443,7 @@ void time_show(uint8_t hour,uint8_t minu)
 RAiny
 
 */
-# 363 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 387 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_update(void)
 {
   uint8_t time_minu,time_hour;
@@ -434,7 +458,6 @@ void time_update(void)
         u8g2.setCursor(10,36);
         u8g2.print("No WiFi");
       }while(u8g2.nextPage());
-      rgb_led_set(255,0,0);
     }
     else
     {
@@ -448,7 +471,6 @@ void time_update(void)
       Serial.print(time_minu);
       Serial.print("\r\n");
       time_show(time_hour,time_minu);
-      rgb_led_set(170,0,255);
     }
     if(get_keymenu_event()==KEY_CANCEL)
     {
@@ -473,7 +495,7 @@ void time_update(void)
 RAiny
 
 */
-# 409 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 431 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void web_introduce(void)
 {
   char qrcode_buff[25];
@@ -488,11 +510,9 @@ void web_introduce(void)
       u8g2.setCursor(10,36);
       u8g2.print("No WiFi");
     }while(u8g2.nextPage());
-    rgb_led_set(255,0,0);
   }
   else
   {
-    rgb_led_set(255,170,127);
     esp8266_server.onNotFound(handleUserRequet); // 告知系统如何处理用户请求
     esp8266_server.begin(); // 启动网站服务
     String localIP=WiFi.localIP().toString();
@@ -513,11 +533,11 @@ void web_introduce(void)
         // Check this point is black or white
         if (qrcode_getModule(&qrcode, x, y))
         {
-          u8g2.setColorIndex(1);
+          u8g2.setColorIndex(1);//1：表示显示，不透明
         }
         else
         {
-          u8g2.setColorIndex(0);
+          u8g2.setColorIndex(0);//0：表示不显示，透明。
         }
         // Double the QR code pixels
         u8g2.drawPixel(x0 + x * 2, y0 + y * 2);
@@ -563,18 +583,45 @@ void web_introduce(void)
 RAiny
 
 */
-# 491 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 511 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void config(void)
 {
+  static uint8_t func_index=0;
   while(1)
   {
-    Serial.print("config");
-    if(get_keymenu_event()==KEY_CANCEL)
+    if(get_keymenu_event()==KEY_NEXT)
     {
       clear_keymenu_event();
-      break;
+      func_index=config_list[func_index].down;
     }
-    delay(500);
+    else if(get_keymenu_event()==KEY_PRVE)
+    {
+      clear_keymenu_event();
+      func_index=config_list[func_index].up;
+    }
+    else if(get_keymenu_event()==KEY_CONFIRM)
+    {
+      clear_keymenu_event();
+      func_index=config_list[func_index].enter;
+    }
+    else if(get_keymenu_event()==KEY_CANCEL)
+    {
+      clear_keymenu_event();
+      if(func_index<4)//设置的一级菜单
+      {
+        func_index=0;
+        config_last_state=0;
+        config_state=0;
+        break;
+      }
+      else
+      {
+        func_index=config_list[func_index].exit;
+      }
+    }
+    config_operation_index=config_list[func_index].current_operation;
+    (*config_operation_index)();
+    delay(10);
   }
 }
 /*
@@ -592,7 +639,7 @@ void config(void)
 RAiny
 
 */
-# 512 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 559 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void)
 {
   s_button.tick();
@@ -613,20 +660,19 @@ void key_check(void)
 RAiny
 
 */
-# 525 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 572 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void rgb_led_run(void)
 {
-  uint8_t r_val=0,g_val=255,b_val=0;
-  // r_val++;
-  g_val--;
-  // b_val++;
-  // if(r_val>=256)
-  //   r_val=0;
-  if(g_val==0)
-    g_val=255;
-  // if(b_val>=256)
-  //   b_val=0;
-  // rgb_led_set(r_val,g_val,b_val);
+  rgb.r_val--;
+  rgb.g_val--;
+  rgb.b_val--;
+  if(rgb.r_val==0)
+    rgb.r_val=rgb_save.r_val;
+  if(rgb.g_val==0)
+    rgb.g_val=rgb_save.g_val;
+  if(rgb.b_val==0)
+    rgb.b_val=rgb_save.b_val;
+  rgb_led_set(rgb);
 }
 /*
 
@@ -643,7 +689,7 @@ void rgb_led_run(void)
 RAiny
 
 */
-# 547 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 593 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void)
 {
   KEY_EVENT_INF menu_event=KEY_NOEVENT;
@@ -669,29 +715,79 @@ void select_menu(void)
       init_menu=2;
     }
     u8g2.clearBuffer();
-    draw(&current_state);
+    draw(&home_state);
     u8g2.setFont(u8g2_font_ncenB10_tr);
-    u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[destination_state.position].name))/2,u8g2.getDisplayHeight()-5);
-    u8g2.print(menu_entry_list[destination_state.position].name);
+    u8g2.setCursor((u8g2.getDisplayWidth()-u8g2.getStrWidth(menu_entry_list[home_last_state.position].name))/2,u8g2.getDisplayHeight()-5);
+    u8g2.print(menu_entry_list[home_last_state.position].name);
     u8g2.sendBuffer();
     if(menu_event==KEY_NEXT)
     {
-      to_right(&destination_state);
       clear_keymenu_event();
+      to_right(&home_last_state);
     }
     else if(menu_event==KEY_PRVE)
     {
-      to_left(&destination_state);
       clear_keymenu_event();
+      to_left(&home_last_state);
     }
     else if(menu_event==KEY_CONFIRM)
     {
-      current_operation_index=menu_entry_list[destination_state.position].current_operation;
-      (*current_operation_index)();//执行当前操作函数
       clear_keymenu_event();
+      current_operation_index=menu_entry_list[home_last_state.position].current_operation;
+      (*current_operation_index)();//执行当前操作函数
     }
     delay(10);
-  } while(towards(&current_state, &destination_state));
+  } while(towards(&home_state, &home_last_state));
+}
+/*
+
+函 数 名:void eeprom_read(void)
+
+功能说明:EEPROM 读函数，全部读出
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-2
+
+RAiny
+
+*/
+# 650 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void eeprom_read(void)
+{
+  for(uint16_t i=0;i<64 /*EEPROM 大小*/;i++)
+    eeprom.arry[i]=EEPROM.read(i);
+}
+/*
+
+函 数 名:void eeprom_write(void)
+
+功能说明:EEPROM 写函数
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-2
+
+RAiny
+
+*/
+# 663 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void eeprom_write(void)
+{
+  for(uint16_t i=0;i<64 /*EEPROM 大小*/;i++)
+    EEPROM.write(i,eeprom.arry[i]);
+  if (EEPROM.commit())
+  {
+    Serial.println("EEPROM successfully committed");
+  }
+  else
+  {
+    Serial.println("ERROR! EEPROM commit failed");
+  }
 }
 /*
 
@@ -708,10 +804,12 @@ void select_menu(void)
 RAiny
 
 */
-# 604 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 684 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void)
 {
   Serial.begin(115200);
+  EEPROM.begin(64 /*EEPROM 大小*/);//开启EEPROM，开辟64个位空间  
+  eeprom_read();
   u8g2.begin();
   u8g2.enableUTF8Print();
   SPI.setClockDivider(0x00101001 /*8 MHz*/);
@@ -780,12 +878,12 @@ void setup(void)
 RAiny
 
 */
-# 668 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 750 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void)
 {
   select_menu();
 }
-# 1 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 1 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 
 /*
 
@@ -802,7 +900,7 @@ void loop(void)
 RAiny
 
 */
-# 10 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 10 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_click(void)
 {
     lambdaTV.key_event=KEY_CONFIRM;
@@ -823,7 +921,7 @@ void s_click(void)
 RAiny
 
 */
-# 23 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 23 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_doubleclick(void)
 {
     Serial.println("s_doubleclick");
@@ -843,7 +941,7 @@ void s_doubleclick(void)
 RAiny
 
 */
-# 35 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 35 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_longclick(void)
 {
     lambdaTV.key_event=KEY_CANCEL;
@@ -864,7 +962,7 @@ void s_longclick(void)
 RAiny
 
 */
-# 48 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 48 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void c_click(void)
 {
     lambdaTV.key_event=KEY_NEXT;
@@ -885,7 +983,7 @@ void c_click(void)
 RAiny
 
 */
-# 61 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 61 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void c_doubleclick(void)
 {
     lambdaTV.key_event=KEY_PRVE;
@@ -906,7 +1004,7 @@ void c_doubleclick(void)
 RAiny
 
 */
-# 74 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 74 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void c_longclick(void)
 {
     Serial.println("c_longclick");
@@ -926,12 +1024,32 @@ void c_longclick(void)
 RAiny
 
 */
-# 86 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 86 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 KEY_EVENT_INF get_keymenu_event(void)
 {
     KEY_EVENT_INF event;
     event=lambdaTV.key_event;
     return event;
+}
+/*
+
+函 数 名:void set_keymenu_event(KEY_EVENT_INF KEY)
+
+功能说明:设置按键事件
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-5
+
+RAiny
+
+*/
+# 100 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+void set_keymenu_event(KEY_EVENT_INF KEY)
+{
+    lambdaTV.key_event=KEY;
 }
 /*
 
@@ -948,7 +1066,7 @@ KEY_EVENT_INF get_keymenu_event(void)
 RAiny
 
 */
-# 100 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 112 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void clear_keymenu_event(void)
 {
     lambdaTV.key_event=KEY_NOEVENT;
@@ -968,7 +1086,7 @@ void clear_keymenu_event(void)
 RAiny
 
 */
-# 112 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 124 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void key_init(void)
 {
     s_button.attachClick(s_click);
@@ -993,18 +1111,19 @@ void key_init(void)
 RAiny
 
 */
-# 129 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 141 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void rgb_led_init(void)
 {
-    pinMode(1 /*TX*/, 0x01);
+    // pinMode(RGB_R_PIN, OUTPUT);
     pinMode(3, 0x01);
     pinMode(12, 0x01);
+    set_rgb_val(255,255,255);
 }
 /*
 
-函 数 名:void rgb_led_set(int r_val,int g_val,int b_val)
+函 数 名:void rgb_led_set(RGB_INF rgb_set)
 
-功能说明:直插三脚RGB共阳极
+功能说明:直插三脚RGB共阳极 
 
 形    参:void
 
@@ -1015,22 +1134,45 @@ void rgb_led_init(void)
 RAiny
 
 */
-# 143 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
-void rgb_led_set(int r_val,int g_val,int b_val)
+# 156 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+void rgb_led_set(RGB_INF rgb_set)
 {
-    analogWrite(1 /*TX*/, 1024-r_val*4);
-    analogWrite(3, 1024-g_val*4);
-    analogWrite(12, 1024-b_val*4);
+    // analogWrite(RGB_R_PIN, 1024-rgb_set.r_val*4);
+    analogWrite(3, 1024-rgb_set.g_val*4);
+    analogWrite(12, 1024-rgb_set.b_val*4);
 }
-# 1 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
-# 2 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino" 2
+/*
+
+函 数 名:void set_rgb_val(uint8_t r_val,uint8_t g_val,uint8_t b_val)
+
+功能说明:设置RGB的数值，呼吸效果
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-12-31
+
+RAiny
+
+*/
+# 170 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+void set_rgb_val(uint8_t r_val,uint8_t g_val,uint8_t b_val)
+{
+    rgb_save.r_val=rgb.r_val=r_val;
+    rgb_save.g_val=rgb.g_val=g_val;
+    rgb_save.b_val=rgb.b_val=b_val;
+}
+# 1 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 2 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino" 2
+# 3 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino" 2
 
 /*
 
 U8g2的IconMenu.ino example
 
 */
-# 6 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 7 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 /*
 
 函 数 名:void draw(menu_state *state)
@@ -1046,11 +1188,12 @@ U8g2的IconMenu.ino example
 RAiny
 
 */
-# 14 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 15 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void draw(menu_state *state)
 {
   int16_t x;
-  uint8_t i,wid_max=3;
+  uint8_t i;
+  const uint8_t wid_max=3,hv_len=8;
   x = state->menu_start;
   i = 0;
   while(menu_entry_list[i].icon > 0 )
@@ -1058,20 +1201,20 @@ void draw(menu_state *state)
     if ( x >= -32 && x < u8g2.getDisplayWidth() )
     {
       u8g2.setFont(menu_entry_list[i].font);
-      u8g2.drawGlyph(x, 32+8, menu_entry_list[i].icon );
+      u8g2.drawGlyph(x, 32 +8, menu_entry_list[i].icon );
     }
     i++;
-    x += 32 + 8;
+    x += 32 + 48 /*每个ICON的距离 如果是8 就是显示3个ICO，如果是48就只显示一个ICO*/;
   }
   for(uint8_t wid=0;wid<wid_max;wid++)//多条直线重叠，来实现线的宽度
   {
-    u8g2.drawHVLine(state->frame_position-1,8 -3-wid,32 +2,0);//往上增加
-    u8g2.drawHVLine(state->frame_position-2-wid,8 -3+8-wid_max,8,3);//往左增加
-    u8g2.drawHVLine(state->frame_position-1+32 +2+wid,8 -3+8-wid_max,8,3);//往右增加
+    u8g2.drawHVLine(state->frame_position-1,32 +8 -32 -3-wid,32 +2,0);//往上增加
+    u8g2.drawHVLine(state->frame_position-2-wid,32 +8 -32 -3+hv_len-wid_max,hv_len,3);//往左增加 模式3是从下往上画
+    u8g2.drawHVLine(state->frame_position-1+32 +2+wid,32 +8 -32 -3+hv_len-wid_max,hv_len,3);//往右增加
 
-    u8g2.drawHVLine(state->frame_position-1,32+8 +3+wid,32 +2,0);//往下增加
-    u8g2.drawHVLine(state->frame_position-2-wid,32+8 +3+wid_max-1,8,3);//往左增加
-    u8g2.drawHVLine(state->frame_position-1+32 +2+wid,32+8 +3+wid_max-1,8,3);//往右增加
+    u8g2.drawHVLine(state->frame_position-1,32 +8 +3+wid,32 +2,0);//往下增加
+    u8g2.drawHVLine(state->frame_position-2-wid,32 +8 +3+wid_max-1,hv_len,3);//往左增加
+    u8g2.drawHVLine(state->frame_position-1+32 +2+wid,32 +8 +3+wid_max-1,hv_len,3);//往右增加
   }
 }
 /*
@@ -1089,22 +1232,22 @@ void draw(menu_state *state)
 RAiny
 
 */
-# 49 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 51 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void to_right(menu_state *state)
 {
   if ( menu_entry_list[state->position+1].font != __null )
   {
     //小于128
-    if ( (int16_t)state->frame_position+ 2*(int16_t)32 + (int16_t)8 < (int16_t)u8g2.getDisplayWidth() )//获取显示器的宽度
+    if ( (int16_t)state->frame_position+ 2*(int16_t)32 + (int16_t)48 /*ICO的初始距离*/ < (int16_t)u8g2.getDisplayWidth() )//获取显示器的宽度
     {
       state->position++;
-      state->frame_position += 32 + (int16_t)8;
+      state->frame_position += 32 + (int16_t)48 /*每个ICON的距离 如果是8 就是显示3个ICO，如果是48就只显示一个ICO*/;
     }
     else
     {
       state->position++;
-      state->frame_position = (int16_t)u8g2.getDisplayWidth() - (int16_t)32 - (int16_t)8;
-      state->menu_start = state->frame_position - state->position*((int16_t)32 + (int16_t)8);
+      state->frame_position = (int16_t)u8g2.getDisplayWidth() - (int16_t)32 - (int16_t)48 /*ICO的初始距离*/;
+      state->menu_start = state->frame_position - state->position*((int16_t)32 + (int16_t)48 /*每个ICON的距离 如果是8 就是显示3个ICO，如果是48就只显示一个ICO*/);
     }
   }
 }
@@ -1123,21 +1266,21 @@ void to_right(menu_state *state)
 RAiny
 
 */
-# 75 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 77 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void to_left(menu_state *state)
 {
   if ( state->position > 0 )
   {
-    if ( (int16_t)state->frame_position >= (int16_t)8 +(int16_t)32 + (int16_t)8 )
+    if ( (int16_t)state->frame_position >= (int16_t)48 /*ICO的初始距离*/+(int16_t)32 + (int16_t)48 /*每个ICON的距离 如果是8 就是显示3个ICO，如果是48就只显示一个ICO*/ )
     {
       state->position--;
-      state->frame_position -= 32 + (int16_t)8;
+      state->frame_position -= 32 + (int16_t)48 /*每个ICON的距离 如果是8 就是显示3个ICO，如果是48就只显示一个ICO*/;
     }
     else
     {
       state->position--;
-      state->frame_position = 8;
-      state->menu_start = state->frame_position - state->position*((int16_t)32 + (int16_t)8);
+      state->frame_position = 48 /*ICO的初始距离*/;
+      state->menu_start = state->frame_position - state->position*((int16_t)32 + (int16_t)48 /*每个ICON的距离 如果是8 就是显示3个ICO，如果是48就只显示一个ICO*/);
     }
   }
 }
@@ -1156,7 +1299,7 @@ void to_left(menu_state *state)
 RAiny
 
 */
-# 100 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 102 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 uint8_t towards_int16(int16_t *current, int16_t dest)
 {
   if ( *current < dest )
@@ -1186,7 +1329,7 @@ uint8_t towards_int16(int16_t *current, int16_t dest)
 RAiny
 
 */
-# 122 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 124 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 uint8_t towards(menu_state *current,menu_state *destination)
 {
   uint8_t r = 0;
@@ -1196,14 +1339,501 @@ uint8_t towards(menu_state *current,menu_state *destination)
   r |= towards_int16( &(current->menu_start), destination->menu_start);
   return r;
 }
-# 1 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+/*
+
+函 数 名:void config_fun(void)
+
+功能说明:
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-1
+
+RAiny
+
+*/
+# 141 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+void config_fun(void)
+{
+  u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
+  u8g2.setCursor(5, 16*1-2);
+  u8g2.print("时钟模式");
+  u8g2.setCursor(5, 16*2-2);
+  u8g2.print("操作说明");
+  u8g2.setCursor(5, 16*3-2);
+  u8g2.print("清除WiFi");
+  u8g2.setCursor(5, 16*4-2);
+  u8g2.print("关于");
+}
+/*
+
+函 数 名:void clock_mode(void)
+
+功能说明:
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-1
+
+RAiny
+
+*/
+# 161 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+void clock_mode()
+{
+  config_state=0;
+  if(config_state < config_last_state)
+  {
+    do
+    {
+      u8g2.clearBuffer();
+      u8g2.setFontMode(1);
+      u8g2.setDrawColor(1);
+      u8g2.drawBox(0,(config_last_state)--,128,16);
+      u8g2.setDrawColor(2);
+      config_fun();
+      u8g2.setCursor(110, 16*1-2);
+      if(eeprom.data.clock_mode>3)
+        u8g2.print("0");
+      else
+        u8g2.print(eeprom.data.clock_mode);
+      u8g2.sendBuffer();
+    } while (config_last_state > config_state);
+  }
+  else
+  {
+    do
+    {
+      u8g2.clearBuffer();
+      u8g2.setFontMode(1);
+      u8g2.setDrawColor(1);
+      u8g2.drawBox(0,(config_last_state)++,128,16);
+      u8g2.setDrawColor(2);
+      config_fun();
+      u8g2.setCursor(110, 16*1-2);
+      if(eeprom.data.clock_mode>3)
+        u8g2.print("0");
+      else
+        u8g2.print(eeprom.data.clock_mode);
+      u8g2.sendBuffer();
+    } while (config_last_state <= config_state);
+  }
+  config_last_state=config_state;
+}
+/*
+
+函 数 名:void instrustions(void)
+
+功能说明:
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-1
+
+RAiny
+
+*/
+# 210 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+void instrustions(void)
+{
+  config_state=16;
+  if(config_state < config_last_state)
+  {
+    do
+    {
+      u8g2.clearBuffer();
+      config_fun();
+      u8g2.drawBox(0,(config_last_state)--,128,16);
+      u8g2.sendBuffer();
+    } while (config_last_state > config_state);
+  }
+  else
+  {
+    do
+    {
+      u8g2.clearBuffer();
+      config_fun();
+      u8g2.drawBox(0,(config_last_state)++,128,16);
+      u8g2.sendBuffer();
+    } while (config_last_state <= config_state);
+  }
+  config_last_state=config_state;
+}
+/*
+
+函 数 名:void clear_wifi(void)
+
+功能说明:
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-1
+
+RAiny
+
+*/
+# 243 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+void clear_wifi(void)
+{
+  config_state=16*2;
+  if(config_state < config_last_state)
+  {
+    do
+    {
+      u8g2.clearBuffer();
+      config_fun();
+      u8g2.drawBox(0,(config_last_state)--,128,16);
+      u8g2.sendBuffer();
+    } while (config_last_state > config_state);
+  }
+  else
+  {
+    do
+    {
+      u8g2.clearBuffer();
+      config_fun();
+      u8g2.drawBox(0,(config_last_state)++,128,16);
+      u8g2.sendBuffer();
+    } while (config_last_state <= config_state);
+  }
+  config_last_state=config_state;
+}
+/*
+
+函 数 名:void config_about(void)
+
+功能说明:
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-1
+
+RAiny
+
+*/
+# 276 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+void config_about(void)
+{
+  config_state=16*3;
+  if(config_state < config_last_state)
+  {
+    do
+    {
+      u8g2.clearBuffer();
+      config_fun();
+      u8g2.drawBox(0,(config_last_state)--,128,16);
+      u8g2.sendBuffer();
+    } while (config_last_state > config_state);
+  }
+  else
+  {
+    do
+    {
+      u8g2.clearBuffer();
+      config_fun();
+      u8g2.drawBox(0,(config_last_state)++,128,16);
+      u8g2.sendBuffer();
+    } while (config_last_state <= config_state);
+  }
+  config_last_state=config_state;
+}
+/*
+
+函 数 名:void instrustions_enter(void)
+
+功能说明:
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-1
+
+RAiny
+
+*/
+# 309 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+void instrustions_enter(void)
+{
+  const char *instru_title="操作说明";
+  uint8_t title_len=u8g2.getUTF8Width(instru_title);
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
+  u8g2.setCursor(((128 -title_len)/2),16*1-2);
+  u8g2.print(instru_title);
+  u8g2.drawHLine(((128 -title_len)/2-2),16,title_len+4);
+  u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
+  u8g2.setCursor(25, 16*2-2);
+  u8g2.print("单击C 下一步");
+  u8g2.setCursor(25, 16*3-2);
+  u8g2.print("双击C 上一步");
+  u8g2.setCursor(0, 16*4-2);
+  u8g2.print("单击S确认 长按S退出");
+  u8g2.sendBuffer();
+}
+/*
+
+函 数 名:void about_enter(void)
+
+功能说明:
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-1
+
+RAiny
+
+*/
+# 335 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+void about_enter(void)
+{
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
+  u8g2.setCursor(50, 16*1-2);
+  u8g2.print("关于");
+  u8g2.drawHLine(50-2,16,14*2+4);
+  u8g2.setFont(u8g2_font_ncenB14_tr);
+  u8g2.setCursor(8, 16*2);
+  u8g2.print("LambdaTV");
+  u8g2.setFont(u8g2_font_unifont_t_shopl16);
+  u8g2.setCursor(0, 16*3);
+  u8g2.print("by RAiny");
+  u8g2.sendBuffer();
+}
+/*
+
+函 数 名:void clock_mode_enter(void)
+
+功能说明:
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-1
+
+RAiny
+
+*/
+# 358 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+void clock_mode_enter(void)
+{
+  uint8_t mode=0;
+  uint8_t box_y=0;
+  mode=eeprom.data.clock_mode;
+  while(1)
+  {
+    while(box_y<27)
+    {
+      u8g2.clearBuffer();
+      u8g2.setFontMode(1); /* activate transparent font mode */
+      u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
+      u8g2.setCursor(36, 16*1-2);
+      u8g2.setDrawColor(2);
+      u8g2.print("时钟模式");
+      u8g2.drawHLine(36-2,16,14*4+4);
+      u8g2.setDrawColor(1);//白 /* color 1 for the box */
+      u8g2.drawBox(57-3, 16+12-1, box_y++, box_y++);
+      u8g2.setFont(u8g2_font_ncenB24_tr);
+      u8g2.setCursor(57, 16+12+24);
+      if(eeprom.data.clock_mode>3)//一开始EPPROM不为零
+      {
+        mode=eeprom.data.clock_mode=0;
+      }
+      u8g2.setDrawColor(0);//黑
+      u8g2.print(mode);
+      u8g2.sendBuffer();
+      delay(10);
+    }
+    if(get_keymenu_event()==KEY_NEXT)
+    {
+      clear_keymenu_event();
+      box_y=0;
+      mode+=1;
+      if(mode>=3)
+        mode=0;
+    }
+    else if(get_keymenu_event()==KEY_PRVE)
+    {
+      clear_keymenu_event();
+      box_y=0;
+      mode-=1;
+      if(mode<=0)
+        mode=3;
+    }
+    else if(get_keymenu_event()==KEY_CONFIRM)
+    {
+      clear_keymenu_event();
+      eeprom.data.clock_mode=mode;
+      eeprom_write();
+    }
+    else if(get_keymenu_event()==KEY_CANCEL)
+    {
+      //这里不要清除，外面会进行清除
+      // clear_keymenu_event();
+      break;
+    }
+    delay(50);
+  }
+}
+/*
+
+函 数 名:void clear_wifi_anima(uint8_t x1)
+
+功能说明:清除WiFi 选择框移动动画
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-5
+
+RAiny
+
+*/
+# 426 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+void clear_wifi_anima(uint8_t x1)
+{
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
+  u8g2.setCursor(36, 16*1-2);
+  u8g2.print("清除WiFi");
+  u8g2.drawHLine(36-2,16,14*4+4);
+  u8g2.setCursor(10, 16*2-2+5);
+  u8g2.print("清除所有WiFi信息");
+  u8g2.setCursor(24,16*4-7);
+  u8g2.print("取消");
+  u8g2.setCursor(24+28+28,16*4-7);
+  u8g2.print("确认");
+  u8g2.drawFrame(0,16+2,128,64-18);//大框框
+  u8g2.drawBox(x1,16*4-7-16,34,20);//确认框
+  // u8g2.drawFrame(x2,16*4-7-16,34,20); 
+  u8g2.sendBuffer();
+}
+/*
+
+函 数 名:void clear_wifi_enter(void)
+
+功能说明:清除WiFi 
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-1-1
+
+RAiny
+
+*/
+# 452 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+void clear_wifi_enter(void)
+{
+  int8_t select=0;//0 是取消，1是确认
+  uint8_t show_flag=0,frame_x=0;
+  const uint8_t x1=24-4,x2=24+28+28-4;
+  while(1)
+  {
+    if(show_flag==0)//初次进入
+    {
+      clear_wifi_anima(x1);
+    }
+    else if(show_flag==1)
+    {
+      if(select==1)
+      {
+        while(frame_x < x2)
+        {
+          clear_wifi_anima(frame_x++);
+        }
+      }
+      else if(select==0)
+      {
+        while(frame_x > x1)
+        {
+          clear_wifi_anima(frame_x--);
+        }
+      }
+    }
+    if(get_keymenu_event()==KEY_NEXT)
+    {
+      clear_keymenu_event();
+      select+=1;
+      show_flag=1;//按下按键
+      if(select>1)
+      {
+        select=0;
+      }
+      if(select==1)
+      {
+        frame_x=x1;
+      }
+      if(select==0)
+      {
+         frame_x=x2;
+      }
+    }
+    else if(get_keymenu_event()==KEY_PRVE)
+    {
+      clear_keymenu_event();
+      select-=1;
+      show_flag=1;
+      if(select<0)
+      {
+        select=1;
+      }
+      if(select==1)
+      {
+        frame_x=x1;
+      }
+      if(select==0)
+      {
+         frame_x=x2;
+      }
+    }
+    else if(get_keymenu_event()==KEY_CONFIRM)
+    {
+      clear_keymenu_event();
+      if(select==1)
+      {
+        //清除ESP8266所存储的WiFi连接信息
+        wifiManager.resetSettings();
+        ESP.restart();
+      }
+      else if(select==0)
+      {
+        set_keymenu_event(KEY_CANCEL);
+        break;
+      }
+    }
+    else if(get_keymenu_event()==KEY_CANCEL)
+    {
+      //这里不要清除，外面会进行清除
+      // clear_keymenu_event();
+      break;
+    }
+    delay(50);
+  }
+}
+# 1 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 
 /*
 
 太极创客教程
 
 */
-# 5 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+# 5 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 /*
 
 函 数 名:void handleUserRequet() 
@@ -1219,7 +1849,7 @@ uint8_t towards(menu_state *current,menu_state *destination)
 RAiny
 
 */
-# 13 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+# 13 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 void handleUserRequet()
 {
   // 获取用户请求网址信息
@@ -1246,7 +1876,7 @@ void handleUserRequet()
 RAiny
 
 */
-# 32 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+# 32 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 bool handleFileRead(String path)
 {
   if (path.endsWith("/")) { // 如果访问地址以"/"为结尾
@@ -1276,7 +1906,7 @@ bool handleFileRead(String path)
 RAiny
 
 */
-# 54 "c:\\Users\\HUAWEI\\Desktop\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+# 54 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 String getContentType(String filename)
 {
   if(filename.endsWith(".htm")) return "text/html";

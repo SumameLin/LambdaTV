@@ -1,4 +1,4 @@
-c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\libraries\ESP8266WiFi\ESP8266WiFiGratuitous.cpp.o: \
+g:\ESP\esp8266_oled\LambdaTV\build\libraries\ESP8266WiFi\ESP8266WiFiGratuitous.cpp.o: \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src\ESP8266WiFiGratuitous.cpp \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/lwip2/include/lwip/init.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/lwip2/include/lwip/opt.h \

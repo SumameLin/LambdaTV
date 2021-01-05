@@ -1,4 +1,4 @@
-c:\Users\HUAWEI\Desktop\esp8266_oled\LambdaTV\build\libraries\QRCode\qrcode.c.o: \
+g:\ESP\esp8266_oled\LambdaTV\build\libraries\QRCode\qrcode.c.o: \
  C:\Users\HUAWEI\Documents\Arduino\libraries\QRCode\src\qrcode.c \
  C:\Users\HUAWEI\Documents\Arduino\libraries\QRCode\src\qrcode.h \
  C:\Users\HUAWEI\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/libc/xtensa-lx106-elf/include/stdint.h \

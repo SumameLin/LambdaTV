@@ -90,6 +90,18 @@ KEY_EVENT_INF get_keymenu_event(void)
     return event;
 }
 /*
+函 数 名:void set_keymenu_event(KEY_EVENT_INF KEY)
+功能说明:设置按键事件
+形    参:void
+返 回 值:void
+时    间：2020-1-5
+RAiny
+*/
+void set_keymenu_event(KEY_EVENT_INF KEY)
+{
+    lambdaTV.key_event=KEY;
+}
+/*
 函 数 名:void clear_keymenu_event(void)
 功能说明:清除按键事件
 形    参:void
@@ -128,21 +140,36 @@ RAiny
 */
 void rgb_led_init(void)
 {
-    pinMode(RGB_R_PIN, OUTPUT);
+    // pinMode(RGB_R_PIN, OUTPUT);
     pinMode(RGB_G_PIN, OUTPUT);
     pinMode(RGB_B_PIN, OUTPUT);
+    set_rgb_val(255,255,255);
 }
 /*
-函 数 名:void rgb_led_set(int r_val,int g_val,int b_val)
-功能说明:直插三脚RGB共阳极
+函 数 名:void rgb_led_set(RGB_INF rgb_set)
+功能说明:直插三脚RGB共阳极 
 形    参:void
 返 回 值:void
 时    间：2020-12-27
 RAiny
 */
-void rgb_led_set(int r_val,int g_val,int b_val)
+void rgb_led_set(RGB_INF rgb_set)
 {
-    analogWrite(RGB_R_PIN, 1024-r_val*4);
-    analogWrite(RGB_G_PIN, 1024-g_val*4);
-    analogWrite(RGB_B_PIN, 1024-b_val*4);
+    // analogWrite(RGB_R_PIN, 1024-rgb_set.r_val*4);
+    analogWrite(RGB_G_PIN, 1024-rgb_set.g_val*4);
+    analogWrite(RGB_B_PIN, 1024-rgb_set.b_val*4);
+}
+/*
+函 数 名:void set_rgb_val(uint8_t r_val,uint8_t g_val,uint8_t b_val)
+功能说明:设置RGB的数值，呼吸效果
+形    参:void
+返 回 值:void
+时    间：2020-12-31
+RAiny
+*/
+void set_rgb_val(uint8_t r_val,uint8_t g_val,uint8_t b_val)
+{
+    rgb_save.r_val=rgb.r_val=r_val;
+    rgb_save.g_val=rgb.g_val=g_val;
+    rgb_save.b_val=rgb.b_val=b_val;
 }
