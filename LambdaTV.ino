@@ -33,7 +33,7 @@ RGB_INF rgb_save;
 uint8_t badapple_buf[1024] U8X8_PROGMEM ={};//更新badapple的数组
 uint8_t num_kongbai[168] U8X8_PROGMEM={0x00};//空白 闪烁效果
 void time_update(void);
-void bad_apple(void);
+void bin_player(void);
 void web_introduce(void);
 void config(void);
 void (*current_operation_index)(void);
@@ -43,7 +43,7 @@ menu_state home_last_state = { ICON_BGAP, ICON_BGAP, 0 };
 menu_entry_type menu_entry_list[] =
 {
   { u8g2_font_open_iconic_app_4x_t,69,"Clock",(*time_update)},
-  { u8g2_font_open_iconic_play_4x_t, 78, "Player",(*bad_apple)},
+  { u8g2_font_open_iconic_play_4x_t, 78, "Player",(*bin_player)},
   { u8g2_font_open_iconic_www_4x_t,78, "Web",(*web_introduce)},
   { u8g2_font_open_iconic_embedded_4x_t,72, "Config",(*config)},
   { NULL, 0, NULL,NULL} 
@@ -134,20 +134,23 @@ void LambdaTV(void)
   } while( x != 0 );
 }
 /*
-函 数 名:void bad_apple(void)
-功能说明:BadApple
+函 数 名:void bin_player(void)
+功能说明:bin 动画播放器
 形    参:void
 返 回 值:void
 时    间：2020-12-21
 RAiny
 */
-void bad_apple(void)
+void bin_player(void)
 {
   char data_read;
+  const char *apple_bin="/apple.bin";
+  const char *basket_bin="/basket.bin";
   static int data_len=0;
   static uint8_t exit_flag=0;
+  uint8_t hidden_mode=0;
   //建立File对象用于从SPIFFS中读取文件
-  String file_name="/apple.bin";
+  String file_name=apple_bin;
   while (1)
   {  
     dataFile = SPIFFS.open(file_name, "r"); 
@@ -165,16 +168,30 @@ void bad_apple(void)
     for(uint64_t xbm_num=0;xbm_num<dataFile.size();xbm_num++)
     {
       data_read=(char)dataFile.read();
-      badapple_buf[data_len++]=data_read;
+      badapple_buf[data_len++]=0xff-data_read;//ffmpge 处理后的xbm文件是相反的，所以用0xff减去对应的数值
       if(data_len==1024)//分辨率 128*64
       {
-        delayMicroseconds(34500);//不延时3029张一共用时107S，差不多FPS=30.7
+        //34500 延时是对于15FPS的bin文件
+        delayMicroseconds(165000);//不延时3029张一共用时107S，差不多FPS=30.7
         u8g2.clearBuffer();
         u8g2.drawXBM(0,0,OLED_WIDTH,OLED_HEIGHT, badapple_buf);
         u8g2.sendBuffer();
         data_len=0;
       }
-      if(get_keymenu_event()==KEY_CANCEL)
+      if(get_keymenu_event()==KEY_HIDDEN)
+      {
+        clear_keymenu_event();
+        data_len=0;
+        hidden_mode+=1;
+        if(hidden_mode>1)
+          hidden_mode=0;
+        if(hidden_mode==0)
+          file_name=apple_bin;
+        else if(hidden_mode==1)
+          file_name=basket_bin;
+         break;
+      }
+      else if(get_keymenu_event()==KEY_CANCEL)
       {
         clear_keymenu_event();
         data_len=0;
@@ -182,7 +199,7 @@ void bad_apple(void)
         break;
       }
     }
-    Serial.print("BadApple Play finish");
+    Serial.print("Play finish\r\n");
     //完成文件读取后关闭文件
     dataFile.close(); 
     if(exit_flag==1)

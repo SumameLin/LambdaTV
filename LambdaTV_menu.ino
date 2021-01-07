@@ -309,19 +309,27 @@ RAiny
 void instrustions_enter(void)
 {
   const char *instru_title="操作说明";
-  uint8_t title_len=u8g2.getUTF8Width(instru_title);
+  const char *instru_1="单击C 下一步";
+  const char *instru_2="双击C 上一步";
+  const char *instru_3="单击S确认 长按S退出";
+  uint8_t str_len=0;
+  str_len=u8g2.getUTF8Width(instru_title);
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-  u8g2.setCursor(((OLED_WIDTH-title_len)/2),16*1-2);
+  u8g2.setCursor(((OLED_WIDTH-str_len)/2),16*1-2);
   u8g2.print(instru_title);
-  u8g2.drawHLine(((OLED_WIDTH-title_len)/2-2),16,title_len+4);
+  u8g2.drawBox(((OLED_WIDTH-str_len)/2)-2,0,str_len+4,16);
+  // u8g2.drawHLine(((OLED_WIDTH-str_len)/2-2),16,str_len+4);
   u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-  u8g2.setCursor(25, 16*2-2);
-  u8g2.print("单击C 下一步");
-  u8g2.setCursor(25, 16*3-2);
-  u8g2.print("双击C 上一步");
-  u8g2.setCursor(0, 16*4-2);
-  u8g2.print("单击S确认 长按S退出");
+  str_len=u8g2.getUTF8Width(instru_1);
+  u8g2.setCursor(((OLED_WIDTH-str_len)/2), 16*2-2);
+  u8g2.print(instru_1);
+  str_len=u8g2.getUTF8Width(instru_2);
+  u8g2.setCursor(((OLED_WIDTH-str_len)/2), 16*3-2);
+  u8g2.print(instru_2);
+  str_len=u8g2.getUTF8Width(instru_3);
+  u8g2.setCursor(((OLED_WIDTH-str_len)/2), 16*4-2);
+  u8g2.print(instru_3);
   u8g2.sendBuffer();
 }
 /*
@@ -334,14 +342,20 @@ RAiny
 */
 void about_enter(void)
 {
+  const char *about_title="关于";
+  const char *about_1="LambdaTV";
+  uint8_t str_len=0;
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-  u8g2.setCursor(50, 16*1-2);
-  u8g2.print("关于");
-  u8g2.drawHLine(50-2,16,14*2+4);
+  str_len=u8g2.getUTF8Width(about_title);
+  u8g2.setCursor(((OLED_WIDTH-str_len)/2), 16*1-2);
+  u8g2.print(about_title);
+  u8g2.drawBox(((OLED_WIDTH-str_len)/2)-2,0,str_len+4,16);
+  // u8g2.drawHLine(((OLED_WIDTH-str_len)/2)-2,16,14*2+4);
   u8g2.setFont(u8g2_font_ncenB14_tr);
-  u8g2.setCursor(8, 16*2);
-  u8g2.print("LambdaTV");
+  str_len=u8g2.getUTF8Width(about_1);
+  u8g2.setCursor(((OLED_WIDTH-str_len)/2), 16*2);
+  u8g2.print(about_1);
   u8g2.setFont(u8g2_font_unifont_t_shopl16);
   u8g2.setCursor(0, 16*3);
   u8g2.print("by RAiny");
@@ -359,6 +373,8 @@ void clock_mode_enter(void)
 {
   uint8_t mode=0;
   uint8_t box_y=0;
+  const char *mode_title="时钟模式";
+  uint8_t str_len=0;
   mode=eeprom.data.clock_mode;
   while(1)
   {
@@ -367,14 +383,17 @@ void clock_mode_enter(void)
       u8g2.clearBuffer();
       u8g2.setFontMode(1);  /* activate transparent font mode */
       u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-      u8g2.setCursor(36, 16*1-2);
+      str_len=u8g2.getUTF8Width(mode_title);
+      u8g2.setCursor(((OLED_WIDTH-str_len)/2),16*1-2);
       u8g2.setDrawColor(2);
-      u8g2.print("时钟模式");
-      u8g2.drawHLine(36-2,16,14*4+4);
-      u8g2.setDrawColor(1);//白 /* color 1 for the box */
-      u8g2.drawBox(57-3, 16+12-1, box_y++, box_y++);
+      u8g2.print(mode_title);
+      u8g2.drawBox(((OLED_WIDTH-str_len)/2)-2,0,str_len+4,16);
+      // u8g2.drawHLine(((OLED_WIDTH-str_len)/2)-2,16,14*4+4);
       u8g2.setFont(u8g2_font_ncenB24_tr);
-      u8g2.setCursor(57, 16+12+24);
+      str_len=u8g2.getUTF8Width("1");
+      u8g2.setDrawColor(1);//白 /* color 1 for the box */
+      u8g2.drawBox(((OLED_WIDTH-str_len)/2)-4, 16+12-1, box_y++, box_y++);
+      u8g2.setCursor(((OLED_WIDTH-str_len)/2), 16+12+24);
       if(eeprom.data.clock_mode>CLOCK_MAX_MODE)//一开始EPPROM不为零
       {
         mode=eeprom.data.clock_mode=0;
@@ -425,13 +444,19 @@ RAiny
 */
 void clear_wifi_anima(uint8_t x1)
 {
+  const char *wifi_title="清除WiFi";
+  const char *wifi_1="清除所有WiFi信息";
+  uint8_t str_len=0;
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-  u8g2.setCursor(36, 16*1-2);
-  u8g2.print("清除WiFi");
-  u8g2.drawHLine(36-2,16,14*4+4);
-  u8g2.setCursor(10, 16*2-2+5);
-  u8g2.print("清除所有WiFi信息");
+  str_len=u8g2.getUTF8Width(wifi_title);
+  u8g2.setCursor(((OLED_WIDTH-str_len)/2), 16*1-2);
+  u8g2.print(wifi_title);
+  u8g2.drawBox(((OLED_WIDTH-str_len)/2)-2,0,str_len+4,16);
+  // u8g2.drawHLine(((OLED_WIDTH-str_len)/2)-2,16,14*4+4);
+  str_len=u8g2.getUTF8Width(wifi_1);
+  u8g2.setCursor(((OLED_WIDTH-str_len)/2), 16*2-2+5);
+  u8g2.print(wifi_1);
   u8g2.setCursor(24,16*4-7);
   u8g2.print("取消");
   u8g2.setCursor(24+28+28,16*4-7);

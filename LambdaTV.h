@@ -42,6 +42,7 @@ typedef enum
     KEY_NOEVENT=0,
     KEY_NEXT,
     KEY_PRVE,
+    KEY_HIDDEN,
     KEY_CONFIRM,
     KEY_CANCEL
 }KEY_EVENT_INF;

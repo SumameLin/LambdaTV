@@ -14,6 +14,8 @@ Ardunio 库：[U8g2](https://github.com/olikraus/u8g2/wiki/u8g2reference)、OneB
 
 螺柱：M3*6+6
 
+Gif和视频来自网络，侵删！
+
 ### Ardunio编译过慢
 
 [Arduino IDE首次编译很慢?](https://www.zhihu.com/question/29961352)
@@ -494,6 +496,10 @@ void bad_apple(void)
 
 *不延时3029张一共用时107S，差不多FPS=30.7*。
 
+#### Gif分解
+
+这个网站分解Gif为PNG，[ezgif](https://ezgif.com/split)。
+
 ## 按键
 
 ### 按键中断
@@ -656,7 +662,7 @@ u8g2.updateDisplayArea(tile_area_x_pos, tile_area_y_pos, tile_area_width, tile_a
 
 ![Mhin Clock](./image/Mhin Clock.jpg)
 
-#### 游戏俄罗斯方块
+
 
 ## U8g2显示汉字
 

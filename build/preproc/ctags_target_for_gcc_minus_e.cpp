@@ -1,19 +1,19 @@
-# 1 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
-# 2 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 3 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 4 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 5 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 6 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 7 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 8 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 9 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 10 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 11 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 12 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 13 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 14 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 15 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
-# 16 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 1 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 2 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 3 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 4 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 5 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 6 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 7 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 8 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 9 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 10 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 11 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 12 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 13 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 14 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 15 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
+# 16 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino" 2
 
 U8G2_SH1106_128X64_NONAME_F_4W_HW_SPI u8g2((&u8g2_cb_r0), /* cs=*/ 2, /* dc=*/4 );
 OneButton s_button(5, true);
@@ -34,7 +34,7 @@ RGB_INF rgb_save;
 uint8_t badapple_buf[1024] ={};//更新badapple的数组
 uint8_t num_kongbai[168] ={0x00};//空白 闪烁效果
 void time_update(void);
-void bad_apple(void);
+void bin_player(void);
 void web_introduce(void);
 void config(void);
 void (*current_operation_index)(void);
@@ -44,7 +44,7 @@ menu_state home_last_state = { 48 /*ICO的初始距离*/, 48 /*ICO的初始距�
 menu_entry_type menu_entry_list[] =
 {
   { u8g2_font_open_iconic_app_4x_t,69,"Clock",(*time_update)},
-  { u8g2_font_open_iconic_play_4x_t, 78, "Player",(*bad_apple)},
+  { u8g2_font_open_iconic_play_4x_t, 78, "Player",(*bin_player)},
   { u8g2_font_open_iconic_www_4x_t,78, "Web",(*web_introduce)},
   { u8g2_font_open_iconic_embedded_4x_t,72, "Config",(*config)},
   { __null, 0, __null,__null}
@@ -85,7 +85,7 @@ config_table config_list[]=
 RAiny
 
 */
-# 80 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 80 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void print_fs_info(void)
 {
   FSInfo fs_info;
@@ -125,7 +125,7 @@ void print_fs_info(void)
 RAiny
 
 */
-# 112 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 112 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void LambdaTV(void)
 {
   uint8_t x=20;
@@ -152,9 +152,9 @@ void LambdaTV(void)
 }
 /*
 
-函 数 名:void bad_apple(void)
+函 数 名:void bin_player(void)
 
-功能说明:BadApple
+功能说明:bin 动画播放器
 
 形    参:void
 
@@ -165,14 +165,17 @@ void LambdaTV(void)
 RAiny
 
 */
-# 144 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
-void bad_apple(void)
+# 144 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void bin_player(void)
 {
   char data_read;
+  const char *apple_bin="/apple.bin";
+  const char *basket_bin="/basket.bin";
   static int data_len=0;
   static uint8_t exit_flag=0;
+  uint8_t hidden_mode=0;
   //建立File对象用于从SPIFFS中读取文件
-  String file_name="/apple.bin";
+  String file_name=apple_bin;
   while (1)
   {
     dataFile = SPIFFS.open(file_name, "r");
@@ -190,16 +193,30 @@ void bad_apple(void)
     for(uint64_t xbm_num=0;xbm_num<dataFile.size();xbm_num++)
     {
       data_read=(char)dataFile.read();
-      badapple_buf[data_len++]=data_read;
+      badapple_buf[data_len++]=0xff-data_read;//ffmpge 处理后的xbm文件是相反的，所以用0xff减去对应的数值
       if(data_len==1024)//分辨率 128*64
       {
-        delayMicroseconds(34500);//不延时3029张一共用时107S，差不多FPS=30.7
+        //34500 延时是对于15FPS的bin文件
+        delayMicroseconds(165000);//不延时3029张一共用时107S，差不多FPS=30.7
         u8g2.clearBuffer();
         u8g2.drawXBM(0,0,128,64, badapple_buf);
         u8g2.sendBuffer();
         data_len=0;
       }
-      if(get_keymenu_event()==KEY_CANCEL)
+      if(get_keymenu_event()==KEY_HIDDEN)
+      {
+        clear_keymenu_event();
+        data_len=0;
+        hidden_mode+=1;
+        if(hidden_mode>1)
+          hidden_mode=0;
+        if(hidden_mode==0)
+          file_name=apple_bin;
+        else if(hidden_mode==1)
+          file_name=basket_bin;
+         break;
+      }
+      else if(get_keymenu_event()==KEY_CANCEL)
       {
         clear_keymenu_event();
         data_len=0;
@@ -207,7 +224,7 @@ void bad_apple(void)
         break;
       }
     }
-    Serial.print("BadApple Play finish");
+    Serial.print("Play finish\r\n");
     //完成文件读取后关闭文件
     dataFile.close();
     if(exit_flag==1)
@@ -233,7 +250,7 @@ void bad_apple(void)
 RAiny
 
 */
-# 204 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 221 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x,uint8_t y,uint8_t bin_num)
 {
   char file_name_buff[10];
@@ -308,7 +325,7 @@ void time_ipdate_anima(uint8_t x,uint8_t y,uint8_t bin_num)
 RAiny
 
 */
-# 269 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 286 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x,uint8_t y,uint8_t num)
 {
   switch (num)
@@ -368,7 +385,7 @@ void time_select_draw(uint8_t x,uint8_t y,uint8_t num)
 RAiny
 
 */
-# 320 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 337 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show(uint8_t hour,uint8_t minu)
 {
   uint8_t hour_high=0,hour_low=0,minu_high=0,minu_low=0;
@@ -443,7 +460,7 @@ void time_show(uint8_t hour,uint8_t minu)
 RAiny
 
 */
-# 387 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 404 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_update(void)
 {
   uint8_t time_minu,time_hour;
@@ -495,7 +512,7 @@ void time_update(void)
 RAiny
 
 */
-# 431 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 448 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void web_introduce(void)
 {
   char qrcode_buff[25];
@@ -583,7 +600,7 @@ void web_introduce(void)
 RAiny
 
 */
-# 511 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 528 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void config(void)
 {
   static uint8_t func_index=0;
@@ -639,7 +656,7 @@ void config(void)
 RAiny
 
 */
-# 559 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 576 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void)
 {
   s_button.tick();
@@ -660,7 +677,7 @@ void key_check(void)
 RAiny
 
 */
-# 572 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 589 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void rgb_led_run(void)
 {
   rgb.r_val--;
@@ -689,7 +706,7 @@ void rgb_led_run(void)
 RAiny
 
 */
-# 593 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 610 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void)
 {
   KEY_EVENT_INF menu_event=KEY_NOEVENT;
@@ -754,7 +771,7 @@ void select_menu(void)
 RAiny
 
 */
-# 650 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 667 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_read(void)
 {
   for(uint16_t i=0;i<64 /*EEPROM 大小*/;i++)
@@ -775,7 +792,7 @@ void eeprom_read(void)
 RAiny
 
 */
-# 663 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 680 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_write(void)
 {
   for(uint16_t i=0;i<64 /*EEPROM 大小*/;i++)
@@ -804,7 +821,7 @@ void eeprom_write(void)
 RAiny
 
 */
-# 684 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 701 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void)
 {
   Serial.begin(115200);
@@ -878,12 +895,12 @@ void setup(void)
 RAiny
 
 */
-# 750 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 767 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void)
 {
   select_menu();
 }
-# 1 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 1 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 
 /*
 
@@ -900,7 +917,7 @@ void loop(void)
 RAiny
 
 */
-# 10 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 10 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_click(void)
 {
     lambdaTV.key_event=KEY_CONFIRM;
@@ -921,7 +938,7 @@ void s_click(void)
 RAiny
 
 */
-# 23 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 23 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_doubleclick(void)
 {
     Serial.println("s_doubleclick");
@@ -941,7 +958,7 @@ void s_doubleclick(void)
 RAiny
 
 */
-# 35 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 35 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_longclick(void)
 {
     lambdaTV.key_event=KEY_CANCEL;
@@ -962,7 +979,7 @@ void s_longclick(void)
 RAiny
 
 */
-# 48 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 48 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void c_click(void)
 {
     lambdaTV.key_event=KEY_NEXT;
@@ -983,7 +1000,7 @@ void c_click(void)
 RAiny
 
 */
-# 61 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 61 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void c_doubleclick(void)
 {
     lambdaTV.key_event=KEY_PRVE;
@@ -1004,9 +1021,10 @@ void c_doubleclick(void)
 RAiny
 
 */
-# 74 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 74 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void c_longclick(void)
 {
+    lambdaTV.key_event=KEY_HIDDEN;
     Serial.println("c_longclick");
 }
 /*
@@ -1024,7 +1042,7 @@ void c_longclick(void)
 RAiny
 
 */
-# 86 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 87 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 KEY_EVENT_INF get_keymenu_event(void)
 {
     KEY_EVENT_INF event;
@@ -1046,7 +1064,7 @@ KEY_EVENT_INF get_keymenu_event(void)
 RAiny
 
 */
-# 100 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 101 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void set_keymenu_event(KEY_EVENT_INF KEY)
 {
     lambdaTV.key_event=KEY;
@@ -1066,7 +1084,7 @@ void set_keymenu_event(KEY_EVENT_INF KEY)
 RAiny
 
 */
-# 112 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 113 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void clear_keymenu_event(void)
 {
     lambdaTV.key_event=KEY_NOEVENT;
@@ -1086,7 +1104,7 @@ void clear_keymenu_event(void)
 RAiny
 
 */
-# 124 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 125 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void key_init(void)
 {
     s_button.attachClick(s_click);
@@ -1111,7 +1129,7 @@ void key_init(void)
 RAiny
 
 */
-# 141 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 142 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void rgb_led_init(void)
 {
     // pinMode(RGB_R_PIN, OUTPUT);
@@ -1134,7 +1152,7 @@ void rgb_led_init(void)
 RAiny
 
 */
-# 156 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 157 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void rgb_led_set(RGB_INF rgb_set)
 {
     // analogWrite(RGB_R_PIN, 1024-rgb_set.r_val*4);
@@ -1156,23 +1174,23 @@ void rgb_led_set(RGB_INF rgb_set)
 RAiny
 
 */
-# 170 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+# 171 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void set_rgb_val(uint8_t r_val,uint8_t g_val,uint8_t b_val)
 {
     rgb_save.r_val=rgb.r_val=r_val;
     rgb_save.g_val=rgb.g_val=g_val;
     rgb_save.b_val=rgb.b_val=b_val;
 }
-# 1 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
-# 2 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino" 2
-# 3 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino" 2
+# 1 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 2 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino" 2
+# 3 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino" 2
 
 /*
 
 U8g2的IconMenu.ino example
 
 */
-# 7 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 7 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 /*
 
 函 数 名:void draw(menu_state *state)
@@ -1188,7 +1206,7 @@ U8g2的IconMenu.ino example
 RAiny
 
 */
-# 15 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 15 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void draw(menu_state *state)
 {
   int16_t x;
@@ -1232,7 +1250,7 @@ void draw(menu_state *state)
 RAiny
 
 */
-# 51 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 51 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void to_right(menu_state *state)
 {
   if ( menu_entry_list[state->position+1].font != __null )
@@ -1266,7 +1284,7 @@ void to_right(menu_state *state)
 RAiny
 
 */
-# 77 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 77 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void to_left(menu_state *state)
 {
   if ( state->position > 0 )
@@ -1299,7 +1317,7 @@ void to_left(menu_state *state)
 RAiny
 
 */
-# 102 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 102 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 uint8_t towards_int16(int16_t *current, int16_t dest)
 {
   if ( *current < dest )
@@ -1329,7 +1347,7 @@ uint8_t towards_int16(int16_t *current, int16_t dest)
 RAiny
 
 */
-# 124 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 124 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 uint8_t towards(menu_state *current,menu_state *destination)
 {
   uint8_t r = 0;
@@ -1354,7 +1372,7 @@ uint8_t towards(menu_state *current,menu_state *destination)
 RAiny
 
 */
-# 141 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 141 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void config_fun(void)
 {
   u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
@@ -1382,7 +1400,7 @@ void config_fun(void)
 RAiny
 
 */
-# 161 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 161 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void clock_mode()
 {
   config_state=0;
@@ -1439,7 +1457,7 @@ void clock_mode()
 RAiny
 
 */
-# 210 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 210 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void instrustions(void)
 {
   config_state=16;
@@ -1480,7 +1498,7 @@ void instrustions(void)
 RAiny
 
 */
-# 243 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 243 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void clear_wifi(void)
 {
   config_state=16*2;
@@ -1521,7 +1539,7 @@ void clear_wifi(void)
 RAiny
 
 */
-# 276 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 276 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void config_about(void)
 {
   config_state=16*3;
@@ -1562,23 +1580,31 @@ void config_about(void)
 RAiny
 
 */
-# 309 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 309 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void instrustions_enter(void)
 {
   const char *instru_title="操作说明";
-  uint8_t title_len=u8g2.getUTF8Width(instru_title);
+  const char *instru_1="单击C 下一步";
+  const char *instru_2="双击C 上一步";
+  const char *instru_3="单击S确认 长按S退出";
+  uint8_t str_len=0;
+  str_len=u8g2.getUTF8Width(instru_title);
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-  u8g2.setCursor(((128 -title_len)/2),16*1-2);
+  u8g2.setCursor(((128 -str_len)/2),16*1-2);
   u8g2.print(instru_title);
-  u8g2.drawHLine(((128 -title_len)/2-2),16,title_len+4);
+  u8g2.drawBox(((128 -str_len)/2)-2,0,str_len+4,16);
+  // u8g2.drawHLine(((OLED_WIDTH-str_len)/2-2),16,str_len+4);
   u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-  u8g2.setCursor(25, 16*2-2);
-  u8g2.print("单击C 下一步");
-  u8g2.setCursor(25, 16*3-2);
-  u8g2.print("双击C 上一步");
-  u8g2.setCursor(0, 16*4-2);
-  u8g2.print("单击S确认 长按S退出");
+  str_len=u8g2.getUTF8Width(instru_1);
+  u8g2.setCursor(((128 -str_len)/2), 16*2-2);
+  u8g2.print(instru_1);
+  str_len=u8g2.getUTF8Width(instru_2);
+  u8g2.setCursor(((128 -str_len)/2), 16*3-2);
+  u8g2.print(instru_2);
+  str_len=u8g2.getUTF8Width(instru_3);
+  u8g2.setCursor(((128 -str_len)/2), 16*4-2);
+  u8g2.print(instru_3);
   u8g2.sendBuffer();
 }
 /*
@@ -1596,17 +1622,23 @@ void instrustions_enter(void)
 RAiny
 
 */
-# 335 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 343 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void about_enter(void)
 {
+  const char *about_title="关于";
+  const char *about_1="LambdaTV";
+  uint8_t str_len=0;
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-  u8g2.setCursor(50, 16*1-2);
-  u8g2.print("关于");
-  u8g2.drawHLine(50-2,16,14*2+4);
+  str_len=u8g2.getUTF8Width(about_title);
+  u8g2.setCursor(((128 -str_len)/2), 16*1-2);
+  u8g2.print(about_title);
+  u8g2.drawBox(((128 -str_len)/2)-2,0,str_len+4,16);
+  // u8g2.drawHLine(((OLED_WIDTH-str_len)/2)-2,16,14*2+4);
   u8g2.setFont(u8g2_font_ncenB14_tr);
-  u8g2.setCursor(8, 16*2);
-  u8g2.print("LambdaTV");
+  str_len=u8g2.getUTF8Width(about_1);
+  u8g2.setCursor(((128 -str_len)/2), 16*2);
+  u8g2.print(about_1);
   u8g2.setFont(u8g2_font_unifont_t_shopl16);
   u8g2.setCursor(0, 16*3);
   u8g2.print("by RAiny");
@@ -1627,11 +1659,13 @@ void about_enter(void)
 RAiny
 
 */
-# 358 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 372 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void clock_mode_enter(void)
 {
   uint8_t mode=0;
   uint8_t box_y=0;
+  const char *mode_title="时钟模式";
+  uint8_t str_len=0;
   mode=eeprom.data.clock_mode;
   while(1)
   {
@@ -1640,14 +1674,17 @@ void clock_mode_enter(void)
       u8g2.clearBuffer();
       u8g2.setFontMode(1); /* activate transparent font mode */
       u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-      u8g2.setCursor(36, 16*1-2);
+      str_len=u8g2.getUTF8Width(mode_title);
+      u8g2.setCursor(((128 -str_len)/2),16*1-2);
       u8g2.setDrawColor(2);
-      u8g2.print("时钟模式");
-      u8g2.drawHLine(36-2,16,14*4+4);
-      u8g2.setDrawColor(1);//白 /* color 1 for the box */
-      u8g2.drawBox(57-3, 16+12-1, box_y++, box_y++);
+      u8g2.print(mode_title);
+      u8g2.drawBox(((128 -str_len)/2)-2,0,str_len+4,16);
+      // u8g2.drawHLine(((OLED_WIDTH-str_len)/2)-2,16,14*4+4);
       u8g2.setFont(u8g2_font_ncenB24_tr);
-      u8g2.setCursor(57, 16+12+24);
+      str_len=u8g2.getUTF8Width("1");
+      u8g2.setDrawColor(1);//白 /* color 1 for the box */
+      u8g2.drawBox(((128 -str_len)/2)-4, 16+12-1, box_y++, box_y++);
+      u8g2.setCursor(((128 -str_len)/2), 16+12+24);
       if(eeprom.data.clock_mode>3)//一开始EPPROM不为零
       {
         mode=eeprom.data.clock_mode=0;
@@ -1703,16 +1740,22 @@ void clock_mode_enter(void)
 RAiny
 
 */
-# 426 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 445 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void clear_wifi_anima(uint8_t x1)
 {
+  const char *wifi_title="清除WiFi";
+  const char *wifi_1="清除所有WiFi信息";
+  uint8_t str_len=0;
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-  u8g2.setCursor(36, 16*1-2);
-  u8g2.print("清除WiFi");
-  u8g2.drawHLine(36-2,16,14*4+4);
-  u8g2.setCursor(10, 16*2-2+5);
-  u8g2.print("清除所有WiFi信息");
+  str_len=u8g2.getUTF8Width(wifi_title);
+  u8g2.setCursor(((128 -str_len)/2), 16*1-2);
+  u8g2.print(wifi_title);
+  u8g2.drawBox(((128 -str_len)/2)-2,0,str_len+4,16);
+  // u8g2.drawHLine(((OLED_WIDTH-str_len)/2)-2,16,14*4+4);
+  str_len=u8g2.getUTF8Width(wifi_1);
+  u8g2.setCursor(((128 -str_len)/2), 16*2-2+5);
+  u8g2.print(wifi_1);
   u8g2.setCursor(24,16*4-7);
   u8g2.print("取消");
   u8g2.setCursor(24+28+28,16*4-7);
@@ -1737,7 +1780,7 @@ void clear_wifi_anima(uint8_t x1)
 RAiny
 
 */
-# 452 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+# 477 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void clear_wifi_enter(void)
 {
   int8_t select=0;//0 是取消，1是确认
@@ -1826,14 +1869,14 @@ void clear_wifi_enter(void)
     delay(50);
   }
 }
-# 1 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+# 1 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 
 /*
 
 太极创客教程
 
 */
-# 5 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+# 5 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 /*
 
 函 数 名:void handleUserRequet() 
@@ -1849,7 +1892,7 @@ void clear_wifi_enter(void)
 RAiny
 
 */
-# 13 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+# 13 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 void handleUserRequet()
 {
   // 获取用户请求网址信息
@@ -1876,7 +1919,7 @@ void handleUserRequet()
 RAiny
 
 */
-# 32 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+# 32 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 bool handleFileRead(String path)
 {
   if (path.endsWith("/")) { // 如果访问地址以"/"为结尾
@@ -1906,7 +1949,7 @@ bool handleFileRead(String path)
 RAiny
 
 */
-# 54 "g:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+# 54 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 String getContentType(String filename)
 {
   if(filename.endsWith(".htm")) return "text/html";

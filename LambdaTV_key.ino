@@ -73,6 +73,7 @@ RAiny
 */
 void c_longclick(void)
 {
+    lambdaTV.key_event=KEY_HIDDEN;
     Serial.println("c_longclick");
 }
 /*
