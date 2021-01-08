@@ -9,7 +9,7 @@ RAiny
 */
 void s_click(void)
 {
-    lambdaTV.key_event=KEY_CONFIRM;
+    lambdaTV.key_event = KEY_CONFIRM;
     Serial.println("s_click");
 }
 /*
@@ -34,7 +34,7 @@ RAiny
 */
 void s_longclick(void)
 {
-    lambdaTV.key_event=KEY_CANCEL;
+    lambdaTV.key_event = KEY_CANCEL;
     Serial.println("s_longclick");
 }
 /*
@@ -47,7 +47,7 @@ RAiny
 */
 void c_click(void)
 {
-    lambdaTV.key_event=KEY_NEXT;
+    lambdaTV.key_event = KEY_NEXT;
     Serial.println("c_click");
 }
 /*
@@ -60,7 +60,7 @@ RAiny
 */
 void c_doubleclick(void)
 {
-    lambdaTV.key_event=KEY_PRVE;
+    lambdaTV.key_event = KEY_PRVE;
     Serial.println("c_doubleclick");
 }
 /*
@@ -73,7 +73,7 @@ RAiny
 */
 void c_longclick(void)
 {
-    lambdaTV.key_event=KEY_HIDDEN;
+    lambdaTV.key_event = KEY_HIDDEN;
     Serial.println("c_longclick");
 }
 /*
@@ -87,7 +87,7 @@ RAiny
 KEY_EVENT_INF get_keymenu_event(void)
 {
     KEY_EVENT_INF event;
-    event=lambdaTV.key_event;
+    event = lambdaTV.key_event;
     return event;
 }
 /*
@@ -100,7 +100,7 @@ RAiny
 */
 void set_keymenu_event(KEY_EVENT_INF KEY)
 {
-    lambdaTV.key_event=KEY;
+    lambdaTV.key_event = KEY;
 }
 /*
 函 数 名:void clear_keymenu_event(void)
@@ -112,7 +112,7 @@ RAiny
 */
 void clear_keymenu_event(void)
 {
-    lambdaTV.key_event=KEY_NOEVENT;
+    lambdaTV.key_event = KEY_NOEVENT;
 }
 /*
 函 数 名:void key_init(void)
@@ -141,14 +141,16 @@ RAiny
 */
 void rgb_led_init(void)
 {
-    // pinMode(RGB_R_PIN, OUTPUT);
+    #if USEING_UART
+    pinMode(RGB_R_PIN, OUTPUT);
+    #endif
     pinMode(RGB_G_PIN, OUTPUT);
     pinMode(RGB_B_PIN, OUTPUT);
-    set_rgb_val(255,255,255);
+    set_rgb_val(255, 255, 255);
 }
 /*
 函 数 名:void rgb_led_set(RGB_INF rgb_set)
-功能说明:直插三脚RGB共阳极 
+功能说明:直插三脚RGB共阳极
 形    参:void
 返 回 值:void
 时    间：2020-12-27
@@ -156,9 +158,11 @@ RAiny
 */
 void rgb_led_set(RGB_INF rgb_set)
 {
-    // analogWrite(RGB_R_PIN, 1024-rgb_set.r_val*4);
-    analogWrite(RGB_G_PIN, 1024-rgb_set.g_val*4);
-    analogWrite(RGB_B_PIN, 1024-rgb_set.b_val*4);
+    #if USEING_UART
+    analogWrite(RGB_R_PIN, 1024 - rgb_set.r_val * 4);
+    #endif
+    analogWrite(RGB_G_PIN, 1024 - rgb_set.g_val * 4);
+    analogWrite(RGB_B_PIN, 1024 - rgb_set.b_val * 4);
 }
 /*
 函 数 名:void set_rgb_val(uint8_t r_val,uint8_t g_val,uint8_t b_val)
@@ -168,9 +172,9 @@ void rgb_led_set(RGB_INF rgb_set)
 时    间：2020-12-31
 RAiny
 */
-void set_rgb_val(uint8_t r_val,uint8_t g_val,uint8_t b_val)
+void set_rgb_val(uint8_t r_val, uint8_t g_val, uint8_t b_val)
 {
-    rgb_save.r_val=rgb.r_val=r_val;
-    rgb_save.g_val=rgb.g_val=g_val;
-    rgb_save.b_val=rgb.b_val=b_val;
+    rgb_save.r_val = rgb.r_val = r_val;
+    rgb_save.g_val = rgb.g_val = g_val;
+    rgb_save.b_val = rgb.b_val = b_val;
 }
