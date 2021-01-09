@@ -1,5 +1,5 @@
+#include "Arduino.h"
 #include "LambdaTV.h"
-#include <Arduino.h>
 #include <U8g2lib.h>
 /*
 U8g2的IconMenu.ino example
@@ -138,16 +138,18 @@ uint8_t towards(menu_state *current, menu_state *destination)
 时    间：2020-1-1
 RAiny
 */
-void config_fun(void)
+void config_fun(int8_t state)
 {
     u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-    u8g2.setCursor(5, 16 * 1 - 2);
+    u8g2.setCursor(5, 16 * state - 2);
     u8g2.print("时钟模式");
-    u8g2.setCursor(5, 16 * 2 - 2);
-    u8g2.print("操作说明");
-    u8g2.setCursor(5, 16 * 3 - 2);
+    u8g2.setCursor(5, 16 * (state + 1) - 2);
+    u8g2.print("设置RGB_LED");
+    u8g2.setCursor(5, 16 * (state + 2) - 2);
     u8g2.print("清除WiFi");
-    u8g2.setCursor(5, 16 * 4 - 2);
+    u8g2.setCursor(5, 16 * (state + 3) - 2);
+    u8g2.print("操作说明");
+    u8g2.setCursor(5, 16 * (state + 4) - 2);
     u8g2.print("关于");
 }
 /*
@@ -170,7 +172,7 @@ void clock_mode()
             u8g2.setDrawColor(1);
             u8g2.drawBox(0, (config_last_state)--, 128, 16);
             u8g2.setDrawColor(2);
-            config_fun();
+            config_fun(1);
             u8g2.setCursor(110, 16 * 1 - 2);
             if (eeprom.data.clock_mode > CLOCK_MAX_MODE)
                 u8g2.print("0");
@@ -188,7 +190,7 @@ void clock_mode()
             u8g2.setDrawColor(1);
             u8g2.drawBox(0, (config_last_state)++, 128, 16);
             u8g2.setDrawColor(2);
-            config_fun();
+            config_fun(1);
             u8g2.setCursor(110, 16 * 1 - 2);
             if (eeprom.data.clock_mode > CLOCK_MAX_MODE)
                 u8g2.print("0");
@@ -209,13 +211,13 @@ RAiny
 */
 void instrustions(void)
 {
-    config_state = 16;
+    config_state = 16 * 3;
     if (config_state < config_last_state)
     {
         do
         {
             u8g2.clearBuffer();
-            config_fun();
+            config_fun(1);
             u8g2.drawBox(0, (config_last_state)--, 128, 16);
             u8g2.sendBuffer();
         } while (config_last_state > config_state);
@@ -225,7 +227,7 @@ void instrustions(void)
         do
         {
             u8g2.clearBuffer();
-            config_fun();
+            config_fun(1);
             u8g2.drawBox(0, (config_last_state)++, 128, 16);
             u8g2.sendBuffer();
         } while (config_last_state <= config_state);
@@ -248,7 +250,7 @@ void clear_wifi(void)
         do
         {
             u8g2.clearBuffer();
-            config_fun();
+            config_fun(1);
             u8g2.drawBox(0, (config_last_state)--, 128, 16);
             u8g2.sendBuffer();
         } while (config_last_state > config_state);
@@ -258,7 +260,7 @@ void clear_wifi(void)
         do
         {
             u8g2.clearBuffer();
-            config_fun();
+            config_fun(1);
             u8g2.drawBox(0, (config_last_state)++, 128, 16);
             u8g2.sendBuffer();
         } while (config_last_state <= config_state);
@@ -281,7 +283,7 @@ void config_about(void)
         do
         {
             u8g2.clearBuffer();
-            config_fun();
+            config_fun(0);
             u8g2.drawBox(0, (config_last_state)--, 128, 16);
             u8g2.sendBuffer();
         } while (config_last_state > config_state);
@@ -291,7 +293,7 @@ void config_about(void)
         do
         {
             u8g2.clearBuffer();
-            config_fun();
+            config_fun(0);
             u8g2.drawBox(0, (config_last_state)++, 128, 16);
             u8g2.sendBuffer();
         } while (config_last_state <= config_state);
@@ -435,28 +437,26 @@ void clock_mode_enter(void)
     }
 }
 /*
-函 数 名:void clear_wifi_anima(uint8_t x1)
+函 数 名:void select_cancel_anima(uint8_t x1)
 功能说明:清除WiFi 选择框移动动画
 形    参:void
 返 回 值:void
 时    间：2020-1-5
 RAiny
 */
-void clear_wifi_anima(uint8_t x1)
+void select_cancel_anima(const char *title, const char *content, uint8_t x1)
 {
-    const char *wifi_title = "清除WiFi";
-    const char *wifi_1 = "清除所有WiFi信息";
     uint8_t str_len = 0;
     u8g2.clearBuffer();
     u8g2.setFont(u8g2_font_wqy14_t_gb2312a);
-    str_len = u8g2.getUTF8Width(wifi_title);
+    str_len = u8g2.getUTF8Width(title);
     u8g2.setCursor(((OLED_WIDTH - str_len) / 2), 16 * 1 - 2);
-    u8g2.print(wifi_title);
+    u8g2.print(title);
     u8g2.drawBox(((OLED_WIDTH - str_len) / 2) - 2, 0, str_len + 4, 16);
     // u8g2.drawHLine(((OLED_WIDTH-str_len)/2)-2,16,14*4+4);
-    str_len = u8g2.getUTF8Width(wifi_1);
+    str_len = u8g2.getUTF8Width(content);
     u8g2.setCursor(((OLED_WIDTH - str_len) / 2), 16 * 2 - 2 + 5);
-    u8g2.print(wifi_1);
+    u8g2.print(content);
     u8g2.setCursor(24, 16 * 4 - 7);
     u8g2.print("取消");
     u8g2.setCursor(24 + 28 + 28, 16 * 4 - 7);
@@ -479,11 +479,13 @@ void clear_wifi_enter(void)
     int8_t select = 0; //0 是取消，1是确认
     uint8_t show_flag = 0, frame_x = 0;
     const uint8_t x1 = 24 - 4, x2 = 24 + 28 + 28 - 4;
+    const char *wifi_title = "清除WiFi";
+    const char *wifi_1 = "清除所有WiFi信息";
     while (1)
     {
         if (show_flag == 0) //初次进入
         {
-            clear_wifi_anima(x1);
+            select_cancel_anima(wifi_title, wifi_1, x1);
         }
         else if (show_flag == 1)
         {
@@ -491,14 +493,14 @@ void clear_wifi_enter(void)
             {
                 while (frame_x < x2)
                 {
-                    clear_wifi_anima(frame_x++);
+                    select_cancel_anima(wifi_title, wifi_1, frame_x++);
                 }
             }
             else if (select == 0)
             {
                 while (frame_x > x1)
                 {
-                    clear_wifi_anima(frame_x--);
+                    select_cancel_anima(wifi_title, wifi_1, frame_x--);
                 }
             }
         }
@@ -549,6 +551,140 @@ void clear_wifi_enter(void)
             }
             else if (select == 0)
             {
+                set_keymenu_event(KEY_CANCEL);
+                break;
+            }
+        }
+        else if (get_keymenu_event() == KEY_CANCEL)
+        {
+            //这里不要清除，外面会进行清除
+            // clear_keymenu_event();
+            break;
+        }
+        delay(50);
+    }
+}
+/*
+函 数 名:void close_open_rgb(void)
+功能说明:设置RGB_LED
+形    参:void
+返 回 值:void
+时    间：2020-1-8
+RAiny
+*/
+void close_open_rgb(void)
+{
+    config_state = 16;
+    if (config_state < config_last_state)
+    {
+        do
+        {
+            u8g2.clearBuffer();
+            config_fun(1);
+            u8g2.drawBox(0, (config_last_state)--, 128, 16);
+            u8g2.sendBuffer();
+        } while (config_last_state > config_state);
+    }
+    else
+    {
+        do
+        {
+            u8g2.clearBuffer();
+            config_fun(1);
+            u8g2.drawBox(0, (config_last_state)++, 128, 16);
+            u8g2.sendBuffer();
+        } while (config_last_state <= config_state);
+    }
+    config_last_state = config_state;
+}
+/*
+函 数 名:void close_open_rgb_enter(void)
+功能说明:
+形    参:void
+返 回 值:void
+时    间：2020-1-8
+RAiny
+*/
+void close_open_rgb_enter(void)
+{
+    int8_t select = 0; //0 是取消，1是确认
+    uint8_t show_flag = 0, frame_x = 0;
+    const uint8_t x1 = 24 - 4, x2 = 24 + 28 + 28 - 4;
+    const char *rgb_title = "设置RGB_LED";
+    const char *rgb_content = "开启RGB_LED";
+    while (1)
+    {
+        if (show_flag == 0) //初次进入
+        {
+            select_cancel_anima(rgb_title, rgb_content, x1);
+        }
+        else if (show_flag == 1)
+        {
+            if (select == 1)
+            {
+                while (frame_x < x2)
+                {
+                    select_cancel_anima(rgb_title, rgb_content, frame_x++);
+                }
+            }
+            else if (select == 0)
+            {
+                while (frame_x > x1)
+                {
+                    select_cancel_anima(rgb_title, rgb_content, frame_x--);
+                }
+            }
+        }
+        if (get_keymenu_event() == KEY_NEXT)
+        {
+            clear_keymenu_event();
+            select += 1;
+            show_flag = 1; //按下按键
+            if (select > 1)
+            {
+                select = 0;
+            }
+            if (select == 1)
+            {
+                frame_x = x1;
+            }
+            if (select == 0)
+            {
+                frame_x = x2;
+            }
+        }
+        else if (get_keymenu_event() == KEY_PRVE)
+        {
+            clear_keymenu_event();
+            select -= 1;
+            show_flag = 1;
+            if (select < 0)
+            {
+                select = 1;
+            }
+            if (select == 1)
+            {
+                frame_x = x1;
+            }
+            if (select == 0)
+            {
+                frame_x = x2;
+            }
+        }
+        else if (get_keymenu_event() == KEY_CONFIRM)
+        {
+            clear_keymenu_event();
+            if (select == 1)
+            {
+                eeprom.data.led_on = 1;
+                eeprom_write();
+                set_keymenu_event(KEY_CANCEL);
+                break;
+            }
+            else if (select == 0)
+            {
+                eeprom.data.led_on = 0;
+                eeprom_write();
                 set_keymenu_event(KEY_CANCEL);
                 break;
             }

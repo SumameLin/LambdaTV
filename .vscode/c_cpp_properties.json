@@ -3,14 +3,12 @@
         {
             "name": "Win32",
             "includePath": [
-                "C:\\Users\\HUAWEI\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
-                "C:\\Users\\HUAWEI\\Documents\\Arduino\\libraries\\**",
                 "D:\\arduino-nightly-windows\\arduino-nightly\\libraries\\**",
-                "C:\\Users\\HUAWEI\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\**",
                 "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\**",
                 "libraries\\**",
                 "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\**",
                 "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\tools\\**",
+                "D:\\Arduino\\libraries\\**",
                 "D:/mingw64/include/**",
                 "D:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++",
                 "D:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/8.1.0/include/c++/x86_64-w64-mingw32",

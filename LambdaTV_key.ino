@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "LambdaTV.h"
 /*
 函 数 名:void s_click(void)
@@ -158,11 +159,20 @@ RAiny
 */
 void rgb_led_set(RGB_INF rgb_set)
 {
-    #if USEING_UART
-    analogWrite(RGB_R_PIN, 1024 - rgb_set.r_val * 4);
-    #endif
-    analogWrite(RGB_G_PIN, 1024 - rgb_set.g_val * 4);
-    analogWrite(RGB_B_PIN, 1024 - rgb_set.b_val * 4);
+    if(eeprom.data.led_on)
+    {
+        #if USEING_UART
+        analogWrite(RGB_R_PIN, 1024 - rgb_set.r_val * 4);
+        #endif
+        analogWrite(RGB_G_PIN, 1024 - rgb_set.g_val * 4);
+        analogWrite(RGB_B_PIN, 1024 - rgb_set.b_val * 4);
+    }
+    else
+    {
+        analogWrite(RGB_R_PIN, 1024);
+        analogWrite(RGB_G_PIN, 1024);
+        analogWrite(RGB_B_PIN, 1024);
+    }
 }
 /*
 函 数 名:void set_rgb_val(uint8_t r_val,uint8_t g_val,uint8_t b_val)

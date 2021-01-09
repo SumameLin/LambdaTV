@@ -11,33 +11,8 @@
   },
   {
     "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
-    "Include": "U8g2lib.h",
-    "Includepath": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\U8g2\\src"
-  },
-  {
-    "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
-    "Include": "Ticker.h",
-    "Includepath": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\Ticker\\src"
-  },
-  {
-    "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
-    "Include": "SPI.h",
-    "Includepath": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\SPI"
-  },
-  {
-    "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
-    "Include": "OneButton.h",
-    "Includepath": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\OneButton\\src"
-  },
-  {
-    "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
-    "Include": "WiFiManager.h",
-    "Includepath": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\WiFiManager-master"
-  },
-  {
-    "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
-    "Include": "ESP8266WiFi.h",
-    "Includepath": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src"
+    "Include": "EEPROM.h",
+    "Includepath": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\EEPROM"
   },
   {
     "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
@@ -46,8 +21,8 @@
   },
   {
     "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
-    "Include": "DNSServer.h",
-    "Includepath": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\DNSServer\\src"
+    "Include": "ESP8266WiFi.h",
+    "Includepath": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src"
   },
   {
     "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
@@ -56,13 +31,38 @@
   },
   {
     "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Include": "OneButton.h",
+    "Includepath": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\OneButton\\src"
+  },
+  {
+    "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Include": "SPI.h",
+    "Includepath": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\SPI"
+  },
+  {
+    "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Include": "Ticker.h",
+    "Includepath": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\Ticker\\src"
+  },
+  {
+    "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
     "Include": "TimeLib.h",
     "Includepath": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\Time-master"
   },
   {
     "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
-    "Include": "EEPROM.h",
-    "Includepath": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\EEPROM"
+    "Include": "U8g2lib.h",
+    "Includepath": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\U8g2\\src"
+  },
+  {
+    "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Include": "WiFiManager.h",
+    "Includepath": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\WiFiManager-master"
+  },
+  {
+    "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Include": "DNSServer.h",
+    "Includepath": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\DNSServer\\src"
   },
   {
     "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
@@ -71,6 +71,131 @@
   },
   {
     "Sourcefile": "f:\\ESP\\esp8266_oled\\LambdaTV\\build\\sketch\\LambdaTV.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\EEPROM\\EEPROM.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WebServer\\src\\detail\\mimetable.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\BearSSLHelpers.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\CertStoreBearSSL.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFi.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiAP.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiGeneric.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiGratuitous.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiMulti.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiSTA-WPS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiSTA.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiScan.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiClient.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiClientSecureAxTLS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiClientSecureBearSSL.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiServer.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiServerSecureAxTLS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiServerSecureBearSSL.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiUdp.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\NTPClient\\NTPClient.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\OneButton\\src\\OneButton.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\SPI\\SPI.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\Ticker\\src\\Ticker.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\Time-master\\DateStrings.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\Time-master\\Time.cpp",
     "Include": "",
     "Includepath": null
   },
@@ -565,137 +690,12 @@
     "Includepath": null
   },
   {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\Ticker\\src\\Ticker.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\SPI\\SPI.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\OneButton\\src\\OneButton.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
     "Sourcefile": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\WiFiManager-master\\WiFiManager.cpp",
     "Include": "",
     "Includepath": null
   },
   {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\BearSSLHelpers.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\CertStoreBearSSL.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFi.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiAP.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiGeneric.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiGratuitous.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiMulti.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiSTA-WPS.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiSTA.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\ESP8266WiFiScan.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiClient.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiClientSecureAxTLS.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiClientSecureBearSSL.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiServer.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiServerSecureAxTLS.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiServerSecureBearSSL.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WiFi\\src\\WiFiUdp.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\ESP8266WebServer\\src\\detail\\mimetable.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
     "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\DNSServer\\src\\DNSServer.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\NTPClient\\NTPClient.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\Time-master\\DateStrings.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\Documents\\Arduino\\libraries\\Time-master\\Time.cpp",
-    "Include": "",
-    "Includepath": null
-  },
-  {
-    "Sourcefile": "C:\\Users\\RAiny\\AppData\\Local\\Arduino15\\packages\\esp8266\\hardware\\esp8266\\2.7.4\\libraries\\EEPROM\\EEPROM.cpp",
     "Include": "",
     "Includepath": null
   },

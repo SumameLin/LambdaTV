@@ -1,5 +1,6 @@
 {
     "files.associations": {
+        "iostream": "cpp",
         "xiosbase": "cpp",
         "array": "cpp",
         "deque": "cpp",
@@ -11,6 +12,8 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "string": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "iosfwd": "cpp",
+        "xlocbuf": "cpp"
     }
 }

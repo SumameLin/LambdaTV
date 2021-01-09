@@ -68,19 +68,9 @@ f:\ESP\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp.o: \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/debug.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\variants\generic/pins_arduino.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\variants\generic/common.h \
- C:\Users\RAiny\Documents\Arduino\libraries\U8g2\src/U8g2lib.h \
- C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Print.h \
- C:\Users\RAiny\Documents\Arduino\libraries\U8g2\src/U8x8lib.h \
- C:\Users\RAiny\Documents\Arduino\libraries\U8g2\src/clib/u8x8.h \
- C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/libc/xtensa-lx106-elf/include/limits.h \
- C:\Users\RAiny\Documents\Arduino\libraries\U8g2\src/clib/u8g2.h \
- C:\Users\RAiny\Documents\Arduino\libraries\U8g2\src/clib/u8x8.h \
- C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/FS.h \
- C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\Ticker\src/Ticker.h \
- C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Schedule.h \
- C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\SPI/SPI.h \
- C:\Users\RAiny\Documents\Arduino\libraries\OneButton\src/OneButton.h \
- C:\Users\RAiny\Documents\Arduino\libraries\WiFiManager-master/WiFiManager.h \
+ f:\ESP\esp8266_oled\LambdaTV\build\sketch\LambdaTV.h \
+ C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\EEPROM/EEPROM.h \
+ C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WebServer\src/ESP8266WebServer.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/ESP8266WiFi.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/include/wl_definitions.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/IPAddress.h \
@@ -109,6 +99,7 @@ f:\ESP\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp.o: \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/include/gpio.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/lwip2/include/gluedebug.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/include/ipv4_addr.h \
+ C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/libc/xtensa-lx106-elf/include/limits.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/lwip2/include/arch/cc.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/lwip2/include/lwip-git-hash.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4/tools/sdk/libc/xtensa-lx106-elf/include/sys/time.h \
@@ -120,6 +111,7 @@ f:\ESP\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp.o: \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/ESP8266WiFiAP.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/ESP8266WiFiScan.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/WiFiClient.h \
+ C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Print.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Client.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/IPAddress.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/include/slist.h \
@@ -146,9 +138,9 @@ f:\ESP\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp.o: \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Updater.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/CertStoreBearSSL.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/BearSSLHelpers.h \
+ C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/FS.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/WiFiServerSecureBearSSL.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/WiFiClientSecure.h \
- C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WebServer\src/ESP8266WebServer.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WebServer\src/detail/mimetable.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WebServer\src/Uri.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WebServer\src/detail/RequestHandler.h \
@@ -163,12 +155,20 @@ f:\ESP\esp8266_oled\LambdaTV\build\sketch\LambdaTV.ino.cpp.o: \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WebServer\src/detail/mimetable.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WebServer\src/Uri.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WebServer\src/Parsing-impl.h \
+ C:\Users\RAiny\Documents\Arduino\libraries\NTPClient/NTPClient.h \
+ C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Udp.h \
+ C:\Users\RAiny\Documents\Arduino\libraries\OneButton\src/OneButton.h \
+ C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\SPI/SPI.h \
+ C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\Ticker\src/Ticker.h \
+ C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Schedule.h \
+ C:\Users\RAiny\Documents\Arduino\libraries\Time-master/TimeLib.h \
+ C:\Users\RAiny\Documents\Arduino\libraries\U8g2\src/U8g2lib.h \
+ C:\Users\RAiny\Documents\Arduino\libraries\U8g2\src/U8x8lib.h \
+ C:\Users\RAiny\Documents\Arduino\libraries\U8g2\src/clib/u8x8.h \
+ C:\Users\RAiny\Documents\Arduino\libraries\U8g2\src/clib/u8g2.h \
+ C:\Users\RAiny\Documents\Arduino\libraries\U8g2\src/clib/u8x8.h \
+ C:\Users\RAiny\Documents\Arduino\libraries\WiFiManager-master/WiFiManager.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\DNSServer\src/DNSServer.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/WiFiUdp.h \
- C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266/Udp.h \
  C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\ESP8266WiFi\src/include/slist.h \
- C:\Users\RAiny\Documents\Arduino\libraries\NTPClient/NTPClient.h \
- C:\Users\RAiny\Documents\Arduino\libraries\Time-master/TimeLib.h \
- C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\libraries\EEPROM/EEPROM.h \
- C:\Users\RAiny\Documents\Arduino\libraries\QRCode\src/qrcode.h \
- f:\ESP\esp8266_oled\LambdaTV\build\sketch\LambdaTV.h
+ C:\Users\RAiny\Documents\Arduino\libraries\QRCode\src/qrcode.h
