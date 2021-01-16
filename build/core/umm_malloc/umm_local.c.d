@@ -1,2 +1,2 @@
-f:\ESP\esp8266_oled\LambdaTV\build\core\umm_malloc\umm_local.c.o: \
- C:\Users\RAiny\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266\umm_malloc\umm_local.c
+e:\ESP\esp8266_oled\LambdaTV\build\core\umm_malloc\umm_local.c.o: \
+ C:\Users\Win10\AppData\Local\Arduino15\packages\esp8266\hardware\esp8266\2.7.4\cores\esp8266\umm_malloc\umm_local.c

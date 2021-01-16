@@ -586,6 +586,10 @@ time_minu=minute(unix_epoch);      // get minutes (0 - 59)
 time_hour=hour(unix_epoch);        // get hours   (0 - 23)
 ```
 
+`timeClient.getEpochTime(); `得到的是Unix时间戳，需要转换为本地时间，使用的是TimeLib库，但TimeLib解析时间的结构体对应年的定义是用的`uint8_t`,应修改为`int`。
+
+[C实现Unix时间戳和本地时间转化](https://blog.csdn.net/mill_li/article/details/54599927)
+
 ### 显示时间
 
 #### 字体
@@ -648,6 +652,10 @@ u8g2.updateDisplayArea(tile_area_x_pos, tile_area_y_pos, tile_area_width, tile_a
 
 ```
 
+#### 上下翻页的效果
+
+
+
 #### 模拟表盘
 
 [Original Tiwe OLED Watch](http://montre24.com/news/2012-10-06/2127/)
@@ -673,6 +681,8 @@ u8g2.updateDisplayArea(tile_area_x_pos, tile_area_y_pos, tile_area_width, tile_a
 [为Nodemcu中的u8g2模块添加中文字体](https://zhuanlan.zhihu.com/p/60200639)
 
 [u8g2_font](https://github.com/olikraus/u8g2/wiki/fntlistall#18-pixel-height)
+
+[字体天下](https://www.fonts.net.cn/)
 
 可以参考上面第二个帖子，教程很详细。
 
@@ -726,6 +736,22 @@ u8g2.updateDisplayArea(tile_area_x_pos, tile_area_y_pos, tile_area_width, tile_a
     u8g2.print("2.打开网页配置WiFi");	
   }while(u8g2.nextPage());
 ```
+
+### 制作字体
+
+#### ttf转bdf
+
+以_Open-24-Display-St-1.ttf_ 上下翻页效果字体为例。
+
+字体宽度为20的bdf：
+
+`./otf2bdf -r 307 ./Com.ttf -o Com.bdf`
+
+-r 是dpi，最终转换成点阵字体。生成的字体的宽度跟字体ttf有关系。
+
+#### 转换bdf为u8g2字体
+
+`./bdfconv.exe -v Com.bdf -b 0 -f 1 -M ./chinese.map -c Com.bdf -n u8g2_font_unifont -o ./u8g2_font_unifont.c`
 
 ## QRCode
 

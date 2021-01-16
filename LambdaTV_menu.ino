@@ -132,7 +132,7 @@ uint8_t towards(menu_state *current, menu_state *destination)
 }
 /*
 函 数 名:void config_fun(void)
-功能说明:
+功能说明:主显示菜单
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -154,7 +154,7 @@ void config_fun(int8_t state)
 }
 /*
 函 数 名:void clock_mode(void)
-功能说明:
+功能说明:时钟模式
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -203,7 +203,7 @@ void clock_mode()
 }
 /*
 函 数 名:void instrustions(void)
-功能说明:
+功能说明:LambdaTV介绍
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -236,7 +236,7 @@ void instrustions(void)
 }
 /*
 函 数 名:void clear_wifi(void)
-功能说明:
+功能说明:清除WIFI信息
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -269,7 +269,7 @@ void clear_wifi(void)
 }
 /*
 函 数 名:void config_about(void)
-功能说明:
+功能说明:关于
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -302,7 +302,7 @@ void config_about(void)
 }
 /*
 函 数 名:void instrustions_enter(void)
-功能说明:
+功能说明:进入介绍页面
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -336,7 +336,7 @@ void instrustions_enter(void)
 }
 /*
 函 数 名:void about_enter(void)
-功能说明:
+功能说明:进入关于界面
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -365,7 +365,7 @@ void about_enter(void)
 }
 /*
 函 数 名:void clock_mode_enter(void)
-功能说明:
+功能说明:进入时钟模式界面
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -599,7 +599,7 @@ void close_open_rgb(void)
 }
 /*
 函 数 名:void close_open_rgb_enter(void)
-功能说明:
+功能说明:进入打开关闭RGB设置页面
 形    参:void
 返 回 值:void
 时    间：2020-1-8

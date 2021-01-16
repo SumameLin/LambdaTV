@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#line 1 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 #include "LambdaTV.h"
 #include <EEPROM.h>
 #include <ESP8266WebServer.h>
@@ -14,6 +14,7 @@
 #include <WiFiManager.h>
 #include <WiFiUdp.h>
 #include <qrcode.h>
+#include <stdint.h>
 
 const uint8_t write_num0[] U8X8_PROGMEM  = {
   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
@@ -269,79 +270,83 @@ config_table config_list[] =
 时    间：2020-12-20
 RAiny
 */
-#line 270 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 271 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void print_fs_info(void);
-#line 302 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 303 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void LambdaTV(void);
-#line 412 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 413 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void time_show_2(tmElements_t time);
+#line 467 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void time_show_3(tmElements_t time);
+#line 556 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x, uint8_t y, uint8_t bin_num);
-#line 477 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 621 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x, uint8_t y, uint8_t num);
-#line 528 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
-void time_show(uint8_t hour, uint8_t minu);
-#line 769 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 671 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void time_show_1(tmElements_t time);
+#line 926 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void);
-#line 782 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 939 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void rgb_led_run(void);
-#line 803 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 960 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void);
-#line 860 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1017 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_read(void);
-#line 873 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1030 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_write(void);
-#line 894 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1051 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void);
-#line 960 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1117 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void);
-#line 11 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 11 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_click(void);
-#line 24 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 24 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_doubleclick(void);
-#line 36 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 36 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_longclick(void);
-#line 49 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 49 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void c_click(void);
-#line 62 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 62 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void c_doubleclick(void);
-#line 75 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 75 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void c_longclick(void);
-#line 88 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 88 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 KEY_EVENT_INF get_keymenu_event(void);
-#line 102 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 102 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void set_keymenu_event(KEY_EVENT_INF KEY);
-#line 114 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 114 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void clear_keymenu_event(void);
-#line 126 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 126 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void key_init(void);
-#line 143 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 143 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void rgb_led_init(void);
-#line 160 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 160 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void rgb_led_set(RGB_INF rgb_set);
-#line 185 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 185 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void set_rgb_val(uint8_t r_val, uint8_t g_val, uint8_t b_val);
-#line 15 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 15 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void draw(menu_state *state);
-#line 51 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 51 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void to_right(menu_state *state);
-#line 77 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 77 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void to_left(menu_state *state);
-#line 102 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 102 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 uint8_t towards_int16(int16_t *current, int16_t dest);
-#line 124 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 124 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 uint8_t towards(menu_state *current, menu_state *destination);
-#line 141 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 141 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void config_fun(int8_t state);
-#line 163 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 163 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void clock_mode();
-#line 447 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 447 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void select_cancel_anima(const char *title, const char *content, uint8_t x1);
-#line 13 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+#line 13 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 void handleUserRequet();
-#line 33 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+#line 33 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 bool handleFileRead(String path);
-#line 57 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+#line 57 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 String getContentType(String filename);
-#line 270 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 271 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void print_fs_info(void)
 {
     FSInfo fs_info;
@@ -477,6 +482,149 @@ void bin_player(void)
     }
 }
 /*
+函 数 名:void time_show_2(tmElements_t time)
+功能说明:没有动画，直接1变成2
+形    参:void
+返 回 值:void
+时    间：2020-1-16
+RAiny
+*/
+void time_show_2(tmElements_t time)
+{
+    uint8_t data_y = 0,anima_minu_low = 30;
+    uint8_t hour_high = 0, hour_low = 0, minu_high = 0, minu_low = 0, seco_high = 0,seco_low = 0;
+    static uint8_t maohao_flag = 0;
+    static uint8_t last_hour_high = 0xff, last_hour_low = 0xff, last_minu_high = 0xff, last_minu_low = 0xff;
+    static uint8_t last_seco_high = 0xff, last_seco_low = 0xff;
+    const uint8_t seco_high_x = 4 + 20 * 5, seco_low_x = 6 + 20 * 5 + 10;
+    const uint8_t minu_high_x = 2 + 20 * 3 - 2, minu_low_x = 2 + 20 * 4;
+    const uint8_t hour_high_x = 2, hour_low_x = 2 + 20 + 2;
+    const uint8_t maohao_x = 2 + 20 * 2 + 7;
+    const uint8_t time_y = 40;
+    char data_arry[15] = {0};
+    hour_high = time.Hour / 10;
+    hour_low = time.Hour % 10;
+    minu_high = time.Minute / 10;
+    minu_low = time.Minute % 10;
+    seco_high = time.Second / 10;
+    seco_low = time.Second % 10;
+    sprintf(data_arry, "%d/%d/%d", time.Year, time.Month, time.Day);
+    u8g2.clearBuffer();
+    u8g2.setFont(u8g2_font_smg10);//pixel hight 25 u8g2_font_freedoomr25_tn
+    data_y = u8g2.getUTF8Width(data_arry);
+    u8g2.drawStr((OLED_WIDTH - data_y) / 2, 64, data_arry);
+    u8g2.setFont(u8g2_font_smg20);//pixel hight 25 u8g2_font_freedoomr25_tn
+    u8g2.setCursor(hour_high_x,time_y);
+    u8g2.print(hour_high);
+    u8g2.setCursor(hour_low_x, time_y);
+    u8g2.print(hour_low);
+    u8g2.setCursor(maohao_x, time_y);
+    u8g2.print(":");
+    u8g2.setCursor(minu_high_x, time_y);
+    u8g2.print(minu_high);
+    u8g2.setCursor(minu_low_x, time_y);
+    u8g2.print(minu_low);
+    u8g2.setFont(u8g2_font_smg10);
+    u8g2.setCursor(seco_high_x, time_y);
+    u8g2.print(seco_high);
+    u8g2.setCursor(seco_low_x, time_y);
+    u8g2.print(seco_low);
+    u8g2.sendBuffer();
+    last_hour_high = hour_high;
+    last_hour_low = hour_low;
+    last_minu_high = minu_high;
+    last_minu_low = minu_low;
+}
+/*
+函 数 名:void time_show_3(tmElements_t time)
+功能说明:动画，上下翻页的效果
+形    参:void
+返 回 值:void
+时    间：2020-1-16
+RAiny
+*/
+void time_show_3(tmElements_t time)
+{
+    uint8_t data_y = 0,anima_minu_low = 40;
+    uint8_t hour_high = 0, hour_low = 0, minu_high = 0, minu_low = 0, seco_high = 0,seco_low = 0;
+    static uint8_t maohao_flag = 0;
+    static uint8_t last_hour_high = 0xff, last_hour_low = 0xff, last_minu_high = 0xff, last_minu_low = 0xff;
+    static uint8_t last_seco_high = 0xff, last_seco_low = 0xff;
+    const uint8_t seco_high_x = 4 + 20 * 5, seco_low_x = 6 + 20 * 5 + 10;
+    const uint8_t minu_high_x = 2 + 20 * 3 - 2, minu_low_x = 2 + 20 * 4;
+    const uint8_t hour_high_x = 2, hour_low_x = 2 + 20 + 2;
+    const uint8_t maohao_x = 2 + 20 * 2 + 7;
+    const uint8_t time_y = 40;
+    char data_arry[15] = {0};
+    hour_high = time.Hour / 10;
+    hour_low = time.Hour % 10;
+    minu_high = time.Minute / 10;
+    minu_low = time.Minute % 10;
+    seco_high = time.Second / 10;
+    seco_low = time.Second % 10;
+    sprintf(data_arry, "%d/%d/%d", time.Year, time.Month, time.Day);
+    while (anima_minu_low > 0)
+    {
+        u8g2.clearBuffer();
+        u8g2.setFont(u8g2_font_smg10);//pixel hight 25 u8g2_font_freedoomr25_tn
+        data_y = u8g2.getUTF8Width(data_arry);
+        u8g2.drawStr((OLED_WIDTH - data_y) / 2, 64, data_arry);
+        u8g2.setFont(u8g2_font_smg20);//pixel hight 25 u8g2_font_freedoomr25_tn
+        u8g2.setCursor(hour_high_x,time_y);
+        u8g2.print(hour_high);
+        u8g2.setCursor(hour_low_x, time_y);
+        u8g2.print(hour_low);
+        u8g2.setCursor(maohao_x, time_y);
+        u8g2.print(":");
+        u8g2.setCursor(minu_high_x, time_y);
+        u8g2.print(minu_high);
+        u8g2.setCursor(minu_low_x, time_y);
+        u8g2.print(minu_low);
+        u8g2.setFont(u8g2_font_smg10);
+        u8g2.setCursor(seco_high_x, time_y);
+        u8g2.print(seco_high);
+        if (last_seco_low == seco_low) //不去更新
+        {
+            u8g2.setCursor(seco_low_x, 40);
+            u8g2.print(seco_low);
+        }
+        else
+        {
+            // /* assign a clip window and draw some text into it */
+            // u8g2.setClipWindow(seco_low_x, 20, seco_low_x+10, time_y);
+            // u8g2.setCursor(seco_low_x, anima_minu_low--);
+            // u8g2.print(last_seco_low);
+            // u8g2.setCursor(seco_low_x, 20+anima_minu_low--);
+            // u8g2.print(seco_low);
+            // /* remove clip window, draw to complete screen */
+            // u8g2.setMaxClipWindow();
+        }
+        if (last_minu_low == minu_low) //不去更新
+        {
+
+        }
+        else
+        {
+            /* assign a clip window and draw some text into it */
+            u8g2.setClipWindow(minu_low_x, 0, minu_low_x+10, 40);
+            u8g2.setCursor(minu_low_x, anima_minu_low--);
+            u8g2.print(last_minu_low);
+            u8g2.setCursor(minu_low_x, 40+anima_minu_low--);
+            u8g2.print(minu_low);
+            /* remove clip window, draw to complete screen */
+            u8g2.setMaxClipWindow();
+        }
+        u8g2.sendBuffer();
+        delay(50);
+    }
+    last_hour_high = hour_high;
+    last_hour_low = hour_low;
+    last_minu_high = minu_high;
+    last_minu_low = minu_low;
+    last_seco_high = seco_high;
+    last_seco_low = seco_low;
+}
+/*
 函 数 名:void time_ipdate_anima(void)
 功能说明:时间数字更新动画
 形    参:void
@@ -592,23 +740,22 @@ void time_select_draw(uint8_t x, uint8_t y, uint8_t num)
     }
 }
 /*
-函 数 名:void time_show(uint8_t hour,uint8_t minu)
+函 数 名:void time_show_1(tmElements_t time)
 功能说明:显示手写数字时间，将数字对应的xbm图片显示
-形    参:uint8_t hour：时
-        uint8_t minu：分
+形    参:tmElements_t time：tmElements_t结构体
 返 回 值:void
 时    间：2020-12-26
 RAiny
 */
-void time_show(uint8_t hour, uint8_t minu)
+void time_show_1(tmElements_t time)
 {
     uint8_t hour_high = 0, hour_low = 0, minu_high = 0, minu_low = 0;
     static uint8_t maohao_flag = 0;
     static uint8_t last_hour_high = 0xff, last_hour_low = 0xff, last_minu_high = 0xff, last_minu_low = 0xff;
-    hour_high = hour / 10;
-    hour_low = hour % 10;
-    minu_high = minu / 10;
-    minu_low = minu % 10;
+    hour_high = time.Hour / 10;
+    hour_low = time.Hour % 10;
+    minu_high = time.Minute / 10;
+    minu_low = time.Minute % 10;
     u8g2.clearBuffer();
     if (last_minu_low == minu_low) //不去更新
     {
@@ -669,7 +816,7 @@ RAiny
 */
 void time_update(void)
 {
-    uint8_t time_minu, time_hour;
+    tmElements_t time;
     set_rgb_val(254, 67, 101);
     while (1)
     {
@@ -687,21 +834,35 @@ void time_update(void)
         {
             timeClient.update();
             unsigned long unix_epoch = timeClient.getEpochTime();
-            time_minu = minute(unix_epoch); // get minutes (0 - 59)
-            time_hour = hour(unix_epoch);   // get hours   (0 - 23)
-            Serial.print("hour is ");
-            Serial.print(time_hour);
-            Serial.print("minu is ");
-            Serial.print(time_minu);
+            time.Second = second(unix_epoch);
+            time.Minute = minute(unix_epoch);
+            time.Hour = hour(unix_epoch);
+            time.Wday = weekday(unix_epoch);
+            time.Day = day(unix_epoch);
+            time.Month = month(unix_epoch);
+            time.Year = year(unix_epoch);
+            Serial.print(" Minute is ");
+            Serial.print(time.Minute);
+            Serial.print(" Hour is ");
+            Serial.print(time.Hour);
+            Serial.print(" Wday is ");
+            Serial.print(time.Wday);
+            Serial.print(" Day is ");//Sunday is day 1
+            Serial.print(time.Day);
+            Serial.print(" Month is ");
+            Serial.print(time.Month);
+            Serial.print(" Year is ");
+            Serial.print(time.Year);
             Serial.print("\r\n");
-            time_show(time_hour, time_minu);
+            // time_show_1(time.Hour, time.Minute, time.Second);
+            time_show_3(time);
         }
         if (get_keymenu_event() == KEY_CANCEL)
         {
             clear_keymenu_event();
             break;
         }
-        delay(1000);
+        delay(100);
     }
 }
 /*
@@ -984,7 +1145,7 @@ void setup(void)
     }
     //SPIFFS.format();    // 格式化SPIFFS
     rgb_led_init();
-    led_tick.attach_ms(100, rgb_led_run);
+    led_tick.attach_ms(1000, rgb_led_run);
     u8g2.setFont(u8g2_font_wqy12_t_gb2312a);
     u8g2.firstPage();
     do
@@ -1037,7 +1198,7 @@ void loop(void)
     select_menu();
 }
 
-#line 1 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 1 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 #include "Arduino.h"
 #include "LambdaTV.h"
 /*
@@ -1228,7 +1389,7 @@ void set_rgb_val(uint8_t r_val, uint8_t g_val, uint8_t b_val)
     rgb_save.g_val = rgb.g_val = g_val;
     rgb_save.b_val = rgb.b_val = b_val;
 }
-#line 1 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
+#line 1 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 #include "Arduino.h"
 #include "LambdaTV.h"
 #include <U8g2lib.h>
@@ -1363,7 +1524,7 @@ uint8_t towards(menu_state *current, menu_state *destination)
 }
 /*
 函 数 名:void config_fun(void)
-功能说明:
+功能说明:主显示菜单
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -1385,7 +1546,7 @@ void config_fun(int8_t state)
 }
 /*
 函 数 名:void clock_mode(void)
-功能说明:
+功能说明:时钟模式
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -1434,7 +1595,7 @@ void clock_mode()
 }
 /*
 函 数 名:void instrustions(void)
-功能说明:
+功能说明:LambdaTV介绍
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -1467,7 +1628,7 @@ void instrustions(void)
 }
 /*
 函 数 名:void clear_wifi(void)
-功能说明:
+功能说明:清除WIFI信息
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -1500,7 +1661,7 @@ void clear_wifi(void)
 }
 /*
 函 数 名:void config_about(void)
-功能说明:
+功能说明:关于
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -1533,7 +1694,7 @@ void config_about(void)
 }
 /*
 函 数 名:void instrustions_enter(void)
-功能说明:
+功能说明:进入介绍页面
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -1567,7 +1728,7 @@ void instrustions_enter(void)
 }
 /*
 函 数 名:void about_enter(void)
-功能说明:
+功能说明:进入关于界面
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -1596,7 +1757,7 @@ void about_enter(void)
 }
 /*
 函 数 名:void clock_mode_enter(void)
-功能说明:
+功能说明:进入时钟模式界面
 形    参:void
 返 回 值:void
 时    间：2020-1-1
@@ -1830,7 +1991,7 @@ void close_open_rgb(void)
 }
 /*
 函 数 名:void close_open_rgb_enter(void)
-功能说明:
+功能说明:进入打开关闭RGB设置页面
 形    参:void
 返 回 值:void
 时    间：2020-1-8
@@ -1929,7 +2090,7 @@ void close_open_rgb_enter(void)
         delay(50);
     }
 }
-#line 1 "f:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
+#line 1 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 #include "LambdaTV.h"
 /*
 太极创客教程
