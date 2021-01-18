@@ -489,6 +489,18 @@ void time_show_2(tmElements_t time)
     last_minu_high = minu_high;
     last_minu_low = minu_low;
 }
+void time_up_anima(const uint8_t *fontData,uint8_t x,uint8_t y,uint8_t space_x,uint8_t space_y,uint8_t data,uint8_t last_data)
+{
+    /* assign a clip window and draw some text into it */
+    u8g2.setClipWindow(x, 40-space_y, x+space_x, 40);
+    u8g2.setFont(fontData);
+    u8g2.setCursor(x, y);
+    u8g2.print(last_data);
+    u8g2.setCursor(x, 40 + y);
+    u8g2.print(data);
+    /* remove clip window, draw to complete screen */
+    u8g2.setMaxClipWindow();
+}
 /*
 
 函 数 名:void time_show_3(tmElements_t time)
@@ -504,10 +516,10 @@ void time_show_2(tmElements_t time)
 RAiny
 
 */
-# 467 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 479 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_3(tmElements_t time)
 {
-    uint8_t data_y = 0,anima_minu_low = 40;
+    uint8_t data_y = 0, anima_minu_low = 40, anima_y = 0;
     uint8_t hour_high = 0, hour_low = 0, minu_high = 0, minu_low = 0, seco_high = 0,seco_low = 0;
     static uint8_t maohao_flag = 0;
     static uint8_t last_hour_high = 0xff, last_hour_low = 0xff, last_minu_high = 0xff, last_minu_low = 0xff;
@@ -527,57 +539,86 @@ void time_show_3(tmElements_t time)
     sprintf(data_arry, "%d/%d/%d", time.Year, time.Month, time.Day);
     while (anima_minu_low > 0)
     {
+        anima_y = anima_minu_low--;
+        Serial.print(anima_minu_low);
         u8g2.clearBuffer();
         u8g2.setFont(u8g2_font_smg10);//pixel hight 25 u8g2_font_freedoomr25_tn
         data_y = u8g2.getUTF8Width(data_arry);
         u8g2.drawStr((128 - data_y) / 2, 64, data_arry);
         u8g2.setFont(u8g2_font_smg20);//pixel hight 25 u8g2_font_freedoomr25_tn
-        u8g2.setCursor(hour_high_x,time_y);
-        u8g2.print(hour_high);
-        u8g2.setCursor(hour_low_x, time_y);
-        u8g2.print(hour_low);
         u8g2.setCursor(maohao_x, time_y);
         u8g2.print(":");
-        u8g2.setCursor(minu_high_x, time_y);
-        u8g2.print(minu_high);
-        u8g2.setCursor(minu_low_x, time_y);
-        u8g2.print(minu_low);
-        u8g2.setFont(u8g2_font_smg10);
-        u8g2.setCursor(seco_high_x, time_y);
-        u8g2.print(seco_high);
-        if (last_seco_low == seco_low) //不去更新
+        if (last_seco_low == seco_low)
         {
+            u8g2.setFont(u8g2_font_smg10);
             u8g2.setCursor(seco_low_x, 40);
             u8g2.print(seco_low);
         }
         else
         {
-            // /* assign a clip window and draw some text into it */
+            time_up_anima(u8g2_font_smg10, seco_low_x, anima_y, 10, 20, seco_low, last_seco_low);
+            /* assign a clip window and draw some text into it */
             // u8g2.setClipWindow(seco_low_x, 20, seco_low_x+10, time_y);
-            // u8g2.setCursor(seco_low_x, anima_minu_low--);
+            // u8g2.setFont(u8g2_font_smg10);
+            // u8g2.setCursor(seco_low_x, anima_y);
             // u8g2.print(last_seco_low);
-            // u8g2.setCursor(seco_low_x, 20+anima_minu_low--);
+            // u8g2.setCursor(seco_low_x, 40+anima_y);
             // u8g2.print(seco_low);
             // /* remove clip window, draw to complete screen */
             // u8g2.setMaxClipWindow();
         }
-        if (last_minu_low == minu_low) //不去更新
+        if(last_seco_high == seco_high)
         {
-
+            u8g2.setFont(u8g2_font_smg10);
+            u8g2.setCursor(seco_high_x, 40);
+            u8g2.print(seco_high);
         }
         else
         {
-            /* assign a clip window and draw some text into it */
-            u8g2.setClipWindow(minu_low_x, 0, minu_low_x+10, 40);
-            u8g2.setCursor(minu_low_x, anima_minu_low--);
-            u8g2.print(last_minu_low);
-            u8g2.setCursor(minu_low_x, 40+anima_minu_low--);
+            time_up_anima(u8g2_font_smg10, seco_high_x, anima_y, 10, 20, seco_high, last_seco_high);
+        }
+        if (last_minu_low == minu_low)
+        {
+            u8g2.setFont(u8g2_font_smg20);
+            u8g2.setCursor(minu_low_x, 40);
             u8g2.print(minu_low);
-            /* remove clip window, draw to complete screen */
-            u8g2.setMaxClipWindow();
+        }
+        else
+        {
+            time_up_anima(u8g2_font_smg20, minu_low_x, anima_y, 20, 40, minu_low, last_minu_low);
+        }
+        if (last_minu_high == minu_high)
+        {
+            u8g2.setFont(u8g2_font_smg20);
+            u8g2.setCursor(minu_high_x, 40);
+            u8g2.print(minu_high);
+        }
+        else
+        {
+            time_up_anima(u8g2_font_smg20, minu_high_x, anima_y, 20, 40, minu_high, last_minu_high);
+        }
+        if (last_hour_low == hour_low)
+        {
+            u8g2.setFont(u8g2_font_smg20);
+            u8g2.setCursor(hour_low_x, 40);
+            u8g2.print(hour_low);
+        }
+        else
+        {
+            time_up_anima(u8g2_font_smg20, hour_low_x, anima_y, 20, 40, hour_low, last_hour_low);
+        }
+        if (last_hour_high == hour_high)
+        {
+            u8g2.setFont(u8g2_font_smg20);
+            u8g2.setCursor(hour_high_x, 40);
+            u8g2.print(hour_high);
+        }
+        else
+        {
+            time_up_anima(u8g2_font_smg20, hour_high_x, anima_y, 20, 40, hour_high, last_hour_high);
         }
         u8g2.sendBuffer();
-        delay(50);
+        delay(30);//动作时间长了过1S，S的显示就不连续
     }
     last_hour_high = hour_high;
     last_hour_low = hour_low;
@@ -601,7 +642,7 @@ void time_show_3(tmElements_t time)
 RAiny
 
 */
-# 556 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 597 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x, uint8_t y, uint8_t bin_num)
 {
     char file_name_buff[10];
@@ -676,7 +717,7 @@ void time_ipdate_anima(uint8_t x, uint8_t y, uint8_t bin_num)
 RAiny
 
 */
-# 621 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 662 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x, uint8_t y, uint8_t num)
 {
     switch (num)
@@ -734,7 +775,7 @@ void time_select_draw(uint8_t x, uint8_t y, uint8_t num)
 RAiny
 
 */
-# 671 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 712 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_1(tmElements_t time)
 {
     uint8_t hour_high = 0, hour_low = 0, minu_high = 0, minu_low = 0;
@@ -809,10 +850,11 @@ void time_show_1(tmElements_t time)
 RAiny
 
 */
-# 738 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 779 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_update(void)
 {
     tmElements_t time;
+    uint32_t delay_time;
     set_rgb_val(254, 67, 101);
     while (1)
     {
@@ -850,15 +892,38 @@ void time_update(void)
             Serial.print(" Year is ");
             Serial.print(time.Year);
             Serial.print("\r\n");
-            // time_show_1(time.Hour, time.Minute, time.Second);
-            time_show_3(time);
+            if(eeprom.data.clock_mode == 0)
+            {
+                time_show_1(time);
+                delay_time = 1000;
+            }
+            else if(eeprom.data.clock_mode == 1)
+            {
+                time_show_2(time);
+                delay_time = 500;
+            }
+            else if(eeprom.data.clock_mode == 2)
+            {
+                time_show_3(time);
+                delay_time = 20;
+            }
+        }
+        if (get_keymenu_event() == KEY_HIDDEN)
+        {
+            eeprom.data.clock_mode += 1;
+            if(eeprom.data.clock_mode > 2)
+            {
+                eeprom.data.clock_mode = 0;
+            }
+            eeprom_write();
+            clear_keymenu_event();
         }
         if (get_keymenu_event() == KEY_CANCEL)
         {
             clear_keymenu_event();
             break;
         }
-        delay(100);
+        delay(delay_time);
     }
 }
 /*
@@ -876,7 +941,7 @@ void time_update(void)
 RAiny
 
 */
-# 797 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 862 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void web_introduce(void)
 {
     char qrcode_buff[25];
@@ -964,7 +1029,7 @@ void web_introduce(void)
 RAiny
 
 */
-# 877 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 942 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void config(void)
 {
     static uint8_t func_index = 0;
@@ -1021,7 +1086,7 @@ void config(void)
 RAiny
 
 */
-# 926 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 991 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void)
 {
     s_button.tick();
@@ -1042,7 +1107,7 @@ void key_check(void)
 RAiny
 
 */
-# 939 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1004 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void rgb_led_run(void)
 {
     rgb.r_val--;
@@ -1071,7 +1136,7 @@ void rgb_led_run(void)
 RAiny
 
 */
-# 960 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1025 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void)
 {
     KEY_EVENT_INF menu_event = KEY_NOEVENT;
@@ -1136,7 +1201,7 @@ void select_menu(void)
 RAiny
 
 */
-# 1017 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1082 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_read(void)
 {
     for (uint16_t i = 0; i < 64 /*EEPROM 大小*/; i++)
@@ -1157,7 +1222,7 @@ void eeprom_read(void)
 RAiny
 
 */
-# 1030 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1095 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_write(void)
 {
     for (uint16_t i = 0; i < 64 /*EEPROM 大小*/; i++)
@@ -1186,7 +1251,7 @@ void eeprom_write(void)
 RAiny
 
 */
-# 1051 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1116 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void)
 {
     Serial.begin(115200);
@@ -1260,7 +1325,7 @@ void setup(void)
 RAiny
 
 */
-# 1117 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1182 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void)
 {
     select_menu();
@@ -1796,7 +1861,7 @@ void clock_mode()
             u8g2.setDrawColor(2);
             config_fun(1);
             u8g2.setCursor(110, 16 * 1 - 2);
-            if (eeprom.data.clock_mode > 3)
+            if (eeprom.data.clock_mode > 2)
                 u8g2.print("0");
             else
                 u8g2.print(eeprom.data.clock_mode);
@@ -1814,7 +1879,7 @@ void clock_mode()
             u8g2.setDrawColor(2);
             config_fun(1);
             u8g2.setCursor(110, 16 * 1 - 2);
-            if (eeprom.data.clock_mode > 3)
+            if (eeprom.data.clock_mode > 2)
                 u8g2.print("0");
             else
                 u8g2.print(eeprom.data.clock_mode);
@@ -2066,7 +2131,7 @@ void clock_mode_enter(void)
             u8g2.setDrawColor(1); //白 /* color 1 for the box */
             u8g2.drawBox(((128 - str_len) / 2) - 4, 16 + 12 - 1, box_y++, box_y++);
             u8g2.setCursor(((128 - str_len) / 2), 16 + 12 + 24);
-            if (eeprom.data.clock_mode > 3) //一开始EPPROM不为零
+            if (eeprom.data.clock_mode > 2) //一开始EPPROM不为零
             {
                 mode = eeprom.data.clock_mode = 0;
             }
@@ -2080,7 +2145,7 @@ void clock_mode_enter(void)
             clear_keymenu_event();
             box_y = 0;
             mode += 1;
-            if (mode >= 3)
+            if (mode > 2)
                 mode = 0;
         }
         else if (get_keymenu_event() == KEY_PRVE)
@@ -2089,7 +2154,7 @@ void clock_mode_enter(void)
             box_y = 0;
             mode -= 1;
             if (mode <= 0)
-                mode = 3;
+                mode = 2;
         }
         else if (get_keymenu_event() == KEY_CONFIRM)
         {
@@ -2378,14 +2443,14 @@ void close_open_rgb_enter(void)
             clear_keymenu_event();
             if (select == 1)
             {
-                eeprom.data.led_on = 1;
+                eeprom.data.led_on = 0;
                 eeprom_write();
                 set_keymenu_event(KEY_CANCEL);
                 break;
             }
             else if (select == 0)
             {
-                eeprom.data.led_on = 0;
+                eeprom.data.led_on = 1;
                 eeprom_write();
                 set_keymenu_event(KEY_CANCEL);
                 break;

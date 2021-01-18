@@ -410,7 +410,7 @@ void clock_mode_enter(void)
             clear_keymenu_event();
             box_y = 0;
             mode += 1;
-            if (mode >= CLOCK_MAX_MODE)
+            if (mode > CLOCK_MAX_MODE)
                 mode = 0;
         }
         else if (get_keymenu_event() == KEY_PRVE)
@@ -676,14 +676,14 @@ void close_open_rgb_enter(void)
             clear_keymenu_event();
             if (select == 1)
             {
-                eeprom.data.led_on = 1;
+                eeprom.data.led_on = 0;
                 eeprom_write();
                 set_keymenu_event(KEY_CANCEL);
                 break;
             }
             else if (select == 0)
             {
-                eeprom.data.led_on = 0;
+                eeprom.data.led_on = 1;
                 eeprom_write();
                 set_keymenu_event(KEY_CANCEL);
                 break;
