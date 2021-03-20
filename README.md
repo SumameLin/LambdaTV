@@ -836,3 +836,9 @@ u8g.drawPixel(28, 14); // 点亮一个 点，位置在 (28, 14)
 ```
 
 ![set_color](./image/set_color.png)
+
+## 3D旋转立方体
+
+[[Arduino]用oled显示一个炫酷旋转立方体](http://colinord.blogspot.com/2015/01/arduino-oled-module-with-3d-demo.html)
+
+[Arduino - OLED Module with 3D demo sketch](http://colinord.blogspot.com/2015/01/arduino-oled-module-with-3d-demo.html)

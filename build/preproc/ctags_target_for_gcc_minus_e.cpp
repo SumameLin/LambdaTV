@@ -361,10 +361,13 @@ void bin_player(void)
 {
     char data_read;
     const char *apple_bin = "/apple.bin";
-    const char *basket_bin = "/basket.bin";
+    const char *basket_bin = "/plant.bin";
+    const char *elephant_bin = "/elephant.bin";
+    const char *plant_bin = "/plant.bin";
     static int data_len = 0;
     static uint8_t exit_flag = 0;
     uint8_t hidden_mode = 0;
+    uint32_t delay_show_time = 165000;
     //建立File对象用于从SPIFFS中读取文件
     String file_name = apple_bin;
     set_rgb_val(69, 137, 148);
@@ -389,7 +392,7 @@ void bin_player(void)
             if (data_len == 1024) //分辨率 128*64
             {
                 //34500 延时是对于15FPS的bin文件
-                delayMicroseconds(165000); //不延时3029张一共用时107S，差不多FPS=30.7
+                delayMicroseconds(delay_show_time); //不延时3029张一共用时107S，差不多FPS=30.7
                 u8g2.clearBuffer();
                 u8g2.drawXBM(0, 0, 128, 64, badapple_buf);
                 u8g2.sendBuffer();
@@ -400,12 +403,28 @@ void bin_player(void)
                 clear_keymenu_event();
                 data_len = 0;
                 hidden_mode += 1;
-                if (hidden_mode > 1)
+                if (hidden_mode > 3)
                     hidden_mode = 0;
                 if (hidden_mode == 0)
+                {
                     file_name = apple_bin;
+                    delay_show_time = 165000;
+                }
                 else if (hidden_mode == 1)
+                {
                     file_name = basket_bin;
+                    delay_show_time = 135000;
+                }
+                else if (hidden_mode == 2)
+                {
+                    file_name = elephant_bin;
+                    delay_show_time = 100000;
+                }
+                else if (hidden_mode == 3)
+                {
+                    file_name = plant_bin;
+                    delay_show_time = 120000;
+                }
                 break;
             }
             else if (get_keymenu_event() == KEY_CANCEL)
@@ -442,7 +461,7 @@ void bin_player(void)
 RAiny
 
 */
-# 413 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 432 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_2(tmElements_t time)
 {
     uint8_t data_y = 0,anima_minu_low = 30;
@@ -516,7 +535,7 @@ void time_up_anima(const uint8_t *fontData,uint8_t x,uint8_t y,uint8_t space_x,u
 RAiny
 
 */
-# 479 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 498 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_3(tmElements_t time)
 {
     uint8_t data_y = 0, anima_minu_low = 40, anima_y = 0;
@@ -642,7 +661,7 @@ void time_show_3(tmElements_t time)
 RAiny
 
 */
-# 597 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 616 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x, uint8_t y, uint8_t bin_num)
 {
     char file_name_buff[10];
@@ -717,7 +736,7 @@ void time_ipdate_anima(uint8_t x, uint8_t y, uint8_t bin_num)
 RAiny
 
 */
-# 662 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 681 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x, uint8_t y, uint8_t num)
 {
     switch (num)
@@ -775,7 +794,7 @@ void time_select_draw(uint8_t x, uint8_t y, uint8_t num)
 RAiny
 
 */
-# 712 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 731 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_1(tmElements_t time)
 {
     uint8_t hour_high = 0, hour_low = 0, minu_high = 0, minu_low = 0;
@@ -850,7 +869,7 @@ void time_show_1(tmElements_t time)
 RAiny
 
 */
-# 779 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 798 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_update(void)
 {
     tmElements_t time;
@@ -941,7 +960,7 @@ void time_update(void)
 RAiny
 
 */
-# 862 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 881 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void web_introduce(void)
 {
     char qrcode_buff[25];
@@ -1029,7 +1048,7 @@ void web_introduce(void)
 RAiny
 
 */
-# 942 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 961 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void config(void)
 {
     static uint8_t func_index = 0;
@@ -1086,7 +1105,7 @@ void config(void)
 RAiny
 
 */
-# 991 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1010 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void)
 {
     s_button.tick();
@@ -1107,7 +1126,7 @@ void key_check(void)
 RAiny
 
 */
-# 1004 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1023 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void rgb_led_run(void)
 {
     rgb.r_val--;
@@ -1136,7 +1155,7 @@ void rgb_led_run(void)
 RAiny
 
 */
-# 1025 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1044 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void)
 {
     KEY_EVENT_INF menu_event = KEY_NOEVENT;
@@ -1201,11 +1220,21 @@ void select_menu(void)
 RAiny
 
 */
-# 1082 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1101 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_read(void)
 {
     for (uint16_t i = 0; i < 64 /*EEPROM 大小*/; i++)
         eeprom.arry[i] = EEPROM.read(i);
+    Serial.print("eeprom.data.clock_mode is ");
+    Serial.print(eeprom.data.clock_mode);
+    Serial.print("\r\n");
+    //第一次烧写程序Flash里面的参数不对应
+    if(eeprom.data.clock_mode>2)
+    {
+        eeprom.data.clock_mode = 0;
+        eeprom.data.led_on = 0;
+        eeprom_write();
+    }
 }
 /*
 
@@ -1222,7 +1251,7 @@ void eeprom_read(void)
 RAiny
 
 */
-# 1095 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1124 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_write(void)
 {
     for (uint16_t i = 0; i < 64 /*EEPROM 大小*/; i++)
@@ -1251,7 +1280,7 @@ void eeprom_write(void)
 RAiny
 
 */
-# 1116 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1145 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void)
 {
     Serial.begin(115200);
@@ -1325,7 +1354,7 @@ void setup(void)
 RAiny
 
 */
-# 1182 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1211 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void)
 {
     select_menu();

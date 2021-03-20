@@ -337,9 +337,12 @@ void bin_player(void)
     char data_read;
     const char *apple_bin = "/apple.bin";
     const char *basket_bin = "/basket.bin";
+    const char *elephant_bin = "/elephant.bin";
+    const char *plant_bin = "/plant.bin";
     static int data_len = 0;
     static uint8_t exit_flag = 0;
     uint8_t hidden_mode = 0;
+    uint32_t delay_show_time = 165000;
     //建立File对象用于从SPIFFS中读取文件
     String file_name = apple_bin;
     set_rgb_val(69, 137, 148);
@@ -364,7 +367,7 @@ void bin_player(void)
             if (data_len == 1024)                        //分辨率 128*64
             {
                 //34500 延时是对于15FPS的bin文件
-                delayMicroseconds(165000); //不延时3029张一共用时107S，差不多FPS=30.7
+                delayMicroseconds(delay_show_time); //不延时3029张一共用时107S，差不多FPS=30.7
                 u8g2.clearBuffer();
                 u8g2.drawXBM(0, 0, OLED_WIDTH, OLED_HEIGHT, badapple_buf);
                 u8g2.sendBuffer();
@@ -375,12 +378,28 @@ void bin_player(void)
                 clear_keymenu_event();
                 data_len = 0;
                 hidden_mode += 1;
-                if (hidden_mode > 1)
+                if (hidden_mode > 3)
                     hidden_mode = 0;
                 if (hidden_mode == 0)
+                {
                     file_name = apple_bin;
+                    delay_show_time = 165000;
+                }
                 else if (hidden_mode == 1)
+                {
                     file_name = basket_bin;
+                    delay_show_time = 135000;
+                }
+                else if (hidden_mode == 2)
+                {
+                    file_name = elephant_bin;
+                    delay_show_time = 100000;
+                }
+                else if (hidden_mode == 3)
+                {
+                    file_name = plant_bin;
+                    delay_show_time = 120000;
+                }
                 break;
             }
             else if (get_keymenu_event() == KEY_CANCEL)
@@ -1083,6 +1102,16 @@ void eeprom_read(void)
 {
     for (uint16_t i = 0; i < EEPROM_SIZE; i++)
         eeprom.arry[i] = EEPROM.read(i);
+    Serial.print("eeprom.data.clock_mode is ");
+    Serial.print(eeprom.data.clock_mode);
+    Serial.print("\r\n");
+    //第一次烧写程序Flash里面的参数不对应
+    if(eeprom.data.clock_mode>CLOCK_MAX_MODE)
+    {
+        eeprom.data.clock_mode = 0;
+        eeprom.data.led_on = 0;
+        eeprom_write();
+    }
 }
 /*
 函 数 名:void eeprom_write(void)
