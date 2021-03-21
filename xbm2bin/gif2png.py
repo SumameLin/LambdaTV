@@ -1,5 +1,5 @@
 from PIL import Image
-im = Image.open('./bottle.gif')
+im = Image.open('./zhoushuhuizhan.gif')
 try:
   i = 0
   while True:
