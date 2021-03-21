@@ -230,12 +230,13 @@ menu_state home_state = {ICON_BGAP, ICON_BGAP, 0};
 menu_state home_last_state = {ICON_BGAP, ICON_BGAP, 0};
 // encoding values, see: https://github.com/olikraus/u8g2/wiki/fntgrpiconic
 menu_entry_type menu_entry_list[] =
-    {
-        {u8g2_font_open_iconic_app_4x_t, 69, "Clock", (*time_update)},
-        {u8g2_font_open_iconic_play_4x_t, 78, "Player", (*bin_player)},
-        {u8g2_font_open_iconic_www_4x_t, 78, "Web", (*web_introduce)},
-        {u8g2_font_open_iconic_embedded_4x_t, 72, "Config", (*config)},
-        {NULL, 0, NULL, NULL}};
+{
+    {u8g2_font_open_iconic_app_4x_t, 69, "Clock", (*time_update)},
+    {u8g2_font_open_iconic_play_4x_t, 78, "Player", (*bin_player)},
+    {u8g2_font_open_iconic_www_4x_t, 78, "Web", (*web_introduce)},
+    {u8g2_font_open_iconic_embedded_4x_t, 72, "Config", (*config)},
+    {NULL, 0, NULL, NULL}
+};
 uint32_t config_state, config_last_state;
 void (*config_operation_index)(void);
 void clock_mode(void);
@@ -250,17 +251,17 @@ void clear_wifi_enter(void);
 void close_open_rgb_enter(void);
 #define SETING_FIRST_MENU 5 //设置的一级菜单数量
 config_table config_list[] =
-    {
-        {0, 4, 1, 5, 0, (*clock_mode)},     //0
-        {1, 0, 2, 6, 1, (*close_open_rgb)}, //1
-        {2, 1, 3, 7, 2, (*clear_wifi)},     //2
-        {3, 2, 4, 8, 3, (*instrustions)},   //3
-        {4, 3, 0, 9, 4, (*config_about)},   //4
-        {5, 5, 5, 5, 0, (*clock_mode_enter)},//5
-        {6, 6, 6, 6, 1, (*close_open_rgb_enter)},    //6
-        {7, 7, 7, 7, 2, (*clear_wifi_enter)},//7
-        {8, 8, 8, 8, 3, (*instrustions_enter)},//8
-        {9, 9, 9, 9, 4, (*about_enter)},//9
+{
+    {0, 4, 1, 5, 0, (*clock_mode)},     //0
+    {1, 0, 2, 6, 1, (*close_open_rgb)}, //1
+    {2, 1, 3, 7, 2, (*clear_wifi)},     //2
+    {3, 2, 4, 8, 3, (*instrustions)},   //3
+    {4, 3, 0, 9, 4, (*config_about)},   //4
+    {5, 5, 5, 5, 0, (*clock_mode_enter)},//5
+    {6, 6, 6, 6, 1, (*close_open_rgb_enter)},    //6
+    {7, 7, 7, 7, 2, (*clear_wifi_enter)},//7
+    {8, 8, 8, 8, 3, (*instrustions_enter)},//8
+    {9, 9, 9, 9, 4, (*about_enter)},//9
 };
 /*
 函 数 名:void print_fs_info(void)
@@ -270,35 +271,39 @@ config_table config_list[] =
 时    间：2020-12-20
 RAiny
 */
-#line 271 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 272 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void print_fs_info(void);
-#line 303 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 304 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void LambdaTV(void);
-#line 432 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 446 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_2(tmElements_t time);
-#line 478 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 492 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_up_anima(const uint8_t *fontData,uint8_t x,uint8_t y,uint8_t space_x,uint8_t space_y,uint8_t data,uint8_t last_data);
-#line 498 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 512 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_3(tmElements_t time);
-#line 616 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 630 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void time_show_4(tmElements_t time);
+#line 672 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void time_show_5(tmElements_t time);
+#line 688 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x, uint8_t y, uint8_t bin_num);
-#line 681 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 753 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x, uint8_t y, uint8_t num);
-#line 731 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 803 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_1(tmElements_t time);
-#line 1010 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1094 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void);
-#line 1023 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1107 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void rgb_led_run(void);
-#line 1044 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1128 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void);
-#line 1101 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1185 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_read(void);
-#line 1124 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1208 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_write(void);
-#line 1145 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1229 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void);
-#line 1211 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1295 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void);
 #line 11 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_click(void);
@@ -322,9 +327,9 @@ void clear_keymenu_event(void);
 void key_init(void);
 #line 143 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void rgb_led_init(void);
-#line 160 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 161 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void rgb_led_set(RGB_INF rgb_set);
-#line 185 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
+#line 187 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void set_rgb_val(uint8_t r_val, uint8_t g_val, uint8_t b_val);
 #line 15 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_menu.ino"
 void draw(menu_state *state);
@@ -348,7 +353,7 @@ void handleUserRequet();
 bool handleFileRead(String path);
 #line 57 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_server.ino"
 String getContentType(String filename);
-#line 271 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 272 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void print_fs_info(void)
 {
     FSInfo fs_info;
@@ -417,9 +422,11 @@ void bin_player(void)
 {
     char data_read;
     const char *apple_bin = "/apple.bin";
-    const char *basket_bin = "/plant.bin";
+    const char *basket_bin = "/basket.bin";
     const char *elephant_bin = "/elephant.bin";
     const char *plant_bin = "/plant.bin";
+    const char *space_bin = "/space.bin";
+    const uint8_t hidden_mode_max = 4;
     static int data_len = 0;
     static uint8_t exit_flag = 0;
     uint8_t hidden_mode = 0;
@@ -433,12 +440,16 @@ void bin_player(void)
         //确认闪存中是否有file_name文件
         if (SPIFFS.exists(file_name))
         {
+            #if USEING_UART
             Serial.println(file_name + " FOUND");
             Serial.println(dataFile.size());
+            #endif
         }
         else
         {
+            #if USEING_UART
             Serial.print(file_name + " NOT FOUND");
+            #endif
         }
         // dataFile.readBytes
         for (uint64_t xbm_num = 0; xbm_num < dataFile.size(); xbm_num++)
@@ -459,7 +470,7 @@ void bin_player(void)
                 clear_keymenu_event();
                 data_len = 0;
                 hidden_mode += 1;
-                if (hidden_mode > 3)
+                if (hidden_mode > hidden_mode_max)
                     hidden_mode = 0;
                 if (hidden_mode == 0)
                 {
@@ -481,6 +492,11 @@ void bin_player(void)
                     file_name = plant_bin;
                     delay_show_time = 120000;
                 }
+                else if (hidden_mode == 4)
+                {
+                    file_name = space_bin;
+                    delay_show_time = 180000;
+                }
                 break;
             }
             else if (get_keymenu_event() == KEY_CANCEL)
@@ -491,7 +507,9 @@ void bin_player(void)
                 break;
             }
         }
+        #if USEING_UART
         Serial.print("Play finish\r\n");
+        #endif
         //完成文件读取后关闭文件
         dataFile.close();
         if (exit_flag == 1)
@@ -677,7 +695,7 @@ void time_show_3(tmElements_t time)
             time_up_anima(u8g2_font_smg20, hour_high_x, anima_y, 20, 40, hour_high, last_hour_high);
         }
         u8g2.sendBuffer();
-        delay(30);//动作时间长了过1S，S的显示就不连续
+        delay(20);//动作时间长了过1S，S的显示就不连续
     }
     last_hour_high = hour_high;
     last_hour_low = hour_low;
@@ -685,6 +703,64 @@ void time_show_3(tmElements_t time)
     last_minu_low = minu_low;
     last_seco_high = seco_high;
     last_seco_low = seco_low;
+}
+/*
+函 数 名:void time_show_4(tmElements_t time)
+功能说明:动画，ScrollingTime
+形    参:void
+返 回 值:void
+时    间：2020-3-20
+RAiny
+*/
+void time_show_4(tmElements_t time)
+{
+    char bless_arry[30] = {0};
+    char time_arry[15] = {0};
+    static int16_t offset=0;
+    uint16_t bless_width;
+    uint16_t time_width;
+    static uint16_t bless_x;
+    uint8_t hour_high = 0, hour_low = 0, minu_high = 0, minu_low = 0, seco_high = 0,seco_low = 0;
+    hour_high = time.Hour / 10;
+    hour_low = time.Hour % 10;
+    minu_high = time.Minute / 10;
+    minu_low = time.Minute % 10;
+    seco_high = time.Second / 10;
+    seco_low = time.Second % 10;
+    sprintf(bless_arry, "%d Rich Happy Healthy ", time.Year);
+    sprintf(time_arry, "%d%d:%d%d:%d%d", hour_high, hour_low, minu_high, minu_low, seco_high, seco_low);
+    u8g2.clearBuffer();
+    bless_x = offset;
+    u8g2.setFont(u8g2_font_inb30_mr);
+    bless_width = u8g2.getStrWidth(bless_arry);//打开#ifdef U8G2_16BIT 宏定义
+    do {
+        u8g2.drawStr(bless_x, 30, bless_arry);
+        bless_x += bless_width;//接着后面
+    } while( bless_x < OLED_WIDTH);
+    u8g2.setFont(u8g2_font_inb16_mn);
+    time_width = u8g2.getStrWidth(time_arry);
+    u8g2.setCursor((OLED_WIDTH-time_width)/2, 58);
+    u8g2.print(time_arry);
+    u8g2.sendBuffer();
+    offset-=1;
+    if ( (uint16_t)offset < (uint16_t)-bless_width )
+        offset = 0;
+}
+/*
+函 数 名:void time_show_5(tmElements_t time)
+功能说明:指针+三角形
+形    参:void
+返 回 值:void
+时    间：2020-3-21
+RAiny
+*/
+void time_show_5(tmElements_t time)
+{
+    u8g2.clearBuffer();
+    u8g2.drawBox(0,2,time.Hour*5.3,20);
+    u8g2.drawBox(0,22,time.Minute*2.1,20);
+    u8g2.drawBox(0,42,time.Second*2.1,20);
+    u8g2.sendBuffer();
 }
 /*
 函 数 名:void time_ipdate_anima(void)
@@ -904,23 +980,25 @@ void time_update(void)
             time.Day = day(unix_epoch);
             time.Month = month(unix_epoch);
             time.Year = year(unix_epoch);
-            Serial.print(" Minute is ");
-            Serial.print(time.Minute);
-            Serial.print(" Hour is ");
-            Serial.print(time.Hour);
-            Serial.print(" Wday is ");
-            Serial.print(time.Wday);
-            Serial.print(" Day is ");//Sunday is day 1
-            Serial.print(time.Day);
-            Serial.print(" Month is ");
-            Serial.print(time.Month);
-            Serial.print(" Year is ");
-            Serial.print(time.Year);
-            Serial.print("\r\n");
+            // #if USEING_UART
+            // Serial.print(" Minute is ");
+            // Serial.print(time.Minute);
+            // Serial.print(" Hour is ");
+            // Serial.print(time.Hour);
+            // Serial.print(" Wday is ");
+            // Serial.print(time.Wday);
+            // Serial.print(" Day is ");//Sunday is day 1
+            // Serial.print(time.Day);
+            // Serial.print(" Month is ");
+            // Serial.print(time.Month);
+            // Serial.print(" Year is ");
+            // Serial.print(time.Year);
+            // Serial.print("\r\n");
+            // #endif
             if(eeprom.data.clock_mode == 0)
             {
                 time_show_1(time);
-                delay_time = 1000;
+                delay_time = 500;
             }
             else if(eeprom.data.clock_mode == 1)
             {
@@ -931,6 +1009,16 @@ void time_update(void)
             {
                 time_show_3(time);
                 delay_time = 20;
+            }
+            else if(eeprom.data.clock_mode == 3)
+            {
+                time_show_4(time);
+                delay_time = 30;
+            }
+            else if(eeprom.data.clock_mode == 4)
+            {
+                time_show_5(time);
+                delay_time = 100;
             }
         }
         if (get_keymenu_event() == KEY_HIDDEN)
@@ -1183,9 +1271,9 @@ void eeprom_read(void)
 {
     for (uint16_t i = 0; i < EEPROM_SIZE; i++)
         eeprom.arry[i] = EEPROM.read(i);
-    Serial.print("eeprom.data.clock_mode is ");
-    Serial.print(eeprom.data.clock_mode);
-    Serial.print("\r\n");
+    // Serial.print("eeprom.data.clock_mode is ");
+    // Serial.print(eeprom.data.clock_mode);
+    // Serial.print("\r\n");
     //第一次烧写程序Flash里面的参数不对应
     if(eeprom.data.clock_mode>CLOCK_MAX_MODE)
     {
@@ -1440,6 +1528,7 @@ RAiny
 void rgb_led_init(void)
 {
     #if USEING_UART
+    #else
     pinMode(RGB_R_PIN, OUTPUT);
     #endif
     pinMode(RGB_G_PIN, OUTPUT);
@@ -1459,6 +1548,7 @@ void rgb_led_set(RGB_INF rgb_set)
     if(eeprom.data.led_on)
     {
         #if USEING_UART
+        #else
         analogWrite(RGB_R_PIN, 1024 - rgb_set.r_val * 4);
         #endif
         analogWrite(RGB_G_PIN, 1024 - rgb_set.g_val * 4);
@@ -2164,14 +2254,14 @@ void close_open_rgb_enter(void)
             clear_keymenu_event();
             if (select == 1)
             {
-                eeprom.data.led_on = 0;
+                eeprom.data.led_on = 1;
                 eeprom_write();
                 set_keymenu_event(KEY_CANCEL);
                 break;
             }
             else if (select == 0)
             {
-                eeprom.data.led_on = 1;
+                eeprom.data.led_on = 0;
                 eeprom_write();
                 set_keymenu_event(KEY_CANCEL);
                 break;

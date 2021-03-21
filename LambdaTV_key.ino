@@ -143,6 +143,7 @@ RAiny
 void rgb_led_init(void)
 {
     #if USEING_UART
+    #else
     pinMode(RGB_R_PIN, OUTPUT);
     #endif
     pinMode(RGB_G_PIN, OUTPUT);
@@ -162,6 +163,7 @@ void rgb_led_set(RGB_INF rgb_set)
     if(eeprom.data.led_on)
     {
         #if USEING_UART
+        #else
         analogWrite(RGB_R_PIN, 1024 - rgb_set.r_val * 4);
         #endif
         analogWrite(RGB_G_PIN, 1024 - rgb_set.g_val * 4);

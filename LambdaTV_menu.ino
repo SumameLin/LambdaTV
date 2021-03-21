@@ -676,14 +676,14 @@ void close_open_rgb_enter(void)
             clear_keymenu_event();
             if (select == 1)
             {
-                eeprom.data.led_on = 0;
+                eeprom.data.led_on = 1;
                 eeprom_write();
                 set_keymenu_event(KEY_CANCEL);
                 break;
             }
             else if (select == 0)
             {
-                eeprom.data.led_on = 1;
+                eeprom.data.led_on = 0;
                 eeprom_write();
                 set_keymenu_event(KEY_CANCEL);
                 break;
