@@ -666,6 +666,12 @@ u8g2.updateDisplayArea(tile_area_x_pos, tile_area_y_pos, tile_area_width, tile_a
 
 当需要看时间时，必须轻拍表盘，这些杂乱无章的小白点就会立刻组合成为指针和刻度。显示几秒后又重新恢复到混乱状态。
 
+圆心O的坐标(x0,y0)、半径为r
+
+x1 = x0 + r * cos(angle * PI / 180)
+
+y1 = y0 + r * sin(angle * PI /180)
+
 #### 刻度时钟
 
 ![Mhin Clock](./image/Mhin Clock.jpg)

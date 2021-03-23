@@ -285,25 +285,27 @@ void time_show_3(tmElements_t time);
 void time_show_4(tmElements_t time);
 #line 672 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_5(tmElements_t time);
-#line 688 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 690 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void time_show_6(tmElements_t time);
+#line 791 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x, uint8_t y, uint8_t bin_num);
-#line 753 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 856 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x, uint8_t y, uint8_t num);
-#line 803 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 906 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_1(tmElements_t time);
-#line 1094 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1202 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void);
-#line 1107 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1215 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void rgb_led_run(void);
-#line 1128 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1236 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void);
-#line 1185 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1293 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_read(void);
-#line 1208 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1316 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_write(void);
-#line 1229 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1337 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void);
-#line 1295 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+#line 1403 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void);
 #line 11 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV_key.ino"
 void s_click(void);
@@ -748,7 +750,7 @@ void time_show_4(tmElements_t time)
 }
 /*
 函 数 名:void time_show_5(tmElements_t time)
-功能说明:指针+三角形
+功能说明:矩形抽象
 形    参:void
 返 回 值:void
 时    间：2020-3-21
@@ -761,6 +763,109 @@ void time_show_5(tmElements_t time)
     u8g2.drawBox(0,22,time.Minute*2.1,20);
     u8g2.drawBox(0,42,time.Second*2.1,20);
     u8g2.sendBuffer();
+}
+/*
+函 数 名:void time_show_5(tmElements_t time)
+功能说明:模拟指针
+        x1 = x0 + r * cos(angle * PI / 180)
+        y1 = y0 + r * sin(angle * PI /180)
+形    参:void
+返 回 值:void
+时    间：2020-3-21
+RAiny
+*/
+void time_show_6(tmElements_t time)
+{
+    const float pi = 3.1415f;
+    const uint8_t angle_diff = 20;//差值角度
+    const uint16_t r = OLED_HEIGHT / 2;
+    const uint16_t x0 = OLED_WIDTH / 2, y0 = OLED_HEIGHT / 2;
+    uint16_t x_minu, y_minu, x1_hour, y1_hour, x2_hour, y2_hour, x_num, y_num;
+    int16_t angle_minu = 0, angle_hour = 0;
+    uint16_t time_width;
+    uint8_t time_hour;
+    if (time.Hour==12||time.Hour==0)
+    {
+        time_hour = 0;
+        angle_hour = -90;
+        x1_hour = x0 + r * cosf((angle_hour - angle_diff) * pi / 180);
+        y1_hour = y0 + r * sinf((angle_hour - angle_diff) * pi / 180);
+        x2_hour = x0 + r * cosf((angle_hour + angle_diff) * pi / 180);
+        y2_hour = y0 + r * sinf((angle_hour + angle_diff) * pi / 180);
+        x_num = x0 + (r / 2) * cosf(angle_hour * pi / 180);
+        y_num = y0 + (r / 2) * sinf(angle_hour * pi / 180);
+    }
+    else
+    {
+        if(time.Hour>12)
+            time_hour = time.Hour - 12;
+        else
+            time_hour = time.Hour;
+        angle_hour = time_hour * 30 - 90;
+        x1_hour = x0 + r * cosf((angle_hour - angle_diff) * pi / 180);
+        y1_hour = y0 + r * sinf((angle_hour - angle_diff) * pi / 180);
+        x2_hour = x0 + r * cosf((angle_hour + angle_diff) * pi / 180);
+        y2_hour = y0 + r * sinf((angle_hour + angle_diff) * pi / 180);
+        x_num = x0 + (r / 2) * cosf(angle_hour * pi / 180);
+        y_num = y0 + (r / 2) * sinf(angle_hour * pi / 180);
+    }
+    angle_minu = time.Minute * 6 - 90;
+    x_minu = x0 + r * cosf(angle_minu * pi / 180);
+    y_minu = y0 + r * sinf(angle_minu * pi / 180);
+
+    u8g2.clearBuffer();
+    u8g2.drawLine(x0, y0, x_minu, y_minu);
+    u8g2.drawTriangle(x0, y0, x1_hour, y1_hour, x2_hour, y2_hour);
+    u8g2.setFont(u8g2_font_tenfatguys_tu);
+    if(time_hour>=10)
+        time_width = u8g2.getStrWidth("10");
+    else
+        time_width = u8g2.getStrWidth("1");
+    switch (time_hour)
+    {
+        case 0:
+            u8g2.setCursor(x_num - (time_width) / 2 - 3, y_num); //0
+            break;
+        case 1:
+            u8g2.setCursor(x_num - (time_width) / 2 + 2, y_num); //1
+            break;
+        case 2:
+            u8g2.setCursor(x_num - (time_width) / 2 + 2, y_num + 2);//2
+            break;
+        case 3:
+            u8g2.setCursor(x_num - (time_width) / 2 + 2, y_num + 4);//3
+            break;
+        case 4:
+            u8g2.setCursor(x_num - (time_width) / 2 + 2, y_num + 9);//4
+            break;
+        case 5:
+            u8g2.setCursor(x_num - (time_width) / 2 + 1, y_num + 10);//5
+            break;
+        case 6:
+            u8g2.setCursor(x_num - (time_width) / 2 - 2, y_num + 12);//6
+            break;
+        case 7:
+            u8g2.setCursor(x_num - (time_width) / 2 - 6, y_num + 12);//7
+            break;
+        case 8:
+            u8g2.setCursor(x_num - (time_width) / 2 - 8, y_num + 8);//8
+            break;
+        case 9:
+            u8g2.setCursor(x_num - (time_width) / 2 - 8, y_num + 6);//9
+            break;
+        case 10:
+            u8g2.setCursor(x_num - (time_width) / 2 - 4, y_num + 4);//10
+            break;
+        case 11:
+            u8g2.setCursor(x_num - (time_width) / 2 + 3, y_num + 4);//11
+            break;
+        default:
+            break;
+    }
+    u8g2.print(time_hour);
+    u8g2.drawBox(0, 0, OLED_WIDTH, OLED_HEIGHT);//drawFrame
+    u8g2.sendBuffer();
+
 }
 /*
 函 数 名:void time_ipdate_anima(void)
@@ -1019,6 +1124,11 @@ void time_update(void)
             {
                 time_show_5(time);
                 delay_time = 100;
+            }
+            else if(eeprom.data.clock_mode == 5)
+            {
+                time_show_6(time);
+                delay_time = 1000;
             }
         }
         if (get_keymenu_event() == KEY_HIDDEN)

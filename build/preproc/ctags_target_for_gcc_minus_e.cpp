@@ -714,7 +714,7 @@ void time_show_4(tmElements_t time)
 
 函 数 名:void time_show_5(tmElements_t time)
 
-功能说明:指针+三角形
+功能说明:矩形抽象
 
 形    参:void
 
@@ -736,6 +736,119 @@ void time_show_5(tmElements_t time)
 }
 /*
 
+函 数 名:void time_show_5(tmElements_t time)
+
+功能说明:模拟指针
+
+        x1 = x0 + r * cos(angle * PI / 180)
+
+        y1 = y0 + r * sin(angle * PI /180)
+
+形    参:void
+
+返 回 值:void
+
+时    间：2020-3-21
+
+RAiny
+
+*/
+# 690 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+void time_show_6(tmElements_t time)
+{
+    const float pi = 3.1415f;
+    const uint8_t angle_diff = 20;//差值角度
+    const uint16_t r = 64 / 2;
+    const uint16_t x0 = 128 / 2, y0 = 64 / 2;
+    uint16_t x_minu, y_minu, x1_hour, y1_hour, x2_hour, y2_hour, x_num, y_num;
+    int16_t angle_minu = 0, angle_hour = 0;
+    uint16_t time_width;
+    uint8_t time_hour;
+    if (time.Hour==12||time.Hour==0)
+    {
+        time_hour = 0;
+        angle_hour = -90;
+        x1_hour = x0 + r * cosf((angle_hour - angle_diff) * pi / 180);
+        y1_hour = y0 + r * sinf((angle_hour - angle_diff) * pi / 180);
+        x2_hour = x0 + r * cosf((angle_hour + angle_diff) * pi / 180);
+        y2_hour = y0 + r * sinf((angle_hour + angle_diff) * pi / 180);
+        x_num = x0 + (r / 2) * cosf(angle_hour * pi / 180);
+        y_num = y0 + (r / 2) * sinf(angle_hour * pi / 180);
+    }
+    else
+    {
+        if(time.Hour>12)
+            time_hour = time.Hour - 12;
+        else
+            time_hour = time.Hour;
+        angle_hour = time_hour * 30 - 90;
+        x1_hour = x0 + r * cosf((angle_hour - angle_diff) * pi / 180);
+        y1_hour = y0 + r * sinf((angle_hour - angle_diff) * pi / 180);
+        x2_hour = x0 + r * cosf((angle_hour + angle_diff) * pi / 180);
+        y2_hour = y0 + r * sinf((angle_hour + angle_diff) * pi / 180);
+        x_num = x0 + (r / 2) * cosf(angle_hour * pi / 180);
+        y_num = y0 + (r / 2) * sinf(angle_hour * pi / 180);
+    }
+    angle_minu = time.Minute * 6 - 90;
+    x_minu = x0 + r * cosf(angle_minu * pi / 180);
+    y_minu = y0 + r * sinf(angle_minu * pi / 180);
+
+    u8g2.clearBuffer();
+    u8g2.drawLine(x0, y0, x_minu, y_minu);
+    u8g2.drawTriangle(x0, y0, x1_hour, y1_hour, x2_hour, y2_hour);
+    u8g2.setFont(u8g2_font_tenfatguys_tu);
+    if(time_hour>=10)
+        time_width = u8g2.getStrWidth("10");
+    else
+        time_width = u8g2.getStrWidth("1");
+    switch (time_hour)
+    {
+        case 0:
+            u8g2.setCursor(x_num - (time_width) / 2 - 3, y_num); //0
+            break;
+        case 1:
+            u8g2.setCursor(x_num - (time_width) / 2 + 2, y_num); //1
+            break;
+        case 2:
+            u8g2.setCursor(x_num - (time_width) / 2 + 2, y_num + 2);//2
+            break;
+        case 3:
+            u8g2.setCursor(x_num - (time_width) / 2 + 2, y_num + 4);//3
+            break;
+        case 4:
+            u8g2.setCursor(x_num - (time_width) / 2 + 2, y_num + 9);//4
+            break;
+        case 5:
+            u8g2.setCursor(x_num - (time_width) / 2 + 1, y_num + 10);//5
+            break;
+        case 6:
+            u8g2.setCursor(x_num - (time_width) / 2 - 2, y_num + 12);//6
+            break;
+        case 7:
+            u8g2.setCursor(x_num - (time_width) / 2 - 6, y_num + 12);//7
+            break;
+        case 8:
+            u8g2.setCursor(x_num - (time_width) / 2 - 8, y_num + 8);//8
+            break;
+        case 9:
+            u8g2.setCursor(x_num - (time_width) / 2 - 8, y_num + 6);//9
+            break;
+        case 10:
+            u8g2.setCursor(x_num - (time_width) / 2 - 4, y_num + 4);//10
+            break;
+        case 11:
+            u8g2.setCursor(x_num - (time_width) / 2 + 3, y_num + 4);//11
+            break;
+        default:
+            break;
+    }
+    u8g2.print(time_hour);
+    u8g2.drawBox(0, 0, 128, 64);//drawFrame
+    u8g2.sendBuffer();
+
+}
+/*
+
 函 数 名:void time_ipdate_anima(void)
 
 功能说明:时间数字更新动画
@@ -749,7 +862,7 @@ void time_show_5(tmElements_t time)
 RAiny
 
 */
-# 688 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 791 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_ipdate_anima(uint8_t x, uint8_t y, uint8_t bin_num)
 {
     char file_name_buff[10];
@@ -824,7 +937,7 @@ void time_ipdate_anima(uint8_t x, uint8_t y, uint8_t bin_num)
 RAiny
 
 */
-# 753 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 856 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_select_draw(uint8_t x, uint8_t y, uint8_t num)
 {
     switch (num)
@@ -882,7 +995,7 @@ void time_select_draw(uint8_t x, uint8_t y, uint8_t num)
 RAiny
 
 */
-# 803 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 906 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_show_1(tmElements_t time)
 {
     uint8_t hour_high = 0, hour_low = 0, minu_high = 0, minu_low = 0;
@@ -957,7 +1070,7 @@ void time_show_1(tmElements_t time)
 RAiny
 
 */
-# 870 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 973 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void time_update(void)
 {
     tmElements_t time;
@@ -1026,11 +1139,16 @@ void time_update(void)
                 time_show_5(time);
                 delay_time = 100;
             }
+            else if(eeprom.data.clock_mode == 5)
+            {
+                time_show_6(time);
+                delay_time = 1000;
+            }
         }
         if (get_keymenu_event() == KEY_HIDDEN)
         {
             eeprom.data.clock_mode += 1;
-            if(eeprom.data.clock_mode > 4)
+            if(eeprom.data.clock_mode > 5)
             {
                 eeprom.data.clock_mode = 0;
             }
@@ -1060,7 +1178,7 @@ void time_update(void)
 RAiny
 
 */
-# 965 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1073 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void web_introduce(void)
 {
     char qrcode_buff[25];
@@ -1148,7 +1266,7 @@ void web_introduce(void)
 RAiny
 
 */
-# 1045 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1153 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void config(void)
 {
     static uint8_t func_index = 0;
@@ -1205,7 +1323,7 @@ void config(void)
 RAiny
 
 */
-# 1094 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1202 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void key_check(void)
 {
     s_button.tick();
@@ -1226,7 +1344,7 @@ void key_check(void)
 RAiny
 
 */
-# 1107 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1215 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void rgb_led_run(void)
 {
     rgb.r_val--;
@@ -1255,7 +1373,7 @@ void rgb_led_run(void)
 RAiny
 
 */
-# 1128 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1236 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void select_menu(void)
 {
     KEY_EVENT_INF menu_event = KEY_NOEVENT;
@@ -1320,7 +1438,7 @@ void select_menu(void)
 RAiny
 
 */
-# 1185 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1293 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_read(void)
 {
     for (uint16_t i = 0; i < 64 /*EEPROM 大小*/; i++)
@@ -1329,7 +1447,7 @@ void eeprom_read(void)
     // Serial.print(eeprom.data.clock_mode);
     // Serial.print("\r\n");
     //第一次烧写程序Flash里面的参数不对应
-    if(eeprom.data.clock_mode>4)
+    if(eeprom.data.clock_mode>5)
     {
         eeprom.data.clock_mode = 0;
         eeprom.data.led_on = 0;
@@ -1351,7 +1469,7 @@ void eeprom_read(void)
 RAiny
 
 */
-# 1208 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1316 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void eeprom_write(void)
 {
     for (uint16_t i = 0; i < 64 /*EEPROM 大小*/; i++)
@@ -1380,7 +1498,7 @@ void eeprom_write(void)
 RAiny
 
 */
-# 1229 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1337 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void setup(void)
 {
     Serial.begin(115200);
@@ -1454,7 +1572,7 @@ void setup(void)
 RAiny
 
 */
-# 1295 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
+# 1403 "e:\\ESP\\esp8266_oled\\LambdaTV\\LambdaTV.ino"
 void loop(void)
 {
     select_menu();
@@ -1992,7 +2110,7 @@ void clock_mode()
             u8g2.setDrawColor(2);
             config_fun(1);
             u8g2.setCursor(110, 16 * 1 - 2);
-            if (eeprom.data.clock_mode > 4)
+            if (eeprom.data.clock_mode > 5)
                 u8g2.print("0");
             else
                 u8g2.print(eeprom.data.clock_mode);
@@ -2010,7 +2128,7 @@ void clock_mode()
             u8g2.setDrawColor(2);
             config_fun(1);
             u8g2.setCursor(110, 16 * 1 - 2);
-            if (eeprom.data.clock_mode > 4)
+            if (eeprom.data.clock_mode > 5)
                 u8g2.print("0");
             else
                 u8g2.print(eeprom.data.clock_mode);
@@ -2262,7 +2380,7 @@ void clock_mode_enter(void)
             u8g2.setDrawColor(1); //白 /* color 1 for the box */
             u8g2.drawBox(((128 - str_len) / 2) - 4, 16 + 12 - 1, box_y++, box_y++);
             u8g2.setCursor(((128 - str_len) / 2), 16 + 12 + 24);
-            if (eeprom.data.clock_mode > 4) //一开始EPPROM不为零
+            if (eeprom.data.clock_mode > 5) //一开始EPPROM不为零
             {
                 mode = eeprom.data.clock_mode = 0;
             }
@@ -2276,7 +2394,7 @@ void clock_mode_enter(void)
             clear_keymenu_event();
             box_y = 0;
             mode += 1;
-            if (mode > 4)
+            if (mode > 5)
                 mode = 0;
         }
         else if (get_keymenu_event() == KEY_PRVE)
@@ -2285,7 +2403,7 @@ void clock_mode_enter(void)
             box_y = 0;
             mode -= 1;
             if (mode <= 0)
-                mode = 4;
+                mode = 5;
         }
         else if (get_keymenu_event() == KEY_CONFIRM)
         {

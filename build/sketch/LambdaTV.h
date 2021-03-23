@@ -35,7 +35,7 @@
 #define TIME_XBM_HEIGHT (OLED_HEIGHT-NUM_HEIGHT)/2
 
 #define EEPROM_SIZE 64 //EEPROM 大小
-#define CLOCK_MAX_MODE  4
+#define CLOCK_MAX_MODE  5
 #define LED_MAX_MODE    1
 #define USEING_UART     0  //使用串口，串口引脚和RGB_LED共用 1:使用串口Tx 0:不使用串口Tx
 
