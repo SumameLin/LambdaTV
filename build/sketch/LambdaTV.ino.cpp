@@ -814,7 +814,7 @@ void time_show_6(tmElements_t time)
     y_minu = y0 + r * sinf(angle_minu * pi / 180);
 
     u8g2.clearBuffer();
-    u8g2.drawLine(x0, y0, x_minu, y_minu);
+    u8g2.drawBox(0, 0, OLED_WIDTH, OLED_HEIGHT);
     u8g2.drawTriangle(x0, y0, x1_hour, y1_hour, x2_hour, y2_hour);
     u8g2.setFont(u8g2_font_tenfatguys_tu);
     if(time_hour>=10)
@@ -863,9 +863,9 @@ void time_show_6(tmElements_t time)
             break;
     }
     u8g2.print(time_hour);
-    u8g2.drawBox(0, 0, OLED_WIDTH, OLED_HEIGHT);//drawFrame
+    u8g2.drawLine(x0, y0, x_minu, y_minu);
+    u8g2.drawLine(x0 - 1, y0, x_minu - 1, y_minu);
     u8g2.sendBuffer();
-
 }
 /*
 函 数 名:void time_ipdate_anima(void)

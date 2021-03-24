@@ -16,6 +16,8 @@ Ardunio 库：[U8g2](https://github.com/olikraus/u8g2/wiki/u8g2reference)、OneB
 
 Gif和视频来自网络，侵删！
 
+**因为对U8g2的库进行了一些添加和修改，故将所使用的libraries打包压缩，放进来，路径是C:\Users\Win10\Documents\Arduino\。**
+
 ### Ardunio编译过慢
 
 [Arduino IDE首次编译很慢?](https://www.zhihu.com/question/29961352)
