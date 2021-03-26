@@ -1,5 +1,37 @@
 # LambdaTV
 
+## 介绍
+
+### 前言
+
+ESP8266 是一块非常有意思的芯片，并且NodeMCU，CH340串口+32M Flash（兼容W25Q32），在淘宝上只需要不到十块钱，非常便宜，自带WIFI和可编程IO，网上有太多基于此开发的电子产品，网上教程也有很多,比如[太极创客](http://www.taichi-maker.com/homepage/esp8266-nodemcu-iot/iot-c/esp8266-nodemcu-web-server/web-server/)。在毕业来临之际，想做点东西送给小伙伴们，因此就有了此项目。PS：嘉立创，YYDS。PPS：开源，YYDS。
+
+### 成品
+
+四个功能 Clock Player Web Config
+
+Clock--6种时钟模式,WiFi时钟
+
+Player--5个小动画，最长的是BadApple
+
+Web--局域网Http服务器，Web网址以二维码的形式显示
+
+Config--设置，包括设置时钟模式，清除WiFi信息、操作说明等
+
+### 操作说明
+
+单击C 下一步
+
+双击C 上一步
+
+单击S 确认 长按S 退出
+
+### 部分清单
+
+所涉及的元器件不多，有[NodeMCU](https://item.taobao.com/item.htm?spm=a1z10.3-c-s.w4002-21223910208.37.26426a4bO4skWi&id=629263288633)、[1,3吋OLED](https://item.taobao.com/item.htm?spm=a230r.1.14.47.1a997dda6rxNmb&id=21979047888&ns=1&abbucket=20#detail)、[轻触开关](https://item.taobao.com/item.htm?spm=a1z10.3-c-s.w4002-21223910208.77.7bf86a4btvzQPL&id=546747577238)、[三脚直插RGB](https://item.taobao.com/item.htm?spm=a1z10.3-c-s.w4002-21223910208.14.5e156a4bVyftsz&id=544549973880)、[Type-C母座](https://item.taobao.com/item.htm?spm=a1z10.3-c-s.w4002-21223910208.13.403f6a4bsDOedE&id=573090887123)、1K电阻，[螺柱(M3\*9+6单头、M3\*6+6单头、双通M3\*9)](https://item.taobao.com/item.htm?spm=a1z10.3-c-s.w4002-14471674935.19.10e43e2biLvKHk&id=534616257622)。
+
+**PS：用这个OLED是因为之前有库存，建议后面换成中景园的OLED，便宜一半的价格，记得改一下PCB的引脚，修改一下代码就可以。**
+
 ## 开发环境
 
 ESP8266 （基于NodeMCU）+ 16M Flash （自己更换的）+ 1.3`OLED(SH1106)
@@ -673,6 +705,8 @@ u8g2.updateDisplayArea(tile_area_x_pos, tile_area_y_pos, tile_area_width, tile_a
 x1 = x0 + r * cos(angle * PI / 180)
 
 y1 = y0 + r * sin(angle * PI /180)
+
+u8g2画实心圆和圆分辨率原因画不全，呈现的效果不好。
 
 #### 刻度时钟
 
