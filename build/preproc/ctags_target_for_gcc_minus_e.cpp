@@ -844,7 +844,7 @@ void time_show_6(tmElements_t time)
     }
     u8g2.print(time_hour);
     u8g2.drawLine(x0, y0, x_minu, y_minu);
-    u8g2.drawLine(x0 - 1, y0, x_minu - 1, y_minu);
+    // u8g2.drawLine(x0 - 1, y0, x_minu - 1, y_minu);
     u8g2.sendBuffer();
 }
 /*

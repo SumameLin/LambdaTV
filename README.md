@@ -4,9 +4,13 @@
 
 ### 前言
 
-ESP8266 是一块非常有意思的芯片，并且NodeMCU，CH340串口+32M Flash（兼容W25Q32），在淘宝上只需要不到十块钱，非常便宜，自带WIFI和可编程IO，网上有太多基于此开发的电子产品，网上教程也有很多,比如[太极创客](http://www.taichi-maker.com/homepage/esp8266-nodemcu-iot/iot-c/esp8266-nodemcu-web-server/web-server/)。在毕业来临之际，想做点东西送给小伙伴们，因此就有了此项目。PS：嘉立创，YYDS。PPS：开源，YYDS。
+ESP8266 是一块非常有意思的芯片，并且NodeMCU，CH340串口+32M Flash（兼容W25Q32），在淘宝上只需要不到十块钱，非常便宜，自带WIFI和可编程IO，网上有太多基于此开发的电子产品,比如[发明控](https://space.bilibili.com/14010836?from=search&seid=8620579619859114518)，网上教程也有很多,比如[太极创客](http://www.taichi-maker.com/homepage/esp8266-nodemcu-iot/iot-c/esp8266-nodemcu-web-server/web-server/)。在毕业来临之际，想做点东西送给小伙伴们，因此就有了此项目。PS：嘉立创，YYDS。PPS：开源，YYDS。
 
 ### 成品
+
+![成品](./image/成品--正面.jpg)
+
+![成品](./image/成品.jpg)
 
 四个功能 Clock Player Web Config
 
@@ -124,7 +128,13 @@ RGB_LED：R——TX（GPIO1），G——RX（GPIO3），B——D6（GPIO12）【
 
 ## Ardunio ESP8266板子信息配置
 
+**16MB Flash NodeMCU配置**
+
 ![板子信息配置](./image/配置.png)
+
+**默认4MB Flash NodeMCU配置**
+
+![配置](./image/配置32M.png)
 
 ## BadApple
 
