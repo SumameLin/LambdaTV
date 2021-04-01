@@ -22,6 +22,8 @@ Web--局域网Http服务器，Web网址以二维码的形式显示
 
 Config--设置，包括设置时钟模式，清除WiFi信息、操作说明等
 
+B站演示视频：https://www.bilibili.com/video/BV1K5411A7eh/
+
 ### 操作说明
 
 单击C 下一步
